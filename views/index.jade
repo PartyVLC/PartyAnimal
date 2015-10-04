@@ -81,7 +81,7 @@ block content
       var width = currTime / player.getDuration() * 100;
       progressbar.setAttribute('aria-valuenow',currTime.toString());
       progressbar.style.width = width.toString()+'%';
-      time.innerHTML = min.toString() + ':'+ sec.toString();
+      time.innerHTML = min.toString() + ':'+ ("0"+sec).slice(-2);
     }
 
     function playpause() {
