@@ -14,6 +14,8 @@ block content
     
     div(id='progress',class='progress')
 
+    p(id='time')
+
   script.
 
     var tag = document.createElement('script');
@@ -52,8 +54,12 @@ block content
 
       var progress = document.getElementById('progress');
       progress.appendChild(progressbar);
+      progress.style.width = '50%'
 
       setInterval(refreshProgress,100);
+
+      var time = document.createElement('p');
+      time.innerHTML
 
       event.target.playVideo();
     }
@@ -66,10 +72,16 @@ block content
 
     function refreshProgress() {
       var progressbar = document.getElementById('progressbar');
+      var time = document.getElementById('time');
       var currTime = player.getCurrentTime();
+
+      var min = Math.floor(currTime / 60);
+      var sec = Math.floor(currTime) % 60;
+
       var width = currTime / player.getDuration() * 100;
       progressbar.setAttribute('aria-valuenow',currTime.toString());
       progressbar.style.width = width.toString()+'%';
+      time.innerHTML = min.toString() + ':'+ sec.toString();
     }
 
     function playpause() {
