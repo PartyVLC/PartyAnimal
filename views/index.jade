@@ -1,11 +1,18 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  h2= "dickbutt"
 
-  <div id="player"></div>
+  div(id='main')
+    h1= "Playlist Party"
+
+    p(id='curr')="Currently Playing: "
+
+    div(id="player" style="display:none;")
+
+    button(type='button',class='btn btn-default',onclick='playpause()')
+      span(id='playpause',class='glyphicon glyphicon-pause', aria-hidden='true')
+    
+    div(id='progress',class='progress')
 
   script.
 
@@ -20,25 +27,65 @@ block content
       player = new YT.Player('player', {
         height: '390',
         width: '640',
-        videoId: 'M7lc1UVf-VE',
+        playerVars: {'controls':0, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
+        videoId: 'dQw4w9WgXcQ',
         events: {
           'onReady': onPlayerReady,
           'onStateChange': onPlayerStateChange
         }
       });
+
     }
 
     function onPlayerReady(event) {
+      var curr = document.getElementById('curr');
+      curr.innerHTML += player.getVideoUrl();
+
+      var progressbar = document.createElement('div');
+      progressbar.id = 'progressbar'
+      progressbar.className = 'progress-bar progress-bar-striped active';
+      progressbar.role = 'progressbar';
+      progressbar.setAttribute('aria-valuenow','0');
+      progressbar.setAttribute('aria-valuemin','0');
+      progressbar.setAttribute('aria-valuemax',player.getDuration());
+      progressbar.style.width = '100%';
+
+      var progress = document.getElementById('progress');
+      progress.appendChild(progressbar);
+
+      setInterval(refreshProgress,100);
+
       event.target.playVideo();
     }
 
-    var done = false;
     function onPlayerStateChange(event) {
-      if (event.data == YT.PlayerState.PLAYING && !done) {
-        setTimeout(stopVideo, 6000);
-        done = true;
+      if (event.data == YT.PlayerState.ENDED) {
+        alert("It's done and stuff");
       }
     }
-    function stopVideo() {
-      player.stopVideo();
+
+    function refreshProgress() {
+      var progressbar = document.getElementById('progressbar');
+      var currTime = player.getCurrentTime();
+      var width = currTime / player.getDuration() * 100;
+      progressbar.setAttribute('aria-valuenow',currTime.toString());
+      progressbar.style.width = width.toString()+'%';
+    }
+
+    function playpause() {
+      var state = player.getPlayerState();
+      var playpausebutt = document.getElementById('playpause');
+      var progressbar = document.getElementById('progressbar');
+
+      if (state == 1) {
+        player.pauseVideo();
+        playpausebutt.className = 'glyphicon glyphicon-play';
+        progressbar.className = 'progress-bar progress-bar-striped';
+
+      }
+      else if (state == 2) {
+        player.playVideo();
+        playpausebutt.className = 'glyphicon glyphicon-pause';
+        progressbar.className = 'progress-bar progress-bar-striped active';
+      }
     }
