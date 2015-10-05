@@ -20,7 +20,7 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
   var curr = document.getElementById('curr');
-  curr.innerHTML += player.getVideoUrl();
+  curr.innerHTML += player.getVideoData().title;
 
   var progressbar = document.createElement('div');
   progressbar.id = 'progressbar'
@@ -33,7 +33,7 @@ function onPlayerReady(event) {
 
   var progress = document.getElementById('progress');
   progress.appendChild(progressbar);
-  progress.style.width = '50%'
+  progress.style.width = '100%'
 
   setInterval(refreshProgress,100);
 
