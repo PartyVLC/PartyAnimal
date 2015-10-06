@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 
-/* GET home page. */
+/* GET player page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  locals.id = 'dQw4w9WgXcQ';
+  res.render('player', { title: 'Playing' });
 });
 
 module.exports = router;
