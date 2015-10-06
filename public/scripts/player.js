@@ -38,7 +38,11 @@ function onPlayerReady(event) {
   setInterval(refreshProgress,100);
 
   var time = document.createElement('p');
+  time.id = 'time';
   time.innerHTML = "0:00";
+
+  document.getElementById('control').appendChild(time);
+
 
   event.target.playVideo();
 }
