@@ -4,6 +4,29 @@ block title
   h1= "Party Playlist"
   p go to "localhost:3000/play" to play music
 
+<<<<<<< HEAD
 block footer
   p This is going to be a footer!
   
+=======
+  script(src='/scripts/auth.js')
+  script(src='/scripts/player.js')
+
+  div(id='main')
+    h1 Playlist Party
+
+    p(id='curr')="Currently Playing: "
+
+    div(id="player" style="display:none;")
+
+    div(id="control")
+
+      button(type='button',class='btn btn-default',onclick='playPause()')
+        span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
+
+      button(type='button',class='btn btn-default',onclick='showHideToggle()')
+        span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
+      
+      div(id='progress',class='progress')
+      p(id='time')
+>>>>>>> 57b0352b4495a6bddb629aed9a5499c125a975e1
