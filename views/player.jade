@@ -1,20 +1,23 @@
-extends index
+extends ./index.jade
 
 block player
-  script(src='/scripts/auth.js')
-  script(src='/scripts/player.js')
-  script(src='/scripts/playlist.js')
 
-  p(id='curr')="Currently Playing: "
-  div(id="control")
+block control
+  p(id='currentlyPlaying')="Currently Playing: "
 
-    button(type='button',class='btn btn-default',onclick='playPause()')
-      span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
+  div(class="input-group")
 
-    button(type='button',class='btn btn-default',onclick='showHideToggle()')
-      span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
-    
-    div(id='progress',class='progress')
+    input(type="text", class="form-control", placeholder="Song ID", aria-hiddenscribedby="basic-addon1",id='searchBar')
+    span(class="input-group-btn")
+      button(class="btn btn-default",type="button", onclick='addSongById()') Go
 
-  div(id="playlist")
-    div(id='playlistGroup',class="list-group")
+  button(type='button',class='btn btn-default',onclick='playPause()')
+    span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
+
+  button(type='button',class='btn btn-default',onclick='showHideToggle()')
+    span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
+  
+  div(id='progress',class='progress')
+
+block playlist
+  div(id='playlistGroup',class="list-group")

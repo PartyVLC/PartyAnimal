@@ -7,14 +7,24 @@ html
     link(rel="shortcut icon", type="image/png", href="http://static2.wikia.nocookie.net/__cb20130214015712/clubpenguin/images/thumb/c/ca/Old_2nd_Year_Party_Hat.png/133px-Old_2nd_Year_Party_Hat.png")
 
   body
+    script(src='/scripts/auth.js')
+    script(src='/scripts/player.js')
+    script(src='/scripts/playlist.js')
+
     #title
       block title
 
-    #body
+    #content
       block content
 
     #player(style='display:none;')
       block player
+
+    #control
+      block control
+
+    #playlist
+      block playlist
 
     #footer
       block footer

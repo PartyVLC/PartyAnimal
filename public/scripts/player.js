@@ -19,8 +19,8 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  var curr = document.getElementById('curr');
-  curr.innerHTML += player.getVideoData().title;
+  var currentlyPlaying = document.getElementById('currentlyPlaying');
+  currentlyPlaying.innerHTML += player.getVideoData().title;
 
   var progressbar = document.createElement('div');
   progressbar.id = 'progressbar'
