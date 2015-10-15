@@ -1,4 +1,7 @@
-var queue = ["HMUDVMiITOU","86khmc6y1yE","dQw4w9WgXcQ","kbxtYqA6ypM","mVHJ6OwTYWc"];
+//var queue = ["HMUDVMiITOU","86khmc6y1yE","dQw4w9WgXcQ","kbxtYqA6ypM","mVHJ6OwTYWc"];
+var queue = [];
+
+
 
 function loadPlaylist() {
 	var playlistGroup = document.getElementById('playlistGroup');
@@ -9,8 +12,8 @@ function loadPlaylist() {
 	for (song in queue) {
 		var item = document.createElement('a');
 		item.className = 'list-group-item';
-		item.innerHTML = queue[song];
-		item.id = queue[song];
+		item.innerHTML = queue[song].title;
+		item.id = queue[song].id;
 		item.onclick = function() {songSelect(this)};
 		item.href="#";
 		playlistGroup.appendChild(item);
@@ -49,7 +52,10 @@ function search() {
 				}
 
 				var item = document.createElement('button');
-				item.innerHTML = song.id;
+
+				item.innerHTML = song.title;
+				item.id = song.id;
+
 				item.type = 'button';
 				item.className = 'btn btn-default';
 
@@ -61,7 +67,8 @@ function search() {
 }
 
 function addFromSearch(e) {
-	addSongById(e.innerHTML);
+	queue.push({id:e.id,title:e.innerHTML});
+	loadPlaylist();
 }
 
 window.onload = function() {

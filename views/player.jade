@@ -14,13 +14,15 @@ block control
     
     div(id='searchResults',class="btn-group-vertical" role="group")
 
-  button(type='button',class='btn btn-default',onclick='playPause()')
-    span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
+  div(class='container')
 
-  button(type='button',class='btn btn-default',onclick='showHideToggle()')
-    span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
-  
-  div(id='progress',class='progress')
+    button(type='button',class='btn btn-default',onclick='playPause()')
+      span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
+
+    button(type='button',class='btn btn-default',onclick='showHideToggle()')
+      span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
+    
+    div(id='progress',class='progress')
 
 block playlist
   div(id='playlistGroup',class="list-group")
