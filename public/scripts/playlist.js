@@ -18,6 +18,7 @@ function loadPlaylist() {
 }
 
 function songSelect(e) {
+	var currentlyPlaying = document.getElementById('currentlyPlaying');
 	player.loadVideoById(e.id);
 }
 
@@ -35,12 +36,32 @@ function search() {
 		},
 		function(response){
 			var resultList = document.getElementById('searchResults');
+
+			while (resultList.hasChildNodes()) {
+				resultList.removeChild(resultList.lastChild);
+			}
+
+			console.log(response);
 			for (res in response.items) {
-				var item = document.createElement('li');
-				item.innerHTML = response.items[res].id.videoId;
+				var song = {
+					id:response.items[res].id.videoId,
+					title:response.items[res].snippet.title,
+				}
+
+				var item = document.createElement('button');
+				item.innerHTML = song.id;
+				item.type = 'button';
+				item.className = 'btn btn-default';
+
+				item.onclick = function() {addFromSearch(this)};
+
 				resultList.appendChild(item);
 			}
 		});
+}
+
+function addFromSearch(e) {
+	addSongById(e.innerHTML);
 }
 
 window.onload = function() {

@@ -3,14 +3,16 @@ extends ./index.jade
 block player
 
 block control
+
   p(id='currentlyPlaying')="Currently Playing: "
 
-  div(class="input-group")
-    input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar')
-    span(class="input-group-btn")
-      button(class="btn btn-default dropdown-toggle",type="button",onclick="search()",id='searchButt') Go
-
-  ul(id='searchResults')
+  div(class='container')
+    div(class="input-group")
+      input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar')
+      div(class="input-group-btn")
+        button(onclick='search()',id='searchButt',class="btn btn-default", type="button") Go
+    
+    div(id='searchResults',class="btn-group-vertical" role="group")
 
   button(type='button',class='btn btn-default',onclick='playPause()')
     span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
