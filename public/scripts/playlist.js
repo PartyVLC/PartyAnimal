@@ -21,10 +21,26 @@ function songSelect(e) {
 	player.loadVideoById(e.id);
 }
 
-function addSongById() {
-	var id = document.getElementById('searchBar').value;
+function addSongById(id) {
 	queue.push(id);
 	loadPlaylist();
+}
+
+function search() {
+	var keyword = document.getElementById('searchBar').value;
+	$.get('https://www.googleapis.com/youtube/v3/search',{
+		q:keyword,
+		part:'snippet',
+		key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w'
+		},
+		function(response){
+			var resultList = document.getElementById('searchResults');
+			for (res in response.items) {
+				var item = document.createElement('li');
+				item.innerHTML = response.items[res].id.videoId;
+				resultList.appendChild(item);
+			}
+		});
 }
 
 window.onload = function() {

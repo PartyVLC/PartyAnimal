@@ -6,10 +6,11 @@ block control
   p(id='currentlyPlaying')="Currently Playing: "
 
   div(class="input-group")
-
-    input(type="text", class="form-control", placeholder="Song ID", aria-hiddenscribedby="basic-addon1",id='searchBar')
+    input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar')
     span(class="input-group-btn")
-      button(class="btn btn-default",type="button", onclick='addSongById()') Go
+      button(class="btn btn-default dropdown-toggle",type="button",onclick="search()",id='searchButt') Go
+
+  ul(id='searchResults')
 
   button(type='button',class='btn btn-default',onclick='playPause()')
     span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
