@@ -1,7 +1,4 @@
-//var queue = ["HMUDVMiITOU","86khmc6y1yE","dQw4w9WgXcQ","kbxtYqA6ypM","mVHJ6OwTYWc"];
 var queue = [];
-
-
 
 function loadPlaylist() {
 	var playlistGroup = document.getElementById('playlistGroup');
@@ -35,7 +32,9 @@ function search() {
 	$.get('https://www.googleapis.com/youtube/v3/search',{
 		q:keyword,
 		part:'snippet',
-		key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w'
+		key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
+		maxResults:20,
+		type:'video'
 		},
 		function(response){
 			var resultList = document.getElementById('searchResults');
