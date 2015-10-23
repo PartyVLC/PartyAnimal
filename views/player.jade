@@ -1,12 +1,20 @@
-extends index
+extends ./index.jade
 
 block player
-  script(src='/scripts/auth.js')
-  script(src='/scripts/player.js')
-  script(src='/scripts/playlist.js')
 
-  p(id='curr')="Currently Playing: "
-  div(id="control")
+block control
+
+  p(id='currentlyPlaying')="Currently Playing: "
+
+  div(class='container')
+    div(class="input-group")
+      input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar',onkeypress='searchKeyPress()')
+      div(class="input-group-btn")
+        button(onclick='search()',id='searchButt',class="btn btn-default", type="button") Go
+    
+    div(id='searchResults',class="btn-group-vertical" role="group")
+
+  div(class='container')
 
     button(type='button',class='btn btn-default',onclick='playPause()')
       span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
@@ -16,5 +24,5 @@ block player
     
     div(id='progress',class='progress')
 
-  div(id="playlist")
-    div(id='playlistGroup',class="list-group")
+block playlist
+  div(id='playlistGroup',class="list-group")
