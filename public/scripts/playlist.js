@@ -17,6 +17,15 @@ function loadPlaylist() {
     playlistGroup.removeChild(playlistGroup.lastChild);
   }
 
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.onreadystatechange = function() {
+  //   if (xhttp.readyState == 4 && xhttp.status == 200) {
+  //     var playlistName = xhttp.responseText;
+  //   }
+  // }
+  // xhttp.open("GET", "/playlists", true);
+  // xhttp.send();
+
   for (song in queue) {
     (function(index) {
       var item = document.createElement('a');
