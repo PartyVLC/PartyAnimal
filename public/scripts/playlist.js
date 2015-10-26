@@ -12,87 +12,151 @@ window.onload = function() {
 function loadPlaylist() {
 
   var playlistGroup = document.getElementById('playlistGroup');
+  var playlistUL = document.getElementById('playlists');
 
   while (playlistGroup.hasChildNodes()) {
     playlistGroup.removeChild(playlistGroup.lastChild);
   }
 
-  // var xhttp = new XMLHttpRequest();
-  // xhttp.onreadystatechange = function() {
-  //   if (xhttp.readyState == 4 && xhttp.status == 200) {
-  //     var playlistName = xhttp.responseText;
-  //   }
-  // }
-  // xhttp.open("GET", "/playlists", true);
-  // xhttp.send();
-
-  for (song in queue) {
-    (function(index) {
-      var item = document.createElement('a');
-      item.className = 'list-group-item';
-      item.innerHTML = queue[index].title;
-      item.id = queue[index].id;
-
-      item.onclick = function() {songSelect(queue[index]);};
-      item.style.cursor = 'pointer';
-      item.innerHTML = queue[index].title;
-      item.id = queue[index].id;
-      
-      var downV = document.createElement('button');
-      downV.type='button';
-      downV.className='btn btn-default';
-      downV.onclick= function() {downVote(queue[index],index);};
-      var downSpan = document.createElement('span');
-      downSpan.id='downVoteButt';
-      downSpan.className='glyphicon glyphicon-thumbs-down';
-      downV.appendChild(downSpan);
-      
-      var score = document.createElement('span');
-      score.innerHTML = queue[song].score;
-      
-      var upV = document.createElement('button');
-      upV.type='button';
-      upV.className='btn btn-default';
-      upV.onclick= function() {upVote(queue[index])};
-      var upSpan = document.createElement('span');
-      upSpan.id='upVoteButt';
-      upSpan.className='glyphicon glyphicon-thumbs-up';
-      upV.appendChild(upSpan);
-      
-      item.appendChild(downV);
-      item.appendChild(score);
-      item.appendChild(upV);
-
-      playlistGroup.appendChild(item);
-    })(song);
-
-    if (queue[0]) {
-      songSelect(queue[0]);
-    }
+  while (playlistUL.hasChildNodes()) {
+    playlistUL.removeChild(playlistUL.lastChild);
   }
+
+  //Loop over all playlists
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      var playlistObj = JSON.parse(xhttp.responseText);
+      var playlistAccordion = document.getElementById('playlistAccordion');
+
+      var playlistPanel = document.createElement('div');
+      playlistPanel.className = 'panel panel-default';
+
+      var playlistHeading = document.createElement('div');
+      playlistHeading.className = 'panel-heading';
+      playlistHeading.id = 'heading-'+playlistObj.PlaylistID;
+      playlistHeading.setAttribute('role','tab');
+
+      var playlistTitle = document.createElement('h4');
+      playlistTitle.className = 'panel-title';
+
+      var playlistA = document.createElement('a');
+      playlistA.className = 'collapsed';
+      playlistA.role = 'button';
+      playlistA.setAttribute('data-toggle','collapse');
+      playlistA.setAttribute('data-parent','#playlistAccordion');
+      playlistA.href = '#songList';
+      playlistA.setAttribute('aria-expanded','true');
+      playlistA.setAttribute('aria-controls','songList');
+      playlistA.innerHTML = playlistObj.Name;
+
+      var songCollapse = document.createElement('div');
+      songCollapse.id = 'songList';
+      songCollapse.className = 'panel-collapse collapse in';
+      songCollapse.role = 'tabpanel';
+      songCollapse.setAttribute('area-labelledby','heading-'+playlistObj.PlaylistID);
+
+      var songContent = document.createElement('div');
+      songContent.className = 'panel-body';
+
+      songCollapse.appendChild(songContent);
+
+      playlistTitle.appendChild(playlistA);
+      playlistHeading.appendChild(playlistTitle);
+      playlistPanel.appendChild(playlistHeading);
+      playlistPanel.appendChild(songCollapse);
+      playlistAccordion.appendChild(playlistPanel);
+
+      //Loop over songs in each playlist
+      var xhttp2 = new XMLHttpRequest();
+      xhttp2.onreadystatechange = function() {
+        if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+          var songObj = JSON.parse(xhttp2.responseText);
+
+          for (song in songObj) {
+            (function(index) {
+
+              var songA = document.createElement('a');
+              songA.className = 'list-group-item';
+              songA.innerHTML = songObj[index].Title;
+              songA.style.cursor = 'pointer';
+              songA.onclick = function() {songSelect(songObj[index]);};
+
+              var downV = document.createElement('button');
+              downV.type='button';
+              downV.className='btn btn-default';
+              downV.onclick= function() {downVote(songObj[index],index);};
+              var downSpan = document.createElement('span');
+              downSpan.id='downVoteButt';
+              downSpan.className='glyphicon glyphicon-thumbs-down';
+              downV.appendChild(downSpan);
+              
+              var score = document.createElement('span');
+              score.innerHTML = songObj[index].Score;
+              
+              var upV = document.createElement('button');
+              upV.type='button';
+              upV.className='btn btn-default';
+              upV.onclick= function() {upVote(songObj[index])};
+              var upSpan = document.createElement('span');
+              upSpan.id='upVoteButt';
+              upSpan.className='glyphicon glyphicon-thumbs-up';
+              upV.appendChild(upSpan);
+              
+              songA.appendChild(downV);
+              songA.appendChild(score);
+              songA.appendChild(upV);
+
+              songContent.appendChild(songA);
+            })(song)
+          }
+        }
+      };
+
+      var sendData = "id="+playlistObj.PlaylistID;
+      xhttp2.open("GET","/songsbyplaylist?"+sendData,true);
+      xhttp2.send(sendData);
+
+    }
+  };
+
+  xhttp.open("GET", "/playlists", true);
+  xhttp.send();
 }
 
 function songSelect(song) {
   if (song.id != player.getVideoData().video_id) {
     var currentlyPlaying = document.getElementById('currentlyPlaying');
-    player.loadVideoById(song.id);
+    player.loadVideoById(song.SongID);
   }
 }
 
 function upVote(song)
 {
   event.cancelBubble = true;
-  song.score++;
+
+  var xhttp = new XMLHttpRequest();
+  var sendData = "id="+song.SongID;
+  xhttp.open("POST", "/upvote", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(sendData);
+
   loadPlaylist();
 }
 
 function downVote(song,index)
 {
   event.cancelBubble = true;
-  song.score--;
-  if (song.score < -4) {
-    delete queue[index];
-  }
+
+  var xhttp = new XMLHttpRequest();
+  var sendData = "id="+song.SongID;
+  xhttp.open("POST", "/downvote", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(sendData);
+
+  // if (song.Score < -4) {
+  //   //delete queue[index];
+  // }
   loadPlaylist();
 }
 

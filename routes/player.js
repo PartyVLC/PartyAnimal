@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
     Score INTEGER, \
     FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), \
     FOREIGN KEY(SongID) REFERENCES Song(SongID))");
+
 });
 
 module.exports = router;
