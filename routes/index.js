@@ -71,16 +71,22 @@ router.get('/songsbyplaylist', function(req,res,next) {
     });
 });
 
-router.get('/api/playlists',function(req,res,next) {
-	db.all("SELECT * FROM Playlist,PlaylistSong,Song WHERE Playlist.PlaylistID=PlaylistSong.PlaylistID and Song.SongID=PlaylistSong.SongID",function(err,rows) {
-		var playlists = {};
+router.get('/api/emptyplaylists',function(req,res,next) {
+	db.all("select * from Playlist where Playlist.PlaylistID not in (select PlaylistID from PlaylistSong)",function(err,rows){
+		res.json(rows);
+	});
 
+});
+
+router.get('/api/playlists',function(req,res,next) {
+	db.all("SELECT * FROM Playlist,PlaylistSong,Song WHERE (Playlist.PlaylistID=PlaylistSong.PlaylistID and Song.SongID=PlaylistSong.SongID)",function(err,rows) {
+		var playlists = {};
 		for (i in rows) {
 			if (playlists.hasOwnProperty(rows[i].PlaylistID)) {
-				playlists[rows[i].PlaylistID].push({'Title':rows[i].Title,'PlaylistName':rows[i].Name,'SongID':rows[i].SongID,'Score':rows[i].Score});
+				playlists[rows[i].PlaylistID].Songs.push({'Title':rows[i].Title,'SongID':rows[i].SongID,'Score':rows[i].Score});
 			}
 			else {
-				playlists[rows[i].PlaylistID] = [{'Title':rows[i].Title,'PlaylistName':rows[i].Name,'SongID':rows[i].SongID,'Score':rows[i].Score}];
+				playlists[rows[i].PlaylistID] = {'PlaylistName':rows[i].Name,'Songs':[{'Title':rows[i].Title,'SongID':rows[i].SongID,'Score':rows[i].Score}]};
 			}
 		}
 		res.json(playlists);
@@ -97,13 +103,13 @@ router.post('/addsong', function(req,res,next) {
 });
 
 router.post('/upvote', function(req,res,next) {
-	var stmt = "UPDATE PlaylistSong SET Score=Score+1 WHERE SongID='"+req.body.id+"'";
+	var stmt = "UPDATE PlaylistSong SET Score=Score+1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
 	db.run(stmt);
 	res.send("Song upvoted");
 });
 
 router.post('/downvote', function(req,res,next) {
-	var stmt = "UPDATE PlaylistSong SET Score=Score-1 WHERE SongID='"+req.body.id+"'";
+	var stmt = "UPDATE PlaylistSong SET Score=Score-1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
 	db.run(stmt);
 	res.send("Song downvoted");
 });
