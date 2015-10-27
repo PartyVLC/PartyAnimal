@@ -6,13 +6,17 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
 router.get('/playlists', function(req,res,next) {
-    db.each("SELECT * FROM Playlist", function(err, row){
-		if (err) {
-			console.log(err);
-		}
-		if (row && !err) {
-			res.json(row);
-		}
+    db.all("SELECT * FROM Playlist", function(err, rows){
+    	var playlists = [];
+    	rows.forEach(function(row) {
+			if (err) {
+				console.log(err);
+			}
+			if (row && !err) {
+				playlists.push(row);
+			}
+		});
+		res.json(playlists);
     });
 });
 
@@ -34,20 +38,23 @@ router.get('/songs', function(req,res,next) {
 router.get('/playlistsong', function(req,res,next) {
     db.all("SELECT * FROM PlaylistSong", function(err, rows){
     	var entries = []
-    	rows.forEach(function(row) {
-			if (err) {
-				console.log(err);
-			}
-			if (row && !err) {
-				entries.push(row);
-			}
-		});
+    	if (rows) {
+	    	rows.forEach(function(row) {
+				if (err) {
+					console.log(err);
+				}
+				if (row && !err) {
+					entries.push(row);
+				}
+			});
+	    }
 		res.json(entries);
     });
 });
 
 router.get('/songsbyplaylist', function(req,res,next) {
 	var playlistID = req.url.split('?')[1].slice(3);
+	console.log(playlistID);
     db.all("SELECT * FROM Song, PlaylistSong where Song.SongID=PlaylistSong.SongID and PlaylistSong.PlaylistID="+playlistID, function(err, rows){
     	var entries = []
     	if (rows) {
@@ -64,11 +71,28 @@ router.get('/songsbyplaylist', function(req,res,next) {
     });
 });
 
+router.get('/api/playlists',function(req,res,next) {
+	db.all("SELECT * FROM Playlist,PlaylistSong,Song WHERE Playlist.PlaylistID=PlaylistSong.PlaylistID and Song.SongID=PlaylistSong.SongID",function(err,rows) {
+		var playlists = {};
+
+		for (i in rows) {
+			if (playlists.hasOwnProperty(rows[i].PlaylistID)) {
+				playlists[rows[i].PlaylistID].push({'Title':rows[i].Title,'PlaylistName':rows[i].Name,'SongID':rows[i].SongID,'Score':rows[i].Score});
+			}
+			else {
+				playlists[rows[i].PlaylistID] = [{'Title':rows[i].Title,'PlaylistName':rows[i].Name,'SongID':rows[i].SongID,'Score':rows[i].Score}];
+			}
+		}
+		res.json(playlists);
+	});
+});
+
 
 router.post('/addsong', function(req,res,next) {
 	var stmt = "INSERT into Song (SongId,Title) VALUES ('"+req.body.id+"','"+req.body.title+"')";
 	db.run(stmt);
-	//stmt = "INSERT into PlaylistSong () VALUES ()";
+	stmt = "INSERT into PlaylistSong (PlaylistID,SongID,Score) VALUES ("+req.body.pid+",'"+req.body.id+"',0)";
+	db.run(stmt);
 	res.send("Song added");
 });
 
@@ -82,6 +106,12 @@ router.post('/downvote', function(req,res,next) {
 	var stmt = "UPDATE PlaylistSong SET Score=Score-1 WHERE SongID='"+req.body.id+"'";
 	db.run(stmt);
 	res.send("Song downvoted");
+});
+
+router.post('/addplaylist', function(req,res,next) {
+	var stmt = "INSERT into Playlist (Name) VALUES ('"+req.body.name+"')";
+	db.run(stmt);
+	res.send("Playlist created");
 });
 
 /* GET home page. */
