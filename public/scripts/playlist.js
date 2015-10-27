@@ -56,7 +56,7 @@ function loadPlaylist() {
 
         var playlistA = document.createElement('a');
         playlistA.className = 'collapsed';
-        playlistA.role = 'button';
+        playlistA.setAttribute('role','button');
         playlistA.setAttribute('data-toggle','collapse');
         playlistA.setAttribute('data-parent','#playlistAccordion');
         playlistA.href = '#songList-'+id;
@@ -65,7 +65,7 @@ function loadPlaylist() {
         playlistA.innerHTML = playlist[0].PlaylistName;
 
         var songCollapse = document.createElement('div');
-        songCollapse.id = '#songList-'+id;
+        songCollapse.id = 'songList-'+id;
         if (currentPlaylist == id) {
           songCollapse.className = 'panel-collapse collapse in';
         }
