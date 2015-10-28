@@ -25,4 +25,10 @@ block control
     div(id='progress',class='progress')
 
 block playlist
-  div(id='playlistGroup',class="list-group")
+  div(class="input-group")
+      input(type="text", class="form-control", placeholder="New Playlist")
+      span(class="input-group-btn")
+        button(class="btn btn-default", type="button", onclick='addPlaylist(this)')
+          span(class="glyphicon glyphicon-plus",aria-hidden="true")
+
+  div(class='panel-group',id='playlistAccordion',role='tablist',aria-multiselectable="true")
