@@ -104,85 +104,41 @@ router.get('/api/playlists',function(req,res,next) {
 router.post('/addsong', function(req,res,next) {
 
 	var stmt = "INSERT into Song (SongId,Title) VALUES ('"+req.body.id+"','"+req.body.title+"')";
-	db.run(stmt,function(err) {
-    	if(err !== null) {
-	      next(err);
-	    }
-	    else {
-	      console.log(err);
-	    }
-	});
+	db.run(stmt);
 
 	stmt = "INSERT into PlaylistSong (PlaylistID,SongID,Score) VALUES ("+req.body.pid+",'"+req.body.id+"',0)";
-	db.run(stmt,function(err) {
-    	if(err !== null) {
-	      next(err);
-	    }
-	    else {
-	      console.log(err);
-	    }
-	});
+	db.run(stmt);
 	res.send("Song added");
 
 });
 
 router.post('/upvote', function(req,res,next) {
 	var stmt = "UPDATE PlaylistSong SET Score=Score+1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
-	db.run(stmt,function(err) {
-    	if(err !== null) {
-	      next(err);
-	    }
-	    else {
-	      console.log(err);
-	    }
-	});
+	db.run(stmt);
 	res.send("Song upvoted");
 });
 
 router.post('/downvote', function(req,res,next) {
 	var stmt = "UPDATE PlaylistSong SET Score=Score-1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
-	db.run(stmt,function(err) {
-		if(err !== null) {
-	      next(err);
-	    }
-	    else {
-	      console.log(err);
-	    }
-	});
+	db.run(stmt);
 	res.send("Song downvoted");
 });
 
 router.post('/addplaylist', function(req,res,next) {
 	var stmt = "INSERT into Playlist (Name) VALUES ('"+req.body.name+"')";
-	db.run(stmt,function(err){
-    	if(err !== null) {
-	      next(err);
-	    }
-	    else {
-	      console.log(err);
-	    }
-	});
+	db.run(stmt);
 	res.send("Playlist created");
 
 });
 
 router.post('/deletefromplaylist', function(req,res,next) {
 	var stmt = "DELETE from PlaylistSong WHERE PlaylistID="+req.body.pid+" AND SongID='"+req.body.sid+"'";
-	db.run(stmt,function(err) {
-    	if(err !== null) {
-	      next(err);
-	    }
-	    else {
-	      console.log(err);
-	    }
-	});
+	db.run(stmt);
 
 	db.all("SELECT * FROM PlaylistSong WHERE SongID='"+req.body.sid+"'",function(err,rows){
-		console.log(rows);
-		if (!rows) {
+		if (rows.length == 0) {
 			var stmt = "DELETE from Song WHERE SongID='"+req.body.sid+"'";
 			db.run(stmt,function(err) {
-				console.log('deleting from Song');
 		    	if(err !== null) {
 			      next(err);
 			    }
@@ -197,14 +153,21 @@ router.post('/deletefromplaylist', function(req,res,next) {
 });
 
 router.post('/deleteplaylist',function(req,res,next) {
-	var stmt = "DELETE from Playlist WHERE PlaylistID="+req.body.pid;
-	db.run(stmt,function(err) {
-    	if(err !== null) {
-	      next(err);
-	    }
-	    else {
-	      console.log(err);
-	    }
+
+	var stmt = "DELETE FROM Playlist WHERE PlaylistID="+req.body.pid;
+	db.run(stmt);
+
+	stmt = "DELETE FROM PlaylistSong WHERE PlaylistID="+req.body.pid;
+	db.run(stmt);
+
+	db.all("select * from Song where Song.SongID not in (select SongID from PlaylistSong)",function(err,rows) {
+		if (rows.length != 0) {
+			for (i in rows) {
+				var row = rows[i];
+				var stmt = "DELETE from Song WHERE SongID='"+row.SongID+"'";
+				db.run(stmt);
+			}
+		}
 	});
 	res.send("Playlist deleted");
 });
