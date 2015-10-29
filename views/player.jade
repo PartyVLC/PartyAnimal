@@ -26,7 +26,7 @@ block control
 
 block playlist
   div(class="input-group")
-      input(type="text", class="form-control", placeholder="New Playlist")
+      input(type="text", class="form-control", placeholder="New Playlist",onkeypress='addPlaylistKeyPress(this)')
       span(class="input-group-btn")
         button(class="btn btn-default", type="button", onclick='addPlaylist(this)')
           span(class="glyphicon glyphicon-plus",aria-hidden="true")

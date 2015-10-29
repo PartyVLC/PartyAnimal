@@ -54,7 +54,6 @@ router.get('/playlistsong', function(req,res,next) {
 
 router.get('/songsbyplaylist', function(req,res,next) {
 	var playlistID = req.url.split('?')[1].slice(3);
-	console.log(playlistID);
     db.all("SELECT * FROM Song, PlaylistSong where Song.SongID=PlaylistSong.SongID and PlaylistSong.PlaylistID="+playlistID, function(err, rows){
     	var entries = []
     	if (rows) {
@@ -78,6 +77,15 @@ router.get('/api/emptyplaylists',function(req,res,next) {
 
 });
 
+router.get('/api/score',function(req,res,next) {
+	var data = req.url.split('?')[1].split('&');
+	sid = data[0].split('=')[1];
+	pid = data[1].split('=')[1];
+	db.all("select Score from PlaylistSong where PlaylistID="+pid+" AND SongID='"+sid+"'",function(err,rows){
+		res.json(rows);
+	});
+});
+
 router.get('/api/playlists',function(req,res,next) {
 	db.all("SELECT * FROM Playlist,PlaylistSong,Song WHERE (Playlist.PlaylistID=PlaylistSong.PlaylistID and Song.SongID=PlaylistSong.SongID)",function(err,rows) {
 		var playlists = {};
@@ -95,29 +103,94 @@ router.get('/api/playlists',function(req,res,next) {
 
 
 router.post('/addsong', function(req,res,next) {
+
 	var stmt = "INSERT into Song (SongId,Title) VALUES ('"+req.body.id+"','"+req.body.title+"')";
-	db.run(stmt);
+	db.run(stmt,function(err) {
+    	if(err !== null) {
+	      next(err);
+	    }
+	    else {
+	      console.log(err);
+	    }
+	});
+
 	stmt = "INSERT into PlaylistSong (PlaylistID,SongID,Score) VALUES ("+req.body.pid+",'"+req.body.id+"',0)";
-	db.run(stmt);
+	db.run(stmt,function(err) {
+    	if(err !== null) {
+	      next(err);
+	    }
+	    else {
+	      console.log(err);
+	    }
+	});
 	res.send("Song added");
+
 });
 
 router.post('/upvote', function(req,res,next) {
 	var stmt = "UPDATE PlaylistSong SET Score=Score+1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
-	db.run(stmt);
+	db.run(stmt,function(err) {
+    	if(err !== null) {
+	      next(err);
+	    }
+	    else {
+	      console.log(err);
+	    }
+	});
 	res.send("Song upvoted");
 });
 
 router.post('/downvote', function(req,res,next) {
 	var stmt = "UPDATE PlaylistSong SET Score=Score-1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
-	db.run(stmt);
+	db.run(stmt,function(err) {
+		if(err !== null) {
+	      next(err);
+	    }
+	    else {
+	      console.log(err);
+	    }
+	});
 	res.send("Song downvoted");
 });
 
 router.post('/addplaylist', function(req,res,next) {
 	var stmt = "INSERT into Playlist (Name) VALUES ('"+req.body.name+"')";
-	db.run(stmt);
+	db.run(stmt,function(err){
+    	if(err !== null) {
+	      next(err);
+	    }
+	    else {
+	      console.log(err);
+	    }
+	});
 	res.send("Playlist created");
+
+});
+
+router.post('/deletefromplaylist', function(req,res,next) {
+	var stmt = "DELETE from PlaylistSong WHERE PlaylistID="+req.body.pid+" AND SongID='"+req.body.sid+"'";
+	db.run(stmt,function(err) {
+    	if(err !== null) {
+	      next(err);
+	    }
+	    else {
+	      console.log(err);
+	    }
+	});
+	res.send("Song deleted");
+});
+
+router.post('/deleteplaylist',function(req,res,next) {
+	var stmt = "DELETE from Playlist WHERE PlaylistID="+req.body.pid;
+	db.run(stmt,function(err) {
+    	if(err !== null) {
+	      next(err);
+	    }
+	    else {
+	      console.log(err);
+	    }
+	});
+	res.send("Playlist deleted");
 });
 
 /* GET home page. */

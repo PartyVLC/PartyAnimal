@@ -14,12 +14,7 @@ router.get('/', function(req, res, next) {
 
   db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
 
-  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong \
-    (PlaylistID INTEGER, \
-    SongID TEXT, \
-    Score INTEGER, \
-    FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), \
-    FOREIGN KEY(SongID) REFERENCES Song(SongID))");
+  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
 });
 
