@@ -1,9 +1,9 @@
 extends ./index.jade
 
 block title
-  h5.text-center(id='currentlyPlaying')="Currently Playing: "
 
 block search
+  .padding1em
   .input-group
     input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar',onkeypress='searchKeyPress()')
     div(class="input-group-btn")
@@ -12,6 +12,7 @@ block search
   div(id='searchResults',class="btn-group" role="group")
 
 block playlist
+  .padding1em
   .input-group
       input(type="text", class="form-control", placeholder="New Playlist")
       span(class="input-group-btn")
@@ -24,12 +25,11 @@ block playlists
 block player
   .list-group
     .row
+      #player(display:hidden).col-xs-6.col-xs-offset-3
+    .row
       .col-sm-10
         button(type='button',class='btn btn-default',onclick='playPause()')
           span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
-
-        button(type='button',class='btn btn-default',onclick='showHideToggle()')
-          span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
 
       #control: .col-sm-2
       
