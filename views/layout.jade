@@ -25,33 +25,34 @@ html
   body
 
     //- JAVASCRIPT
-      script(src='/js/playlist.js')
-      script(src='/js/player.js')
-      script(src='https://apis.google.com/js/client.js?onload=init')
-      script(src='/js/jquery.js')
-      script(src='/bootstrap/js/bootstrap.js')
+    script(src='/js/playlist.js')
+    script(src='/js/player.js')
+    script(src='https://apis.google.com/js/client.js?onload=init')
+    script(src='/js/jquery.js')
+    script(src='/bootstrap/js/bootstrap.js')
 
-      block js
+    block js
 
     //- TITLE
     .container: #title
       h1.text-center Party Animal
       +flash-messages(messages)
       block title
-    //- Playlists
-    .container: #playlists
-      block playlists
+      block content
 
     //- Player
-    .container: #player
+    .container
       .row
         .col-sm-6: #search
           block search
         .col-sm-6: #playlist
           block playlist
+          //- Playlists
+          block playlists
+
       .row
-        .container: #player
-          block player
+        block player
+      .container: #player
 
     //- FOOTER
     .container: #footer

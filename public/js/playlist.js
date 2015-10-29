@@ -154,7 +154,7 @@ function upVote(SongID,PlaylistID)
   event.cancelBubble = true;
   var xhttp = new XMLHttpRequest();
   var sendData = "sid="+SongID+"&pid="+PlaylistID;
-  xhttp.open("POST", "/upvote", true);
+  xhttp.open("POST", "/api/upvote", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
   loadPlaylist();
@@ -166,7 +166,7 @@ function downVote(SongID,PlaylistID)
 
   var xhttp = new XMLHttpRequest();
   var sendData = "sid="+SongID+"&pid="+PlaylistID;
-  xhttp.open("POST", "/downvote", true);
+  xhttp.open("POST", "/api/downvote", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
 
@@ -231,7 +231,7 @@ function addFromSearch(song) {
   if (activePlaylist) {
     var xhttp = new XMLHttpRequest();
     var sendData = "id="+song.id+"&title="+song.title+"&pid="+activePlaylist;
-    xhttp.open("POST", "/addsong", true);
+    xhttp.open("POST", "/api/addsong", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(sendData);
 
@@ -253,7 +253,8 @@ function addPlaylist(e) {
   if (name) {
     var xhttp = new XMLHttpRequest();
     var sendData = "name="+name;
-    xhttp.open("POST", "/addplaylist", true);
+    xhttp.open("POST", "/api/addplaylist", true);
+    console.log("Added Playlist: " + name)
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(sendData);
     loadPlaylist();

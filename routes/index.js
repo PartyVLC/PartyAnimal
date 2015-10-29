@@ -5,11 +5,6 @@ var async = require('async');
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('home', { title: 'Party Animal' });
-});
-
 router.get('/api/getSongs', function(req,res,next) {
     db.all("SELECT * FROM Song", function(err, rows){
     	var songs = []
@@ -23,6 +18,7 @@ router.get('/api/getSongs', function(req,res,next) {
 		});
 		res.json(songs);
     });
+    res.send("Song added");
 });
 
 router.get('/api/playlistsong', function(req,res,next) {
@@ -40,6 +36,7 @@ router.get('/api/playlistsong', function(req,res,next) {
 	    }
 		res.json(entries);
     });
+    res.send("Song added");
 });
 
 router.get('/api/getSongsByPlaylist', function(req,res,next) {
@@ -59,13 +56,14 @@ router.get('/api/getSongsByPlaylist', function(req,res,next) {
 		}
 		res.json(entries);
     });
+    res.send("Song added");
 });
 
 router.get('/api/emptyPlaylists',function(req,res,next) {
 	db.all("select * from Playlist where Playlist.PlaylistID not in (select PlaylistID from PlaylistSong)",function(err,rows){
 		res.json(rows);
 	});
-
+	res.send("Song added");
 });
 
 router.get('/api/getPlaylists',function(req,res,next) {
@@ -81,8 +79,8 @@ router.get('/api/getPlaylists',function(req,res,next) {
 		}
 		res.json(playlists);
 	});
+	res.send("Song added");
 });
-
 
 router.post('/api/addsong', function(req,res,next) {
 	var stmt = "INSERT into Song (SongId,Title) VALUES ('"+req.body.id+"','"+req.body.title+"')";
@@ -107,7 +105,27 @@ router.post('/api/downvote', function(req,res,next) {
 router.post('/api/addplaylist', function(req,res,next) {
 	var stmt = "INSERT into Playlist (Name) VALUES ('"+req.body.name+"')";
 	db.run(stmt);
+	console.log("Inserted New Playlist: " + req.body.name)
 	res.send("Playlist created");
 });
+
+/**
+	Fetches and clears the flashMessages before a view is rendered
+*/
+
+exports.flashMessages = function(req, res, next) {
+	
+	var flashMessages = {
+		info: req.flash('info'),
+		success: req.flash('success'),
+		warning: req.flash('warning'),
+		error: req.flash('error')
+	};
+	
+	res.locals.messages = _.any(flashMessages, function(msgs) { return msgs.length; }) ? flashMessages : false;
+	
+	next();
+	
+};
 
 module.exports = router;
