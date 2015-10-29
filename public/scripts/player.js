@@ -93,15 +93,26 @@ function playPause() {
   }
 }
 
-function showHideToggle() {
+function showHideToggle(e) {
+  e.className="showHideButt buttClicked";
   var player = document.getElementById("player");
-  var showHideButt = document.getElementById("showHideButt");
+  var shb = document.getElementById("showHideIcon");
   if (player.style.display == "none") {
     player.style.display = "initial";
-    showHideButt.className = 'glyphicon glyphicon-eye-open';
+    shb.className = 'glyphicon glyphicon-eye-open';
   }
   else {
     player.style.display = 'none';
-    showHideButt.className = 'glyphicon glyphicon-eye-close';
+    shb.className = 'glyphicon glyphicon-eye-close';
   }
+}
+
+function showHideMouseOver(e)
+{
+	e.className="showHideButt buttMouseOver";
+}
+
+function showHideReset(e)
+{
+	e.className="showHideButt";
 }

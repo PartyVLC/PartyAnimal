@@ -1,6 +1,9 @@
 body {
-  padding: 50px;
+  margin: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Raleway', sans-serif;
+  
+	background-color: #f0f0f0;
 }
 
 a {
@@ -22,69 +25,60 @@ progress {
 	color: gray;
 }
 
-
+/*all of my stuff*/
 
 
 div.contentPane
 {
 	background-color: #f8f8f8;
-	box-shadow: 0px 1px 2px #999999;
+	box-shadow: 0px 1px 3px #999999;
 }
 
 div.titleBar
 {
-	line-height: 1.333em;
-	font-size: 3em;
+	text-align: center;
 	font-family: 'Roboto', sans-serif;
-	width: 80%;
-	height: 1.333em;
+	height: 64px;
 }
 
 div.headerBar
 {
-	line-height: 2em;
-	font-size: 2em;
 	font-family: 'Roboto', sans-serif;
+	font-size: 20px;
+	line-height: 64px;
+	text-align: center;
 	width: 100%;
-	height: 2em;
+	height: 64px;
 	background-color: #e0e0e0;
 }
 
 div.showHideButt
 {
-	width: 1em;
-	height: 1em;
+	color: hsla(0,0,0,0.1);
+	width: 32px;
+	height: 32px;
+	line-height:32px;
 	background-color: #25b5b9;
-	margin: .5em;
+	margin: 16px;
 	float: left;
 	box-shadow: 0px 2px 3px #999999;
 }
 
-div.showHideButtMouseOver
+div.buttMouseOver
 {
-	width: 1em;
-	height: 1em;
-	background-color: #25b5b9;
-	margin: .5em;
-	float: left;
 	box-shadow: 0px 3px 5px #999999;
 }
 
-div.showHideButtClicked
+div.buttClicked
 {
-	width: 1em;
-	height: 1em;
-	background-color: #25b5b9;
-	margin: .5em;
-	float: left;
 	box-shadow: 0px 1px 2px #999999;
 }
 
 div.hiddenRickAstleyButt
 {
-	width: 1em;
-	height: 1em;
-	margin: .5em;
+	width: 32px;
+	height: 32px;
+	margin: 16px;
 	float: right;
 	cursor: default;
 }
@@ -92,7 +86,7 @@ div.hiddenRickAstleyButt
 div.padding1em
 {
 	width:100%;
-	height: 1em;
+	height: 32px;
 }
 
 div.mockVid
