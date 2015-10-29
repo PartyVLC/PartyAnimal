@@ -19,18 +19,19 @@ block playlist
           span(class="glyphicon glyphicon-plus",aria-hidden="true")
 
 block playlists
-  .panel-group(id='playlistAccordion',role='tablist',aria-multiselectable="true")
+  .panel-group
+    #playlistAccordion(role='tablist',aria-multiselectable="true")
 
 block player
   .list-group
     .row
-      .col-sm-10
+      .col-xs-6
         button(type='button',class='btn btn-default',onclick='playPause()')
           span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
 
         button(type='button',class='btn btn-default',onclick='showHideToggle()')
           span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
 
-      #control: .col-sm-2
+      .col-xs-6(style="text-align: right;"): #control
       
     .progress(id='progress'): .col-xs-12

@@ -6,8 +6,7 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
 /* GET player page. */
-router.get('/*/', function(req, res, next) {
-  res.render('player', { title: 'Playing' });
+router.get('/dbcheck', function(req, res, next) {
 
   // console.log("Checking if Tables exist in Database...")
   

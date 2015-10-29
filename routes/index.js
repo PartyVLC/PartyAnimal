@@ -5,7 +5,13 @@ var async = require('async');
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
+router.get('/*', function(req,res,next) {
+	res.render('player', { title: 'Playing' });
+})
+
 router.get('/api/getSongs', function(req,res,next) {
+	var http = new XMLHttpRequest();
+	http.open("GET", "/dbcheck", true);
     db.all("SELECT * FROM Song", function(err, rows){
     	var songs = []
     	rows.forEach(function(row) {
