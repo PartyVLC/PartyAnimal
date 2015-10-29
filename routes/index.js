@@ -22,7 +22,6 @@ router.get('/playlists', function(req,res,next) {
 
 router.get('/songs', function(req,res,next) {
     db.all("SELECT * FROM Song", function(err, rows){
-    	var songs = []
     	rows.forEach(function(row) {
 			if (err) {
 				console.log(err);
@@ -177,6 +176,23 @@ router.post('/deletefromplaylist', function(req,res,next) {
 	      console.log(err);
 	    }
 	});
+
+	db.all("SELECT * FROM PlaylistSong WHERE SongID='"+req.body.sid+"'",function(err,rows){
+		console.log(rows);
+		if (!rows) {
+			var stmt = "DELETE from Song WHERE SongID='"+req.body.sid+"'";
+			db.run(stmt,function(err) {
+				console.log('deleting from Song');
+		    	if(err !== null) {
+			      next(err);
+			    }
+			    else {
+			      console.log(err);
+			    }
+			});
+		}
+	});
+
 	res.send("Song deleted");
 });
 
