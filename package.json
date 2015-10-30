@@ -12,8 +12,9 @@
     "express": "~4.13.1",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
+    "qr-image": "^3.1.0",
     "serve-favicon": "~2.3.0",
-    "sqlite3":">=3.1"
+    "sqlite3": ">=3.1"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
@@ -32,9 +33,9 @@
     "output": "nexe^$",
     "temp": "src",
     "runtime": {
-        "framework": "iojs",
-        "version": "2.3.1",
-        "ignoreFlags": true
+      "framework": "iojs",
+      "version": "2.3.1",
+      "ignoreFlags": true
     }
   },
   "engines": {

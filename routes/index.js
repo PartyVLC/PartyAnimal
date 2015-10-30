@@ -6,12 +6,34 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
 router.get('/*', function(req,res,next) {
+
+	var os = require('os');
+  var ifaces = os.networkInterfaces();
+
+  Object.keys(ifaces).forEach(function (ifname) {
+    var alias = 0;
+
+    ifaces[ifname].forEach(function (iface) {
+      if ('IPv4' !== iface.family || iface.internal !== false) {
+        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+        return;
+      }
+
+      if (alias >= 1) {
+        // this single interface has multiple ipv4 addresses
+        console.log(ifname + ':' + alias, iface.address);
+      } else {
+        // this interface has only one ipv4 adress
+        console.log(ifname, iface.address);
+      }
+      ++alias;
+    });
+  });
+
 	res.render('player', { title: 'Playing' });
 })
 
 router.get('/api/getSongs', function(req,res,next) {
-	var http = new XMLHttpRequest();
-	http.open("GET", "/dbcheck", true);
     db.all("SELECT * FROM Song", function(err, rows){
     	var songs = []
     	rows.forEach(function(row) {
@@ -22,9 +44,8 @@ router.get('/api/getSongs', function(req,res,next) {
 				songs.push(row);
 			}
 		});
-		res.json(songs);
-    });
-    res.send("Song added");
+	res.json(songs);
+  });
 });
 
 router.get('/api/playlistsong', function(req,res,next) {
@@ -39,10 +60,9 @@ router.get('/api/playlistsong', function(req,res,next) {
 					entries.push(row);
 				}
 			});
-	    }
-		res.json(entries);
-    });
-    res.send("Song added");
+    }
+	res.json(entries);
+  });	
 });
 
 router.get('/api/getSongsByPlaylist', function(req,res,next) {
@@ -60,16 +80,14 @@ router.get('/api/getSongsByPlaylist', function(req,res,next) {
 				}
 			});
 		}
-		res.json(entries);
-    });
-    res.send("Song added");
+	res.json(entries);
+  });
 });
 
 router.get('/api/emptyPlaylists',function(req,res,next) {
 	db.all("select * from Playlist where Playlist.PlaylistID not in (select PlaylistID from PlaylistSong)",function(err,rows){
 		res.json(rows);
 	});
-	res.send("Song added");
 });
 
 router.get('/api/getPlaylists',function(req,res,next) {
@@ -85,7 +103,6 @@ router.get('/api/getPlaylists',function(req,res,next) {
 		}
 		res.json(playlists);
 	});
-	res.send("Song added");
 });
 
 router.post('/api/addsong', function(req,res,next) {
