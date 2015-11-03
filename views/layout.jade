@@ -30,18 +30,21 @@ html
     script(src='https://apis.google.com/js/client.js?onload=init')
     script(src='/js/jquery.js')
     script(src='/bootstrap/js/bootstrap.js')
-
     block js
 
     //- TITLE
-    .container: #title
-      h1.text-center Party Animal
-      +flash-messages(messages)
-      block title
-      block content
+    .title
+      .row
+        .col-sm-9.col-xs-12: #title
+          h1.text-center Party Animal
+          +flash-messages(messages)
+          block title
+          block content
+        .col-sm-3.hidden-xs: #qr
+          block qr
 
     //- Player
-    .container
+    .container: #play
       .row
         .col-sm-6: #search
           block search
@@ -57,4 +60,4 @@ html
     //- FOOTER
     .container: #footer
       block footer
-      p <a href="__" target="_blank"></a>.
+      p <a href="__" target="_blank"></a>
