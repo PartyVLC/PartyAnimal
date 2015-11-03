@@ -1,34 +1,34 @@
 extends ./index.jade
 
-block player
+block title
 
-block control
-
-  p(id='currentlyPlaying')="Currently Playing: "
-
-  div(class='container')
-    div(class="input-group")
-      input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar',onkeypress='searchKeyPress()')
-      div(class="input-group-btn")
-        button(onclick='search()',id='searchButt',class="btn btn-default", type="button") Go
-    
-    div(id='searchResults',class="btn-group-vertical" role="group")
-
-  div(class='container')
-
-    button(type='button',class='btn btn-default',onclick='playPause()')
-      span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
-
-    button(type='button',class='btn btn-default',onclick='showHideToggle()')
-      span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
-    
-    div(id='progress',class='progress')
+block search
+  .padding1em
+  .input-group
+    input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar',onkeypress='searchKeyPress()')
+    div(class="input-group-btn")
+      button(onclick='search()',id='searchButt',class="btn btn-default", type="button") Go
+  
+  div(id='searchResults',class="btn-group" role="group")
 
 block playlist
-  div(class="input-group")
+  .padding1em
+  .input-group
       input(type="text", class="form-control", placeholder="New Playlist",onkeypress='addPlaylistKeyPress(this)')
       span(class="input-group-btn")
         button(class="btn btn-default", type="button", onclick='addPlaylist(this)')
           span(class="glyphicon glyphicon-plus",aria-hidden="true")
 
-  div(class='panel-group',id='playlistAccordion',role='tablist',aria-multiselectable="true")
+block playlists
+  .panel-group
+    #playlistAccordion(role='tablist',aria-multiselectable="true")
+
+block player
+  .list-group
+    .row
+      #player(display:hidden).col-xs-6.col-xs-offset-3
+    .row.col-md-12
+        button(type='button',class='btn btn-default',onclick='playPause()').col-xs-1
+          span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
+        .progress(id='progress').col-xs-10
+        #control.col-xs-1

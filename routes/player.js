@@ -7,9 +7,9 @@ var db = new sqlite3.Database('PartyAnimal.db');
 
 /* GET player page. */
 router.get('/', function(req, res, next) {
-  res.render('player', { title: 'Playing' });
+  // console.log("Checking if Tables exist in Database...")
   
-  //db stuff
+  // db stuff
   db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
 
   db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");

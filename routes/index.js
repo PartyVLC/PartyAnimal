@@ -5,22 +5,35 @@ var async = require('async');
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
-router.get('/playlists', function(req,res,next) {
-    db.all("SELECT * FROM Playlist", function(err, rows){
-    	var playlists = [];
-    	rows.forEach(function(row) {
-			if (err) {
-				console.log(err);
-			}
-			if (row && !err) {
-				playlists.push(row);
-			}
-		});
-		res.json(playlists);
-    });
-});
+router.get('/*', function(req,res,next) {
 
-router.get('/songs', function(req,res,next) {
+	var os = require('os');
+  var ifaces = os.networkInterfaces();
+
+  Object.keys(ifaces).forEach(function (ifname) {
+    var alias = 0;
+
+    ifaces[ifname].forEach(function (iface) {
+      if ('IPv4' !== iface.family || iface.internal !== false) {
+        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+        return;
+      }
+
+      if (alias >= 1) {
+        // this single interface has multiple ipv4 addresses
+        console.log(ifname + ':' + alias, iface.address);
+      } else {
+        // this interface has only one ipv4 adress
+        console.log(ifname, iface.address);
+      }
+      ++alias;
+    });
+  });
+
+	res.render('player', { title: 'Playing' });
+})
+
+router.get('/api/getSongs', function(req,res,next) {
     db.all("SELECT * FROM Song", function(err, rows){
     	rows.forEach(function(row) {
 			if (err) {
@@ -30,11 +43,11 @@ router.get('/songs', function(req,res,next) {
 				songs.push(row);
 			}
 		});
-		res.json(songs);
-    });
+	res.json(songs);
+  });
 });
 
-router.get('/playlistsong', function(req,res,next) {
+router.get('/api/playlistsong', function(req,res,next) {
     db.all("SELECT * FROM PlaylistSong", function(err, rows){
     	var entries = []
     	if (rows) {
@@ -46,12 +59,12 @@ router.get('/playlistsong', function(req,res,next) {
 					entries.push(row);
 				}
 			});
-	    }
-		res.json(entries);
-    });
+    }
+	res.json(entries);
+  });	
 });
 
-router.get('/songsbyplaylist', function(req,res,next) {
+router.get('/api/getSongsByPlaylist', function(req,res,next) {
 	var playlistID = req.url.split('?')[1].slice(3);
     db.all("SELECT * FROM Song, PlaylistSong where Song.SongID=PlaylistSong.SongID and PlaylistSong.PlaylistID="+playlistID, function(err, rows){
     	var entries = []
@@ -65,16 +78,16 @@ router.get('/songsbyplaylist', function(req,res,next) {
 				}
 			});
 		}
-		res.json(entries);
-    });
+	res.json(entries);
+  });
 });
 
-router.get('/api/emptyplaylists',function(req,res,next) {
+router.get('/api/emptyPlaylists',function(req,res,next) {
 	db.all("select * from Playlist where Playlist.PlaylistID not in (select PlaylistID from PlaylistSong)",function(err,rows){
 		res.json(rows);
 	});
-
 });
+
 
 router.get('/api/score',function(req,res,next) {
 	var data = req.url.split('?')[1].split('&');
@@ -85,7 +98,7 @@ router.get('/api/score',function(req,res,next) {
 	});
 });
 
-router.get('/api/playlists',function(req,res,next) {
+router.get('/api/getPlaylists',function(req,res,next) {
 	db.all("SELECT * FROM Playlist,PlaylistSong,Song WHERE (Playlist.PlaylistID=PlaylistSong.PlaylistID and Song.SongID=PlaylistSong.SongID)",function(err,rows) {
 		var playlists = {};
 		for (i in rows) {
@@ -100,33 +113,31 @@ router.get('/api/playlists',function(req,res,next) {
 	});
 });
 
-
-router.post('/addsong', function(req,res,next) {
-
+router.post('/api/addsong', function(req,res,next) {
 	var stmt = "INSERT into Song (SongId,Title) VALUES ('"+req.body.id+"','"+req.body.title+"')";
 	db.run(stmt);
 
 	stmt = "INSERT into PlaylistSong (PlaylistID,SongID,Score) VALUES ("+req.body.pid+",'"+req.body.id+"',0)";
 	db.run(stmt);
 	res.send("Song added");
-
 });
 
-router.post('/upvote', function(req,res,next) {
-	var stmt = "UPDATE PlaylistSong SET Score=Score+1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
+router.post('/api/upvote', function(req,res,next) {
+	var stmt = "UPDATE Song SET Score=Score+1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
 	db.run(stmt);
 	res.send("Song upvoted");
 });
 
-router.post('/downvote', function(req,res,next) {
+router.post('/api/downvote', function(req,res,next) {
 	var stmt = "UPDATE PlaylistSong SET Score=Score-1 WHERE SongID='"+req.body.sid+"' AND PlaylistID="+req.body.pid;
 	db.run(stmt);
 	res.send("Song downvoted");
 });
 
-router.post('/addplaylist', function(req,res,next) {
+router.post('/api/addplaylist', function(req,res,next) {
 	var stmt = "INSERT into Playlist (Name) VALUES ('"+req.body.name+"')";
 	db.run(stmt);
+	console.log("Inserted New Playlist: " + req.body.name)
 	res.send("Playlist created");
 
 });
@@ -172,9 +183,23 @@ router.post('/deleteplaylist',function(req,res,next) {
 	res.send("Playlist deleted");
 });
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+/**
+	Fetches and clears the flashMessages before a view is rendered
+*/
+
+exports.flashMessages = function(req, res, next) {
+	
+	var flashMessages = {
+		info: req.flash('info'),
+		success: req.flash('success'),
+		warning: req.flash('warning'),
+		error: req.flash('error')
+	};
+	
+	res.locals.messages = _.any(flashMessages, function(msgs) { return msgs.length; }) ? flashMessages : false;
+	
+	next();
+	
+};
 
 module.exports = router;
