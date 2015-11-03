@@ -26,11 +26,8 @@ block player
   .list-group
     .row
       #player(display:hidden).col-xs-6.col-xs-offset-3
-    .row
-      .col-sm-10
-        button(type='button',class='btn btn-default',onclick='playPause()')
+    .row.col-md-12
+        button(type='button',class='btn btn-default',onclick='playPause()').col-xs-1
           span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
-
-      #control: .col-sm-2
-      
-    .progress(id='progress'): .col-xs-12
+        .progress(id='progress').col-xs-10
+        #control.col-xs-1

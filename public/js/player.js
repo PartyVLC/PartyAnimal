@@ -33,11 +33,11 @@ function onPlayerReady(event) {
   progressbar.setAttribute('aria-valuenow','0');
   progressbar.setAttribute('aria-valuemin','0');
   progressbar.setAttribute('aria-valuemax',player.getDuration());
-  progressbar.style.width = '100%';
+  //progressbar.style.width = '100%';
 
   var progress = document.getElementById('progress');
   progress.appendChild(progressbar);
-  progress.style.width = '100%'
+  //progress.style.width = '100%'
 
   setInterval(refreshProgress,100);
 
