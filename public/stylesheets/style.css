@@ -11,13 +11,22 @@ progress {
   width:100%;
 }
 
+#player {
+  display: none;
+  padding-bottom: 5px
+}
+
 #footer {
-  position: absolute;
+  position: fixed;
   width: 100%;
-  margin-top: 30px;
   border-top: 1px solid gray;
-  padding-top: 30px;
+  padding-top: 5px;
   bottom: 0;
   left: 0;
-  color: gray;
+  background-color: white;
+}
+
+#play {
+  padding-right: 10px;
+  padding-left: 10px;
 }

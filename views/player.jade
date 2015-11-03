@@ -3,6 +3,10 @@ extends ./index.jade
 block title
   h5.text-center(id='currentlyPlaying')="Currently Playing: "
 
+block qr
+  h5.text-center Follow this QR to add songs on mobile devices!
+  img(src='/images/ip_qr.svg' width='50%' style='max-width:100px;' align='middle').center-block
+
 block search
   .input-group
     input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar',onkeypress='searchKeyPress()')
@@ -22,7 +26,7 @@ block playlists
   .panel-group
     #playlistAccordion(role='tablist',aria-multiselectable="true")
 
-block player
+block footer
   .list-group
     .row
       .col-xs-6
