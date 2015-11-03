@@ -34,14 +34,19 @@ html
     block js
 
     //- TITLE
-    .container: #title
+    .container.titleBar.contentPane: #title
       h1.text-center Party Animal
       +flash-messages(messages)
-      block title
+    block title
       block content
-
+    .padding1em
     //- Player
-    .container
+    .container.contentPane
+      .row
+        .headerBar
+          .showHideButt(id="shb",onclick='showHideToggle()')
+            span(id='showHideButt',class='glyphicon glyphicon-eye-open', aria-hidden='true')
+          text-center(id='currentlyPlaying')="Currently Playing: "
       .row
         .col-sm-6: #search
           block search
@@ -52,9 +57,9 @@ html
 
       .row
         block player
-      .container: #player
+        .container: #player
 
     //- FOOTER
-    .container: #footer
-      block footer
-      p <a href="__" target="_blank"></a>.
+    //.container: #footer
+    //  block footer
+    //  p <a href="__" target="_blank"></a>.
