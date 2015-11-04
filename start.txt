@@ -1,0 +1,2 @@
+npm install
+DEBUG=app:* npm start

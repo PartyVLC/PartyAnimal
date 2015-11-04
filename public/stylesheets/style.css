@@ -1,0 +1,32 @@
+body {
+  padding: 25px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+progress {
+  width:100%;
+}
+
+#player {
+  display: none;
+  padding-bottom: 5px
+}
+
+#footer {
+  position: fixed;
+  width: 100%;
+  border-top: 1px solid gray;
+  padding-top: 5px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+}
+
+#play {
+  padding-right: 10px;
+  padding-left: 10px;
+}

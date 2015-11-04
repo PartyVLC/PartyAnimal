@@ -1,0 +1,41 @@
+extends ./index.jade
+
+block title
+  h5.text-center(id='currentlyPlaying')="Currently Playing: "
+
+block qr
+  h5.text-center Follow this QR to add songs on mobile devices!
+  img(src='/images/ip_qr.svg' width='50%' style='max-width:100px;' align='middle').center-block
+
+block search
+  .input-group
+    input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar',onkeypress='searchKeyPress()')
+    div(class="input-group-btn")
+      button(onclick='search()',id='searchButt',class="btn btn-default", type="button") Go
+  
+  div(id='searchResults',class="btn-group" role="group")
+
+block playlist
+  .input-group
+      input(type="text", class="form-control", placeholder="New Playlist")
+      span(class="input-group-btn")
+        button(class="btn btn-default", type="button", onclick='addPlaylist(this)')
+          span(class="glyphicon glyphicon-plus",aria-hidden="true")
+
+block playlists
+  .panel-group
+    #playlistAccordion(role='tablist',aria-multiselectable="true")
+
+block footer
+  .list-group
+    .row
+      .col-xs-6
+        button(type='button',class='btn btn-default',onclick='playPause()')
+          span(id='playPauseButt',class='glyphicon glyphicon-pause', aria-hidden='true')
+
+        button(type='button',class='btn btn-default',onclick='showHideToggle()')
+          span(id='showHideButt',class='glyphicon glyphicon-eye-close', aria-hidden='true')
+
+      .col-xs-6(style="text-align: right;"): #control
+      
+    .progress(id='progress'): .col-xs-12
