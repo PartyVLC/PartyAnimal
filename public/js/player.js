@@ -55,7 +55,6 @@ function onPlayerStateChange(event) {
     var progressbar = document.getElementById('progressbar');
     progressbar.className = 'progress-bar progress-bar-striped';
     currentlyPlayingIdx++;
-    var nextSong = queue[currentlyPlayingIdx];
     loadPlaylist();
   }
 
