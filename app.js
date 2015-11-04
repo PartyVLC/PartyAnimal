@@ -9,7 +9,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./routes/index');
 var player = require('./routes/player');
-var login = require('./routes/signin')
+var login = require('./routes/signin');
 
 var app = express(),
     admin = express();
