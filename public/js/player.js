@@ -54,7 +54,6 @@ function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.ENDED) {
     var progressbar = document.getElementById('progressbar');
     progressbar.className = 'progress-bar progress-bar-striped';
-    delete queue[currentlyPlayingIdx];
     currentlyPlayingIdx++;
     var nextSong = queue[currentlyPlayingIdx];
     loadPlaylist();

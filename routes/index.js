@@ -30,6 +30,12 @@ router.get('/', function(req,res,next) {
     });
   });
 
+  db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
+
+  db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
+
+  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
+
   res.render('player', { title: 'Playing' });
 })
 
@@ -114,7 +120,9 @@ router.get('/api/getPlaylists',function(req,res,next) {
 });
 
 router.post('/api/addsong', function(req,res,next) {
-  var stmt = "INSERT into Song (SongId,Title) VALUES ('"+req.body.id+"','"+req.body.title+"')";
+  //var title = req.body.title.replace(/"/g,"\"\"");
+  var title = req.body.title.replace(/'/g,"\'\'");
+  var stmt = "INSERT OR IGNORE INTO Song (SongId,Title) VALUES ('"+req.body.id+"','"+title+"')";
   db.run(stmt);
 
   stmt = "INSERT into PlaylistSong (PlaylistID,SongID,Score) VALUES ("+req.body.pid+",'"+req.body.id+"',0)";
@@ -135,14 +143,15 @@ router.post('/api/downvote', function(req,res,next) {
 });
 
 router.post('/api/addplaylist', function(req,res,next) {
-  var stmt = "INSERT into Playlist (Name) VALUES ('"+req.body.name+"')";
+  var name = req.body.name.replace(/'/g,"\'\'");
+  var stmt = "INSERT into Playlist (Name) VALUES ('"+name+"')";
   db.run(stmt);
   console.log("Inserted New Playlist: " + req.body.name)
   res.send("Playlist created");
 
 });
 
-router.post('/deletefromplaylist', function(req,res,next) {
+router.post('/api/deletefromplaylist', function(req,res,next) {
   var stmt = "DELETE from PlaylistSong WHERE PlaylistID="+req.body.pid+" AND SongID='"+req.body.sid+"'";
   db.run(stmt);
 
@@ -163,7 +172,7 @@ router.post('/deletefromplaylist', function(req,res,next) {
   res.send("Song deleted");
 });
 
-router.post('/deleteplaylist',function(req,res,next) {
+router.post('/api/deleteplaylist',function(req,res,next) {
 
   var stmt = "DELETE FROM Playlist WHERE PlaylistID="+req.body.pid;
   db.run(stmt);
