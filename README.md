@@ -1,2 +1,0 @@
-# PlaylistParty
-XxXPLAYLISTxXxPARTYXxX
