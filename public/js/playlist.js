@@ -26,11 +26,11 @@ function loadPlaylist() {
   var xhttp2 = new XMLHttpRequest();
   xhttp2.onreadystatechange = function() {
     if (xhttp2.readyState == 4 && xhttp2.status == 200) {
-      emptyPlaylists = JSON.parse(xhttp2.responseText); 
+      emptyPlaylists = JSON.parse(xhttp2.responseText);
     }
   };
 
-  xhttp2.open("GET", "/api/emptyplaylists", true);
+  xhttp2.open("GET", "/api/emptyPlaylists", true);
   xhttp2.send();
 
   var xhttp = new XMLHttpRequest();
@@ -40,7 +40,6 @@ function loadPlaylist() {
 
       for (i in emptyPlaylists) {
         var ekey = emptyPlaylists[i].PlaylistID;
-        console.log(ekey);
         playlists[ekey] = {'PlaylistName':emptyPlaylists[i].Name,"Songs":[]};
       }
 
@@ -72,7 +71,7 @@ function loadPlaylist() {
         playlistA.href = '#songList-'+id;
         playlistA.setAttribute('aria-expanded','true');
         playlistA.setAttribute('aria-controls','#songList-'+id);
-        playlistA.onclick = new Function("","setActivePlaylist('"+id+"'); console.log(activePlaylist);");
+        playlistA.onclick = new Function("","setActivePlaylist('"+id+"')");
         playlistA.innerHTML = playlist.PlaylistName;
 
         var songCollapse = document.createElement('div');
