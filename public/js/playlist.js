@@ -38,6 +38,7 @@ function loadPlaylist() {
 
   xhttp2.open("GET", "/api/emptyPlaylists", true);
   xhttp2.send();
+  xhttp2.end();
 
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -192,7 +193,6 @@ function deletePlaylist(e,pid) {
   xhttp.open("POST", "/api/deleteplaylist", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
-  
   e.parentNode.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode.parentNode);
 }
 
@@ -311,7 +311,6 @@ function addFromSearch(song) {
     xhttp.open("POST", "/api/addsong", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(sendData);
-
     loadPlaylist();
   }
 

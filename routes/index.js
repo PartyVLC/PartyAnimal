@@ -47,7 +47,7 @@ router.get('/', function(req,res,next) {
     db.end();
     ip.end();
 
-    res.render('player', { title: 'Playing' });
+    //res.render('player', { title: 'Playing' });
   });
 
   db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
@@ -86,6 +86,7 @@ router.get('/api/ip', function(req,res,next) {
       ++alias;
     });
   });
+  res.send();
 });
 
 router.get('/api/getSongs', function(req,res,next) {
@@ -174,7 +175,7 @@ router.post('/api/addsong', function(req,res,next) {
   var stmt = "INSERT OR IGNORE INTO Song (SongId,Title) VALUES ('"+req.body.id+"','"+title+"')";
   db.run(stmt);
 
-  stmt = "INSERT into PlaylistSong (PlaylistID,SongID,Score) VALUES ("+req.body.pid+",'"+req.body.id+"',0)";
+  stmt = "INSERT OR IGNORE INTO PlaylistSong (PlaylistID,SongID,Score) VALUES ("+req.body.pid+",'"+req.body.id+"',0)";
   db.run(stmt);
   res.send("Song added");
 });
