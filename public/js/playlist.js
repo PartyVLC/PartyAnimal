@@ -1,4 +1,3 @@
-var currentlyPlayingIdx = 0;
 var activePlaylist = null;
 
 window.onload = function() {
@@ -144,7 +143,7 @@ function loadPlaylist() {
             var downV = document.createElement('button');
             downV.type='button';
             downV.className='btn btn-default';
-            downV.onclick = new Function("","downVote('"+song.SongID+"',"+id+")");
+            downV.onclick = new Function("","downVote(this,'"+song.SongID+"',"+id+")");
             var downSpan = document.createElement('span');
             downSpan.id='downVoteButt';
             downSpan.className='glyphicon glyphicon-thumbs-down';
@@ -156,7 +155,7 @@ function loadPlaylist() {
             var upV = document.createElement('button');
             upV.type='button';
             upV.className='btn btn-default';
-            upV.onclick = new Function("","upVote('"+song.SongID+"',"+id+")");
+            upV.onclick = new Function("","upVote(this,'"+song.SongID+"',"+id+")");
             var upSpan = document.createElement('span');
             upSpan.id='upVoteButt';
             upSpan.className='glyphicon glyphicon-thumbs-up';
@@ -199,7 +198,19 @@ function deletePlaylist(e,pid) {
 
 function songSelect(id) {
   if (id != player.getVideoData().video_id) {
-    var currentlyPlaying = document.getElementById('currentlyPlaying');
+    var xhttp = new XMLHttpRequest();
+    $.get('https://www.googleapis.com/youtube/v3/videos',
+      {
+        part:'snippet',
+        key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
+        id:id
+      },
+      function(response){
+        var currentlyPlaying = document.getElementById('currentlyPlaying');
+        currentlyPlaying.innerHTML = "Currently Playing: "+response.items[0].snippet.title;
+      }
+    );
+
     player.loadVideoById(id);
   }
 }

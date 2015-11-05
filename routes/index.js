@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var async = require('async');
+var http = require('http');
 
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
@@ -28,6 +29,25 @@ router.get('/', function(req,res,next) {
       }
       ++alias;
     });
+
+    var options1 = {
+      host: '',
+      port: 3000,
+      path: '/dbcheck',
+      method: 'GET'
+    };
+    var db = http.request(options1);
+    var options2 = {
+      host: '',
+      port: 3000,
+      path: '/api/ip',
+      method: 'GET'
+    };
+    var ip = http.request(options2);
+    db.end();
+    ip.end();
+
+    res.render('player', { title: 'Playing' });
   });
 
   db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
@@ -37,7 +57,36 @@ router.get('/', function(req,res,next) {
   db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
   res.render('player', { title: 'Playing' });
-})
+});
+
+router.get('/api/ip', function(req,res,next) {
+  var os = require('os');
+  var ifaces = os.networkInterfaces();
+  var qr = require('qr-image');
+
+  Object.keys(ifaces).forEach(function (ifname) {
+    var alias = 0;
+
+    ifaces[ifname].forEach(function (iface) {
+      if ('IPv4' !== iface.family || iface.internal !== false) {
+        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+        return;
+      }
+
+      if (alias >= 1) {
+        // this single interface has multiple ipv4 addresses
+        console.log(ifname + ':' + alias, iface.address);
+      } else {
+        // this interface has only one ipv4 adress
+        console.log(ifname, iface.address);
+        var qr_svg = qr.image(iface.address + ':3000', { type: 'svg'});
+        qr_svg.pipe(require('fs').createWriteStream('./public/images/ip_qr.svg'));
+
+      }
+      ++alias;
+    });
+  });
+});
 
 router.get('/api/getSongs', function(req,res,next) {
     db.all("SELECT * FROM Song", function(err, rows){
