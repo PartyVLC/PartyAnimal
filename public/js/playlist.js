@@ -180,7 +180,7 @@ function deleteFromPlaylist(e,sid,pid) {
   window.event.stopPropagation();
   var xhttp = new XMLHttpRequest();
   var sendData = "sid="+sid+"&pid="+pid;
-  xhttp.open("POST", "/api/deletefromplaylist", true);
+  xhttp.open("POST", "/deletefromplaylist", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
   e.parentNode.parentNode.removeChild(e.parentNode);
@@ -190,7 +190,7 @@ function deletePlaylist(e,pid) {
   window.event.stopPropagation();
   var xhttp = new XMLHttpRequest();
   var sendData = "pid="+pid;
-  xhttp.open("POST", "/api/deleteplaylist", true);
+  xhttp.open("POST", "/deleteplaylist", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
   
@@ -209,7 +209,7 @@ function upVote(e,SongID,PlaylistID)
   window.event.stopPropagation();
   var xhttp = new XMLHttpRequest();
   var sendData = "sid="+SongID+"&pid="+PlaylistID;
-  xhttp.open("POST", "/api/upvote", true);
+  xhttp.open("POST", "/upvote", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
 
@@ -229,7 +229,7 @@ function downVote(e,SongID,PlaylistID)
   window.event.stopPropagation();
   var xhttp = new XMLHttpRequest();
   var sendData = "sid="+SongID+"&pid="+PlaylistID;
-  xhttp.open("POST", "/api/downvote", true);
+  xhttp.open("POST", "/downvote", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
 
@@ -278,6 +278,7 @@ function search() {
           }
 
           var item = document.createElement('button');
+
           item.innerHTML = song.title;
           item.id = song.id;
 
@@ -312,7 +313,7 @@ function addPlaylist(e) {
   if (name.value) {
     var xhttp = new XMLHttpRequest();
     var sendData = "name="+name.value;
-    xhttp.open("POST", "/api/addplaylist", true);
+    xhttp.open("POST", "/addplaylist", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(sendData);
 
@@ -327,7 +328,7 @@ function addPlaylistKeyPress(e) {
     if (e.value) {
       var xhttp = new XMLHttpRequest();
       var sendData = "name="+e.value;
-      xhttp.open("POST", "/api/addplaylist", true);
+      xhttp.open("POST", "/addplaylist", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send(sendData);
       e.value = "";
