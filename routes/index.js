@@ -30,15 +30,6 @@ router.get('/', function(req,res,next) {
       ++alias;
     });
 
-    // var options1 = {
-    //   host: '',
-    //   port: 3000,
-    //   path: '/dbcheck',
-    //   method: 'GET'
-    // };
-    // var dbcheck = http.request(options1);
-    // dbcheck.end();
-
     var options2 = {
       host: '',
       port: 3000,
@@ -138,12 +129,6 @@ router.get('/api/getSongsByPlaylist', function(req,res,next) {
   });
 });
 
-router.get('/api/emptyPlaylists',function(req,res,next) {
-  db.all("select * from Playlist where Playlist.PlaylistID not in (select PlaylistID from PlaylistSong)",function(err,rows){
-    res.json(rows);
-  });
-});
-
 
 router.get('/api/score',function(req,res,next) {
   var data = req.url.split('?')[1].split('&');
@@ -165,7 +150,20 @@ router.get('/api/getPlaylists',function(req,res,next) {
         playlists[rows[i].PlaylistID] = {'PlaylistName':rows[i].Name,'Songs':[{'Title':rows[i].Title,'SongID':rows[i].SongID,'Score':rows[i].Score}]};
       }
     }
-    res.json(playlists);
+    //res.json(playlists);
+    req.playlists = playlists;
+  });
+  next();
+});
+
+
+router.get('/api/getPlaylists',function(req,res,next) {
+  db.all("select * from Playlist where Playlist.PlaylistID not in (select PlaylistID from PlaylistSong)",function(err,rows){
+    for (i in rows) {
+      var ekey = rows[i].PlaylistID;
+      req.playlists[ekey] = {'PlaylistName':rows[i].Name,"Songs":[]};
+    }
+    res.json(req.playlists);
   });
 });
 
