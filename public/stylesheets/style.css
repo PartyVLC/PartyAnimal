@@ -29,20 +29,30 @@ progress {
 body
 {
 	font-family: 'Raleway', sans-serif;
-    background-color: #e8e8e8;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d8d8d8+0,f0f0f0+33,f0f0f0+66,d8d8d8+100 */
+    background: rgb(216,216,216); /* Old browsers */
+    background: -moz-linear-gradient(left,  rgba(216,216,216,1) 0%, rgba(240,240,240,1) 33%, rgba(240,240,240,1) 66%, rgba(216,216,216,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(216,216,216,1)), color-stop(33%,rgba(240,240,240,1)), color-stop(66%,rgba(240,240,240,1)), color-stop(100%,rgba(216,216,216,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(216,216,216,1) 0%,rgba(240,240,240,1) 33%,rgba(240,240,240,1) 66%,rgba(216,216,216,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(216,216,216,1) 0%,rgba(240,240,240,1) 33%,rgba(240,240,240,1) 66%,rgba(216,216,216,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(216,216,216,1) 0%,rgba(240,240,240,1) 33%,rgba(240,240,240,1) 66%,rgba(216,216,216,1) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(216,216,216,1) 0%,rgba(240,240,240,1) 33%,rgba(240,240,240,1) 66%,rgba(216,216,216,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8d8d8', endColorstr='#d8d8d8',GradientType=1 ); /* IE6-9 */
+
 } 
 
 div.contentPane
 {
 	background-color: #f8f8f8;
-	box-shadow: 0px 1px 3px #999999;
+	box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+    overflow: hidden;
+    border-radius: 8px;
 }
 
 div.titleBar
 {
 	height: 64px;
 	font-family: 'Roboto', sans-serif;
-	width: 80%;
 }
 
 div.headerBar
@@ -65,17 +75,18 @@ div.showHideButt
 	background-color: #25b5b9;
 	margin: 16px;
 	float: left;
-	box-shadow: 0px 2px 3px #999999;
+	box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
+    border-radius: 4px;
 }
 
 div.showHideButt:hover
 {
-	box-shadow: 0px 3px 5px #999999;
+	box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
 }
 
 div.showHideButt:active
 {
-	box-shadow: 0px 1px 2px #999999;
+	box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
 }
 
 div.hiddenRickAstleyButt
