@@ -30,13 +30,15 @@ router.get('/', function(req,res,next) {
       ++alias;
     });
 
-    var options1 = {
-      host: '',
-      port: 3000,
-      path: '/dbcheck',
-      method: 'GET'
-    };
-    var db = http.request(options1);
+    // var options1 = {
+    //   host: '',
+    //   port: 3000,
+    //   path: '/dbcheck',
+    //   method: 'GET'
+    // };
+    // var dbcheck = http.request(options1);
+    // dbcheck.end();
+
     var options2 = {
       host: '',
       port: 3000,
@@ -44,10 +46,8 @@ router.get('/', function(req,res,next) {
       method: 'GET'
     };
     var ip = http.request(options2);
-    db.end();
     ip.end();
 
-    //res.render('player', { title: 'Playing' });
   });
 
   db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");

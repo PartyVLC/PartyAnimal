@@ -38,7 +38,6 @@ function loadPlaylist() {
 
   xhttp2.open("GET", "/api/emptyPlaylists", true);
   xhttp2.send();
-  xhttp2.end();
 
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
