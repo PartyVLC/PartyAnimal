@@ -2,6 +2,7 @@ var activePlaylist = null;
 
 window.onload = function() {
   loadPlaylist();
+  initProgressBar();
 }
 
 document.onclick = function() {

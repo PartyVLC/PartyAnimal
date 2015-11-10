@@ -26,49 +26,27 @@ function onPlayerReady(event) {
   var currentlyPlaying = document.getElementById('currentlyPlaying');
   currentlyPlaying.innerHTML += player.getVideoData().title;
 
-  var progressbar = document.createElement('div');
-  progressbar.id = 'progressbar'
-  progressbar.className = 'progress-bar progress-bar-striped active';
-  progressbar.role = 'progressbar';
-  progressbar.setAttribute('aria-valuenow','0');
-  progressbar.setAttribute('aria-valuemin','0');
-  progressbar.setAttribute('aria-valuemax',player.getDuration());
-  //progressbar.style.width = '100%';
-
-  var progress = document.getElementById('progress');
-  progress.appendChild(progressbar);
-  //progress.style.width = '100%'
-
   setInterval(refreshProgress,100);
-
-  var time = document.createElement('p');
-  time.id = 'time';
-  time.innerHTML = "0:00 / 0:00";
-
-  document.getElementById('control').appendChild(time);
   event.target.playVideo();
 }
 
 function onPlayerStateChange(event) {
-  var playPauseButt = document.getElementById("playPauseButt");
+  var myPlayPause = document.getElementById("myPlayPause");
   if (event.data == YT.PlayerState.ENDED) {
-    var progressbar = document.getElementById('progressbar');
-    progressbar.className = 'progress-bar progress-bar-striped';
     currentlyPlayingIdx++;
     loadPlaylist();
   }
 
   else if (event.data == YT.PlayerState.PLAYING) {
-    playPauseButt.className = 'glyphicon glyphicon-pause';
+    myPlayPause.className = 'glyphicon glyphicon-pause';
   }
   else if (event.data == YT.PlayerState.PAUSED) {
-    playPauseButt.className = 'glyphicon glyphicon-play';
+    myPlayPause.className = 'glyphicon glyphicon-play';
   }
 }
 
 function refreshProgress() {
-  var progressbar = document.getElementById('progressbar');
-  var time = document.getElementById('time');
+  var myTime = document.getElementById('myTime');
   var currTime = player.getCurrentTime();
   var duration = player.getDuration();
 
@@ -79,26 +57,19 @@ function refreshProgress() {
   var secDur = Math.floor(duration) % 60;
 
   var width = currTime / player.getDuration() * 100;
-  progressbar.setAttribute('aria-valuenow',currTime.toString());
-  progressbar.style.width = width.toString()+'%';
-  time.innerHTML = minCurr.toString() + ':'+ ("0"+secCurr).slice(-2) + " / " + minDur.toString() + ':'+ ("0"+secDur).slice(-2);
+  setProgressPercent(width);
+  myTime.innerHTML = minCurr.toString() + ':'+ ("0"+secCurr).slice(-2) + " / " + minDur.toString() + ':'+ ("0"+secDur).slice(-2);
 }
 
 function playPause() {
   var state = player.getPlayerState();
-  var playPauseButt = document.getElementById('playPauseButt');
-  var progressbar = document.getElementById('progressbar');
 
   if (state == 1) {
     player.pauseVideo();
-    playPauseButt.className = 'glyphicon glyphicon-play';
-    progressbar.className = 'progress-bar progress-bar-striped';
 
   }
   else if (state == 2) {
     player.playVideo();
-    playPauseButt.className = 'glyphicon glyphicon-pause';
-    progressbar.className = 'progress-bar progress-bar-striped active';
   }
 }
 
@@ -113,4 +84,19 @@ function showHideToggle() {
     player.style.display = 'none';
     showHideButt.className = 'glyphicon glyphicon-eye-close';
   }
+}
+
+//my progress bar stuff
+
+function initProgressBar()
+{
+    e = document.getElementById("progressInnerCont");
+    wid = e.parentNode.offsetWidth - 192 + "px";
+    e.style.width = wid;
+}
+
+function setProgressPercent(percent)
+{
+    e = document.getElementById("progressTimeBar");
+    e.style.width = percent + "%";
 }
