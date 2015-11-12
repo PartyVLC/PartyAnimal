@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var player = require('./routes/player');
+var dj = require('./routes/dj');
+var guest = require('./routes/guest');
 
 var app = express();
 
@@ -23,7 +25,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/dbcheck', player);
+app.use('/dj', dj);
+app.use('/guest', guest);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -71,13 +74,12 @@ Object.keys(ifaces).forEach(function (ifname) {
 
     if (alias >= 1) {
       // this single interface has multiple ipv4 addresses
-      console.log(ifname + ':' + alias, iface.address);
+      //console.log(ifname + ':' + alias, iface.address);
     } else {
       // this interface has only one ipv4 adress
       console.log(ifname, iface.address);
       var qr_svg = qr.image(iface.address + ':3000', { type: 'svg'});
       qr_svg.pipe(require('fs').createWriteStream('./public/images/ip_qr.svg'));
-
     }
     ++alias;
   });
