@@ -20,3 +20,6 @@ node_modules
 
 # Ignore .DS_Store files on OS X
 .DS_Store
+
+#qr file
+public/images/ip_qr.svg
