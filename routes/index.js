@@ -3,11 +3,13 @@ var router = express.Router();
 var async = require('async');
 var http = require('http');
 
+var server = http.Server(router);
+var io = require('socket.io')(server);
+
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
 router.get('/', function(req,res,next) {
-
   // var os = require('os');
   // var ifaces = os.networkInterfaces();
 
@@ -40,26 +42,27 @@ router.get('/', function(req,res,next) {
   //   ip.end();
 
   // });
-
-  db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
-
-  db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
-
-  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
-
   res.render('player', { title: 'Playing' });
 });
 
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+
 router.get('/api/getSongs', function(req,res,next) {
-    db.all("SELECT * FROM Song", function(err, rows){
-      rows.forEach(function(row) {
-      if (err) {
-        console.log(err);
-      }
-      if (row && !err) {
-        songs.push(row);
-      }
-    });
+  songs = [];  
+  db.all("SELECT * FROM Song", function(err, rows){
+    rows.forEach(function(row) {
+    if (err) {
+      console.log(err);
+    }
+    if (row && !err) {
+      songs.push(row);
+    }
+  });
   res.json(songs);
   });
 });

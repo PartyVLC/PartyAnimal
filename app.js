@@ -11,6 +11,8 @@ var dj = require('./routes/dj');
 var guest = require('./routes/guest');
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -84,5 +86,11 @@ Object.keys(ifaces).forEach(function (ifname) {
     ++alias;
   });
 });
+
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('./PartyAnimal.db');
+db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
+db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
+db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
 module.exports = app;
