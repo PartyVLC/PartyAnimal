@@ -66,7 +66,7 @@ div.headerBar
 	background-color: #d4d4d4;
 }
 
-div.showHideButt
+button.showHideButt
 {
     text-align: center;
     cursor: pointer;
@@ -75,19 +75,25 @@ div.showHideButt
 	height: 32px;
 	background-color: #25b5b9;
 	margin: 16px;
+    border-style: none;
 	float: left;
 	box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
     border-radius: 4px;
 }
 
-div.showHideButt:hover
+button.showHideButt:hover
 {
 	box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
 }
 
-div.showHideButt:active
+button.showHideButt:active
 {
 	box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+}
+
+button.showHideButt:focus
+{
+    outline:none;
 }
 
 div.hiddenRickAstleyButt
@@ -147,7 +153,7 @@ div.progressContainer
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-div.progressPlayPause
+button.progressPlayPause
 {
     cursor: pointer;
     float: left;
@@ -161,17 +167,22 @@ div.progressPlayPause
     border-color: grey;
 }
 
-div.progressPlayPause:hover
+button.progressPlayPause:hover
 {
     border-color:black;
     background-color: #e6e6e6;
     text-shadow: 0 0 4px rgba(0,0,0,.2);
 }
 
-div.progressPlayPause:active
+button.progressPlayPause:active
 {
 	background-color: #d4d4d4;
     text-shadow: 0 0 4px rgba(0,0,0,.2);
+}
+
+button.progressPlayPause:focus
+{
+    outline: none;
 }
 
 div.progressTime
@@ -208,7 +219,7 @@ div.progressTimeBar
 
 /* QR code expander stuff */
 
-div.addButton
+button.addButton
 {
     overflow:hidden;
     text-align:center;
@@ -216,17 +227,24 @@ div.addButton
     background-color: white;
     width:32px;
     height:32px;
+    border: none;
     border-radius: 16px;
     position: fixed;
     right:16px;
     bottom:16px;
     box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
     transition: width 0.2s, height 0.2s;
+    z-index:10;
 }
 
-div.addButton:hover
+button.addButton:hover
 {
     box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
+}
+
+button.addButton:focus
+{
+    outline:none;
 }
 
 div.hiddenContent

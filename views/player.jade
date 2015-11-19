@@ -35,7 +35,7 @@ block player
         .padding1em
     .row.col-md-12
         .progressContainer
-            .progressPlayPause.text-center(onclick='playPause()')
+            button(onclick='playPause()').progressPlayPause.text-center
                 .span(id='myPlayPause', class='glyphicon glyphicon-pause', aria-hidden='true')
             .progressInnerContainer(id="progressInnerCont")
                 .progressTimeBar(id="progressTimeBar")
