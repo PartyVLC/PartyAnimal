@@ -47,6 +47,7 @@ div.contentPane
 	box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
     overflow: hidden;
     border-radius: 8px;
+    transition: height 0.2s;
 }
 
 div.titleBar
@@ -62,7 +63,7 @@ div.headerBar
 	font-family: 'Roboto', sans-serif;
 	width: 100%;
 	height: 64px;
-	background-color: #e0e0e0;
+	background-color: #d4d4d4;
 }
 
 div.showHideButt
@@ -104,15 +105,6 @@ div.padding1em
 	height: 16px;
 }
 
-div.mockVid
-{
-	background-color: black;
-	width: 18%;
-	padding: 18%;
-	max-width: 640;
-	max-height: 360;
-}
-
 ul
 {
     list-style-type: none;
@@ -147,37 +139,52 @@ li.nowPlaying
 
 div.progressContainer
 {
-    height: 16px;
+    -webkit-user-select: none;
+    height: 20px;
+    margin-left:16px;
+    margin-right:16px;
+    border-radius:4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 div.progressPlayPause
 {
     cursor: pointer;
     float: left;
-    background-color: #e0e0e0;
+    background-color: white;
     width: 64px;
     height: 100%;
     border-radius: 4px 0px 0px 4px;
-    box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
+    border-style: solid;
+    border-right-style: none;
+    border-width: 1px;
+    border-color: grey;
 }
 
 div.progressPlayPause:hover
 {
-	box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
+    border-color:black;
+    background-color: #e6e6e6;
+    text-shadow: 0 0 4px rgba(0,0,0,.2);
 }
 
 div.progressPlayPause:active
 {
-	box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+	background-color: #d4d4d4;
+    text-shadow: 0 0 4px rgba(0,0,0,.2);
 }
 
 div.progressTime
 {
     float: right;
-    background-color: #e0e0e0;
+    background-color: white;
     width: 128px;
     height: 100%;
     border-radius: 0px 4px 4px 0px;
+    border-style: solid;
+    border-left-style: none;
+    border-width: 1px;
+    border-color: grey;
 }
 
 div.progressInnerContainer
@@ -185,6 +192,10 @@ div.progressInnerContainer
     box-shadow: 0px 1px 3px rgba(0,0,0,0.5) inset;
     float: left;
     height: 100%;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: grey;
 }
 
 div.progressTimeBar
@@ -202,7 +213,7 @@ div.addButton
     overflow:hidden;
     text-align:center;
     cursor: pointer;
-    background-color: red;
+    background-color: white;
     width:32px;
     height:32px;
     border-radius: 16px;
@@ -210,58 +221,10 @@ div.addButton
     right:16px;
     bottom:16px;
     box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
-    z-index: 10;
+    transition: width 0.2s, height 0.2s;
 }
 
 div.addButton:hover
-{
-    box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
-}
-
-div.addButtonExp
-{
-    text-align:center;
-    overflow:hidden;
-    cursor: pointer;
-    background-color: red;
-    width:32px;
-    height:32px;
-    border-radius: 16px;
-    position: fixed;
-    right:16px;
-    bottom:16px;
-    box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
-    animation-name: expand;
-    animation-duration: 0.2s;
-    animation-fill-mode: forwards;
-    z-index: 10;
-}
-
-div.addButtonExp:hover
-{
-    box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
-}
-
-div.addButtonCon
-{
-    text-align:center;
-    overflow:hidden;
-    cursor: pointer;
-    background-color: red;
-    width:32px;
-    height:32px;
-    border-radius: 16px;
-    position: fixed;
-    right:16px;
-    bottom:16px;
-    box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
-    animation-name: contract;
-    animation-duration: 0.2s;
-    animation-fill-mode: forwards;
-    z-index: 10;
-}
-
-div.addButtonCon:hover
 {
     box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
 }
@@ -272,26 +235,7 @@ div.hiddenContent
     left:0px;
     top:0px;
     opacity: 0;
-}
-
-div.fadeIn
-{
-    position: absolute;
-    left:0px;
-    top:0px;
-    animation-name: fadein;
-    animation-duration: 0.2s;
-    animation-fill-mode: forwards;
-}
-
-div.fadeOut
-{
-    position: absolute;
-    left:0px;
-    top:0px;
-    animation-name: fadeout;
-    animation-duration: 0.2s;
-    animation-fill-mode: forwards;
+    transition: opacity 0.2s;
 }
 
 div.shownContent
@@ -300,116 +244,5 @@ div.shownContent
     position: absolute;
     left:0px;
     top:0px;
-}
-
-@-webkit-keyframes expand
-{
-    from
-    {
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-    }
-    to
-    {
-        width: 256px;
-        height: 256px;
-        border-radius: 2px 2px 16px 2px;
-    }
-}
-
-@keyframes expand
-{
-    from
-    {
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-    }
-    to
-    {
-        width: 256px;
-        height: 256px;
-        border-radius: 2px 2px 16px 2px;
-    }
-}
-
-@-webkit-keyframes contract
-{
-    from
-    {
-        width: 256px;
-        height: 256px;
-        border-radius: 2px 2px 16px 2px;
-    }
-    to
-    {
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-    }
-}
-
-@keyframes contract
-{
-    from
-    {
-        width: 256px;
-        height: 256px;
-        border-radius: 2px 2px 16px 2px;
-    }
-    to
-    {
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-    }
-}
-
-@-webkit-keyframes fadein
-{
-    from
-    {
-        opacity: 0;
-    }
-    to
-    {
-        opacity: 1;
-    }
-}
-
-@keyframes fadein
-{
-    from
-    {
-        opacity: 0;
-    }
-    to
-    {
-        opacity: 1;
-    }
-}
-
-@-webkit-keyframes fadeout
-{
-    from
-    {
-        opacity: 1;
-    }
-    to
-    {
-        opacity: 0;
-    }
-}
-
-@keyframes fadeout
-{
-    from
-    {
-        opacity: 1;
-    }
-    to
-    {
-        opacity: 0;
-    }
+    transition: opacity 0.2s;
 }

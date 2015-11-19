@@ -1,25 +1,18 @@
-function expand(expanded, fadedOut, fadedIn)
+function expand(expanded, fadedOut, fadedIn, toWidth, toHeight)
 {
     var elemExpand = document.getElementById(expanded);
     var elemFadeOut = document.getElementById(fadedOut);
     var elemFadeIn = document.getElementById(fadedIn);
     
-    console.log("expand");
-    elemExpand.className = "addButtonExp";
-    elemFadeOut.className = "fadeOut";
-    elemFadeIn.className = "fadeIn";
-    elemExpand.onclick = function() {contract(expanded, fadedOut, fadedIn);};
-}
-
-function contract(contracted, fadedIn, fadedOut)
-{
-    var elemContract = document.getElementById(contracted);
-    var elemFadeIn = document.getElementById(fadedIn);
-    var elemFadeOut = document.getElementById(fadedOut);
+    fromWidth = elemExpand.offsetWidth;
+    fromHeight = elemExpand.offsetHeight;
     
-    console.log("contract");
-    elemContract.className = "addButtonCon";
-    elemFadeIn.className = "fadeIn";
-    elemFadeOut.className = "fadeOut";
-    elemContract.onclick = function() {expand(contracted, fadedIn, fadedOut);};
+    elemExpand.style.width = toWidth + "px";
+    elemExpand.style.height = toHeight + "px";
+    
+    elemExpand.onclick = function() {expand(expanded, fadedIn, fadedOut, fromWidth, fromHeight);};
+    
+    
+    elemFadeIn.style.opacity = 1;
+    elemFadeOut.style.opacity = 0;
 }
