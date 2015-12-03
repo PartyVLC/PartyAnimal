@@ -1,0 +1,23 @@
+extends ./layout.jade
+
+
+block content
+  center-block
+    h2.text-center Register a new Party!
+    form(method="post" action="/dj/register")
+      if(typeof(errorMessage) !== 'undefined')
+        p errorMessage
+
+      p 
+        <label for="username">username</label>
+        <input type="text" name="username" id="username" placeholder="username" required="true"/>
+
+      p
+        <label for="password">password</label>
+        <input type="text" name="password" id="password" placeholder="password" required="true"/>
+
+      p
+        <input type="submit" name="signup" id="signup" value="register"/>
+        <a href="/login" title="sign in">sign in</a>
+
+     

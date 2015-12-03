@@ -2,6 +2,13 @@ extends ./index.jade
 
 block title
 
+
+block js
+  script(src='/js/playlist.js')
+  script(src='/js/player.js')
+  script(src='/js/expanderButtons.js')
+  script(src='https://apis.google.com/js/client.js?onload=init')
+
 block qr
   h5.text-center Follow this QR to add songs on mobile devices!
   img(src='/images/ip_qr.svg' width='50%' style='max-width:100px;' align='middle').center-block

@@ -7,7 +7,7 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
 
-    title Party Animal
+    title= title || "Party Animal"
 
     //-[if lt IE 9]
       script(src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js")
@@ -25,10 +25,6 @@ html
   body(onresize="initProgressBar();")
 
     //- JAVASCRIPT
-    script(src='/js/playlist.js')
-    script(src='/js/player.js')
-    script(src='/js/expanderButtons.js')
-    script(src='https://apis.google.com/js/client.js?onload=init')
     script(src='/js/jquery.js')
     script(src='/bootstrap/js/bootstrap.js')
 
@@ -38,27 +34,13 @@ html
     .container.titleBar.contentPane: #title
       h1.text-center Party Animal
       +flash-messages(messages)
-    block title
+    .row
+      block title
       block content
     .padding1em
     //- Player
-    .container.contentPane
-      .row
-        .headerBar
-          .showHideButt(id="shb",onclick='showHideToggle()')
-            span(id='showHideButt',class='glyphicon glyphicon-eye-open',aria-hidden='true')
-          text-center(id='currentlyPlaying')="Currently Playing: "
-      .row
-        .col-sm-6: #search
-          block search
-        .col-sm-6: #playlist
-          block playlist
-          //- Playlists
-          block playlists
-
-      .row
-        block player
-        .container: #player
+    
+    block controlBar
     .addButton(id="expander", onclick="expand('expander','plus','qr')")
         .shownContent(id="plus")
             span(id='plusIcon',class='glyphicon glyphicon-plus',aria-hidden='true')
@@ -66,5 +48,5 @@ html
             block qr
     //- FOOTER
     //.container: #footer
-    //  block footer
+      block footer
     //  p <a href="__" target="_blank"></a>.

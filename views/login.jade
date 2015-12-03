@@ -1,0 +1,25 @@
+extends ./layout.jade
+
+block head
+  title= "Sign In..."
+
+block content
+  form(method="post" action="/dj/login").col-xs-4.col-xs-offset-4
+   
+    if(typeof(errorMessage) !== 'undefined')
+      p errorMessage
+
+    p
+      <label for="username">username</label>
+      <input type="text" name="username" id="username" placeholder="username" required="true"/>
+    p
+      <label for="password">password</label>
+      <input type="text" name="password" id="password" placeholder="password" required="true"/>
+
+    p
+      <input type="submit" name="signin" id="signin" value="sign in"/> 
+      a(href="/dj/register" title="register") register
+
+block footer
+  p Welcome #{user.username}
+  a(href = '/signout' title=Sign Out)

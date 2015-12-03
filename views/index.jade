@@ -1,9 +1,33 @@
 extends ./layout.jade
 
+block js
+  script(src='/js/playlist.js')
+  script(src='/js/player.js')
+  script(src='/js/expanderButtons.js')
+  script(src='https://apis.google.com/js/client.js?onload=init')
+
 block title
 
   h1 Party Animal
 
 block player
+
+block controlBar
+  .container.contentPane
+    .row
+      .headerBar
+        .showHideButt(id="shb",onclick='showHideToggle()')
+          span(id='showHideButt',class='glyphicon glyphicon-eye-open',aria-hidden='true')
+        text-center(id='currentlyPlaying')="Currently Playing: "
+    .row
+      .col-sm-6: #search
+        block search
+      .col-sm-6: #playlist
+        block playlist
+        //- Playlists
+        block playlists
+    .row
+      block player
+      .container: #player
 
 block playlist
