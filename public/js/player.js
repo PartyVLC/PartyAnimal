@@ -1,6 +1,6 @@
-window.onload = function() {
-  initProgressBar();
-}
+// window.onload = function() {
+//   initProgressBar();
+// }
 
 var tag = document.createElement('script');
 
@@ -13,7 +13,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     height: '390',
     width: '640',
-    playerVars: {'controls':0, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
+    playerVars: {'controls':1, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
     videoId: 'dQw4w9WgXcQ',
     events: {
       'onReady': onPlayerReady,
@@ -36,8 +36,20 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
   var myPlayPause = document.getElementById("myPlayPause");
   if (event.data == YT.PlayerState.ENDED) {
-    currentlyPlayingIdx++;
-    loadPlaylist();
+    var xhttp = new XMLHttpRequest();
+    var sendData = "idx="+(idx+1)+"&pid="+activePlaylist;
+    xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+        var response = JSON.parse(xhttp.responseText);
+        if (response){
+          var songid = response.SongID;
+          songSelect(songid);
+        }
+      }
+    };
+    xhttp.open("GET","/api/song/getNext?"+sendData,true);
+    xhttp.send();
+    //loadPlaylist();
   }
 
   else if (event.data == YT.PlayerState.PLAYING) {

@@ -45,7 +45,7 @@ router.get('/', function(req,res,next) {
 
   db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
 
-  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
+  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, Idx INTEGER UNIQUE, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
   res.render('player', { title: 'Playing' });
 });
@@ -138,13 +138,13 @@ router.get('/api/getPlaylists',function(req,res,next) {
 });
 
 router.post('/api/addsong', function(req,res,next) {
-  //var title = req.body.title.replace(/"/g,"\"\"");
   var title = req.body.title.replace(/'/g,"\'\'");
   var stmt = "INSERT OR IGNORE INTO Song (SongId,Title) VALUES ('"+req.body.id+"','"+title+"')";
   db.run(stmt);
 
-  stmt = "INSERT OR IGNORE INTO PlaylistSong (PlaylistID,SongID,Score) VALUES ("+req.body.pid+",'"+req.body.id+"',0)";
+  stmt = "INSERT OR IGNORE INTO PlaylistSong (PlaylistID,SongID,Score,Idx) VALUES ("+req.body.pid+",'"+req.body.id+"',0,"+req.body.idx+")";
   db.run(stmt);
+
   res.send("Song added");
 });
 
@@ -164,7 +164,6 @@ router.post('/api/addplaylist', function(req,res,next) {
   var name = req.body.name.replace(/'/g,"\'\'");
   var stmt = "INSERT into Playlist (Name) VALUES ('"+name+"')";
   db.run(stmt);
-  console.log("Inserted New Playlist: " + req.body.name)
   res.send("Playlist created");
 
 });
@@ -208,6 +207,49 @@ router.post('/api/deleteplaylist',function(req,res,next) {
     }
   });
   res.send("Playlist deleted");
+});
+
+router.post('/api/setIdx',function(req,res,next) {
+  var stmt = "UPDATE PlaylistSong SET Idx="+req.body.idx+" WHERE SongID="+req.body.sid+" AND PlaylistID="+req.body.pid;
+  db.run(stmt);
+});
+
+router.get('/api/song/getNext',function(req,res,next) {
+  var request = req.url.split('?')[1].split('&');
+  if (request) {
+    var idx = request[0].slice(4);
+    var pid = request[1].slice(4);
+
+    db.all("select min(Idx),SongID from PlaylistSong where Idx >= "+idx+" AND PlaylistID="+pid,function(err,rows) {
+      res.json(rows[0]);
+    });
+  }
+  else {
+    res.send();
+  }
+});
+
+router.get('/api/getLastIdx',function(req,res,next) {
+  var pid = req.url.split('?')[1].slice(4);
+  db.all("select max(Idx) from PlaylistSong where PlaylistID="+pid,function(err,rows) {
+    if (rows[0]["max(Idx)"])
+      res.json(rows[0]["max(Idx)"]);
+    else
+      res.json(0);
+  })
+});
+
+router.get('/api/song/getIdx',function(req,res,next) {
+  var result = req.url.split('?')[1].split('&');
+  var pid = result[0].slice(4);
+  var sid = result[1].slice(4);
+
+  db.all("select Idx from PlaylistSong where PlaylistID="+pid+" AND SongID='"+sid+"'",function(err,rows) {
+    if (rows)
+      res.json(rows[0]["Idx"]);
+    else
+      res.json(0);
+  })
 });
 
 /**

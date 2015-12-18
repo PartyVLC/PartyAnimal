@@ -1,7 +1,14 @@
-var activePlaylist = null;
+var activePlaylist;
+var idx;
+var lastIdx;
 
 window.onload = function() {
+  activePlaylist = null;
+  idx = 1;
+  lastIdx = 1;
+
   loadPlaylist();
+  initProgressBar();
 }
 
 document.onclick = function() {
@@ -18,6 +25,15 @@ function clearSearch() {
 
 function setActivePlaylist(id) {
   activePlaylist = id;
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      lastIdx = JSON.parse(xhttp.responseText);
+    }
+  }
+  xhttp.open("GET", "/api/getLastIdx?pid="+activePlaylist, true);
+  xhttp.send();
 }
 
 function loadPlaylist() {
@@ -98,8 +114,8 @@ function loadPlaylist() {
         playlistPanel.appendChild(songCollapse);
         playlistAccordion.appendChild(playlistPanel);
 
-        for (idx in playlist.Songs) {
-          var song = playlist.Songs[idx];
+        for (j in playlist.Songs) {
+          var song = playlist.Songs[j];
 
           var songA = document.createElement('a');
           songA.className = 'list-group-item';
@@ -180,8 +196,21 @@ function deletePlaylist(e,pid) {
 }
 
 function songSelect(id) {
+  var xhttp = new XMLHttpRequest();
+  var sendData = "pid="+activePlaylist+"&sid="+id;
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      idx = JSON.parse(xhttp.responseText);
+    }
+  };
+  xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
+  xhttp.send();
+
+  playVideo(id);
+}
+
+function playVideo(id) {
   if (id != player.getVideoData().video_id) {
-    var xhttp = new XMLHttpRequest();
     $.get('https://www.googleapis.com/youtube/v3/videos',
       {
         part:'snippet',
@@ -289,8 +318,9 @@ function search() {
 
 function addFromSearch(song) {
   if (activePlaylist) {
+    lastIdx++;
     var xhttp = new XMLHttpRequest();
-    var sendData = "id="+song.id+"&title="+song.title+"&pid="+activePlaylist;
+    var sendData = "id="+song.id+"&title="+song.title+"&pid="+activePlaylist+"&idx="+lastIdx;
     xhttp.open("POST", "/api/addsong", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(sendData);
