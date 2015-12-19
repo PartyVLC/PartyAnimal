@@ -25,12 +25,23 @@ html
   body(onresize="initProgressBar();")
 
     //- JAVASCRIPT
+
+    //- Old version works????
+    script(src="https://cdn.socket.io/socket.io-1.0.0.js")
+
+    //- Don't work??????
+    //- script(src="https://cdn.socket.io/socket.io-1.3.7.js")
+    //- script(src="http://localhost:3001/socket.io/socket.io.js")
+
     script(src='/js/playlist.js')
     script(src='/js/player.js')
     script(src='/js/expanderButtons.js')
     script(src='https://apis.google.com/js/client.js?onload=init')
     script(src='/js/jquery.js')
     script(src='/bootstrap/js/bootstrap.js')
+
+    script.
+      var socket = io.connect('http://localhost');
 
     block js
 

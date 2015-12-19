@@ -1,17 +1,22 @@
 var express = require('express');
+var socket_io    = require( "socket.io" );
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var app = express();
+
+// // Socket.io
+// var io = socket_io();
+// app.io = io;
+
 var routes = require('./routes/index');
 var player = require('./routes/player');
 var dj = require('./routes/dj');
 var guest = require('./routes/guest');
 var onepage = require('./routes/onepage');
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
