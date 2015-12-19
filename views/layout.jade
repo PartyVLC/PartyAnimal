@@ -32,10 +32,7 @@ html
     //- Don't work??????
     //- script(src="https://cdn.socket.io/socket.io-1.3.7.js")
     //- script(src="http://localhost:3001/socket.io/socket.io.js")
-
-    script(src='/js/playlist.js')
-    script(src='/js/player.js')
-    script(src='/js/expanderButtons.js')
+    
     script(src='https://apis.google.com/js/client.js?onload=init')
     script(src='/js/jquery.js')
     script(src='/bootstrap/js/bootstrap.js')
@@ -54,11 +51,7 @@ html
     .padding1em
     //- Player
     .container.contentPane
-      .row
-        .headerBar
-          .showHideButt(id="shb",onclick='showHideToggle()')
-            span(id='showHideButt',class='glyphicon glyphicon-eye-open',aria-hidden='true')
-          text-center(id='currentlyPlaying')="Currently Playing: "
+      block playerheader
       .row
         .col-sm-6: #search
           block search
@@ -70,12 +63,8 @@ html
       .row
         block player
         .container: #player
-    .addButton(id="expander", onclick="expand('expander','plus','qr')")
-        .shownContent(id="plus")
-            span(id='plusIcon',class='glyphicon glyphicon-plus',aria-hidden='true')
-        .hiddenContent(id="qr")
-            block qr
+    block qrbutt
     //- FOOTER
-    //.container: #footer
-    //  block footer
-    //  p <a href="__" target="_blank"></a>.
+    //- //.container: #footer
+    //- //  block footer
+    //- //  p <a href="__" target="_blank"></a>.

@@ -4,7 +4,6 @@ function expand(expanded, fadedOut, fadedIn)
     var elemFadeOut = document.getElementById(fadedOut);
     var elemFadeIn = document.getElementById(fadedIn);
     
-    console.log("expand");
     elemExpand.className = "addButtonExp";
     elemFadeOut.className = "fadeOut";
     elemFadeIn.className = "fadeIn";
@@ -17,7 +16,6 @@ function contract(contracted, fadedIn, fadedOut)
     var elemFadeIn = document.getElementById(fadedIn);
     var elemFadeOut = document.getElementById(fadedOut);
     
-    console.log("contract");
     elemContract.className = "addButtonCon";
     elemFadeIn.className = "fadeIn";
     elemFadeOut.className = "fadeOut";

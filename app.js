@@ -8,10 +8,6 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
-// // Socket.io
-// var io = socket_io();
-// app.io = io;
-
 var routes = require('./routes/index');
 var player = require('./routes/player');
 var dj = require('./routes/dj');
