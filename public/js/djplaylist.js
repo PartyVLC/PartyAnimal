@@ -194,22 +194,18 @@ function deletePlaylist(e,pid) {
 }
 
 function songSelect(id) {
-  // var xhttp = new XMLHttpRequest();
-  // var sendData = "pid="+activePlaylist+"&sid="+id;
-  // xhttp.onreadystatechange = function() {
-  //   if (xhttp.readyState == 4 && xhttp.status == 200) {
-  //     idx = JSON.parse(xhttp.responseText);
-  //   }
-  // };
-  // xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
-  // xhttp.send();
+  var xhttp = new XMLHttpRequest();
+  var sendData = "pid="+activePlaylist+"&sid="+id;
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      idx = JSON.parse(xhttp.responseText);
+    }
+  };
+  xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
+  xhttp.send();
 
   var socket = io();
   socket.emit('playsong', id);
-
-  // playVideo(id);
-
-
 }
 
 function upVote(e,SongID,PlaylistID)

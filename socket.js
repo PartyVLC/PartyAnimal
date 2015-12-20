@@ -6,7 +6,7 @@ module.exports = function (io) {
       console.log(msg);
     });
     socket.on('playsong',function(id) {
-      console.log(id);
+      io.emit('playsong',id);
     })
   });
 }
