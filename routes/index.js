@@ -221,8 +221,14 @@ router.get('/api/song/getNext',function(req,res,next) {
     var idx = request[0].slice(4);
     var pid = request[1].slice(4);
 
-    db.all("select min(Idx),SongID from PlaylistSong where Idx >= "+idx+" AND PlaylistID="+pid,function(err,rows) {
-      res.json(rows[0]);
+    var qry = "select min(Idx),SongID from PlaylistSong where Idx >= "+idx+" AND PlaylistID="+pid;
+    console.log(qry);
+    db.all(qry,function(err,rows) {
+      if (rows) {
+        res.json(rows[0]);
+      }
+      else
+        res.json(null);
     });
   }
   else {
@@ -233,11 +239,13 @@ router.get('/api/song/getNext',function(req,res,next) {
 router.get('/api/getLastIdx',function(req,res,next) {
   var pid = req.url.split('?')[1].slice(4);
   db.all("select max(Idx) from PlaylistSong where PlaylistID="+pid,function(err,rows) {
-    if (rows[0]["max(Idx)"])
-      res.json(rows[0]["max(Idx)"]);
-    else
-      res.json(0);
-  })
+    if (rows) {
+      if (rows[0]["max(Idx)"])
+        res.json(rows[0]["max(Idx)"]);
+      else
+        res.json(0);
+    }
+  });
 });
 
 router.get('/api/song/getIdx',function(req,res,next) {
@@ -246,7 +254,7 @@ router.get('/api/song/getIdx',function(req,res,next) {
   var sid = result[1].slice(4);
 
   db.all("select Idx from PlaylistSong where PlaylistID="+pid+" AND SongID='"+sid+"'",function(err,rows) {
-    if (rows)
+    if (rows.length !== 0)
       res.json(rows[0]["Idx"]);
     else
       res.json(0);

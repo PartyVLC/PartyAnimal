@@ -1,6 +1,4 @@
 function setActivePlaylist(id) {
-  activePlaylist = id;
-
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -10,7 +8,8 @@ function setActivePlaylist(id) {
   xhttp.open("GET", "/api/getLastIdx?pid="+activePlaylist, true);
   xhttp.send();
 
-  var socket = io();
+  // activePlaylist = id;
+  socket.emit('setActivePlaylist',id);
   socket.emit('activeplaylist',id);
 }
 
@@ -67,12 +66,14 @@ function loadPlaylist() {
 
         var songCollapse = document.createElement('div');
         songCollapse.id = 'songList-'+id;
+
         if (activePlaylist == id) {
           songCollapse.className = 'panel-collapse collapse in';
         }
         else {
           songCollapse.className = 'panel-collapse collapse';
         }
+
         songCollapse.role = 'tabpanel';
         songCollapse.setAttribute('area-labelledby','heading-'+id);
 
@@ -176,15 +177,7 @@ function deletePlaylist(e,pid) {
 }
 
 function songSelect(sid,pid) {
-  var xhttp = new XMLHttpRequest();
-  var sendData = "pid="+activePlaylist+"&sid="+sid;
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-      idx = JSON.parse(xhttp.responseText);
-    }
-  };
-  xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
-  xhttp.send();
+
 
   var socket = io();
   socket.emit('playsong', sid, pid);

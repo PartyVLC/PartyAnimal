@@ -1,12 +1,18 @@
-var activePlaylist;
-var idx;
 var lastIdx;
+var activePlaylist
+
+var socket = io();
+socket.on('setActivePlaylist',function(pid) {
+  activePlaylist = pid;
+});
 
 window.onload = function() {
-  activePlaylist = null;
-  idx = 1;
   lastIdx = 1;
-
+  var socket = io();
+  socket.emit('getActivePlaylist');
+  socket.on('getActivePlaylist',function(pid) {
+    activePlaylist = pid;
+  });
   loadPlaylist();
 }
 
@@ -119,6 +125,7 @@ function search() {
 
 function addFromSearch(song) {
   lastIdx++;
+
   var xhttp = new XMLHttpRequest();
   var sendData = "id="+song.id+"&title="+song.title+"&pid="+activePlaylist+"&idx="+lastIdx;
   xhttp.open("POST", "/api/addsong", true);
@@ -126,5 +133,5 @@ function addFromSearch(song) {
   xhttp.send(sendData);
 
   var socket = io();
-  socket.emit('loadplaylist');
+  socket.emit('loadplaylist')
 }
