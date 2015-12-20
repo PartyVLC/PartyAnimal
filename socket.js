@@ -2,11 +2,14 @@
 
 module.exports = function (io) {
   io.on('connection', function(socket) {
-    socket.on('addSong', function(msg){
-      console.log(msg);
+    socket.on('playsong',function(sid,pid) {
+      io.emit('playsong',{'sid':sid,'pid':pid});
+      io.emit('activeplaylist',pid);
     });
-    socket.on('playsong',function(id) {
-      io.emit('playsong',id);
-    })
+
+    socket.on('loadplaylist',function() {
+      io.emit('loadplaylist');
+    });
+
   });
 }

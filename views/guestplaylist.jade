@@ -1,25 +1,6 @@
-extends ./index.jade
+extends ./playlist.jade
 
-block js
+block append js
   script(src='/js/guestplaylist.js')
 
 block title
-
-block prepend body
-  body
-
-block playlist
-  .padding1em
-
-block playlists
-  .panel-group
-    #playlistAccordion(role='tablist',aria-multiselectable="true")
-
-block search
-  .padding1em
-  .input-group
-    input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar',onkeypress='searchKeyPress()')
-    div(class="input-group-btn")
-      button(onclick='search()',id='searchButt',class="btn btn-default", type="button") Go
-  
-  div(id='searchResults',class="btn-group" role="group")

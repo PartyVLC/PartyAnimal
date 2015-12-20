@@ -1,21 +1,22 @@
 extends ./index.jade
 
 block js
-    script(src='/js/playlist.js')
+  script(src='/js/playlist.js')
+  script.
+    socket.on('loadplaylist',function() {
+      loadPlaylist();
+    });
 
-block title
+    socket.on('activeplaylist', function(pid) {
+      activePlaylist = pid;
+      loadPlaylist();
+    });
 
-block qr
-  h5.text-center Follow this QR to add songs on mobile devices!
-  img(src='/images/ip_qr.svg' width='50%' style='max-width:100px;' align='middle').center-block
+block prepend body
+  body
 
 block playlist
   .padding1em
-  .input-group
-      input(type="text", class="form-control", placeholder="New Playlist",onkeypress='addPlaylistKeyPress(this)')
-      span(class="input-group-btn")
-        button(class="btn btn-default", type="button", onclick='addPlaylist(this)')
-          span(class="glyphicon glyphicon-plus",aria-hidden="true")
 
 block playlists
   .panel-group

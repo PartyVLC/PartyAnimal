@@ -45,7 +45,7 @@ router.get('/', function(req,res,next) {
 
   db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
 
-  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, Idx INTEGER UNIQUE, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
+  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, Idx INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
   res.render('testpages');
 });
@@ -83,7 +83,7 @@ router.get('/api/playlistsong', function(req,res,next) {
 
 router.get('/api/getSongsByPlaylist', function(req,res,next) {
   var playlistID = req.url.split('?')[1].slice(4);
-  db.all("SELECT * FROM Song, PlaylistSong, Playlist WHERE Playlist.PlaylistID=PlaylistSong.PlaylistID AND Song.SongID=PlaylistSong.SongID AND PlaylistSong.PlaylistID="+playlistID, function(err, rows){
+  db.all("SELECT * FROM Song, PlaylistSong, Playlist WHERE Playlist.PlaylistID=PlaylistSong.PlaylistID AND Song.SongID=PlaylistSong.SongID AND PlaylistSong.PlaylistID="+playlistID+" ORDER BY PlaylistSong.Idx", function(err, rows){
     var entries = []
     if (rows) {
       rows.forEach(function(row) {
@@ -110,17 +110,16 @@ router.get('/api/score',function(req,res,next) {
 });
 
 router.get('/api/getPlaylists',function(req,res,next) {
-  db.all("SELECT * FROM Playlist,PlaylistSong,Song WHERE (Playlist.PlaylistID=PlaylistSong.PlaylistID and Song.SongID=PlaylistSong.SongID)",function(err,rows) {
+  db.all("SELECT * FROM Playlist,PlaylistSong,Song WHERE (Playlist.PlaylistID=PlaylistSong.PlaylistID and Song.SongID=PlaylistSong.SongID) ORDER BY PlaylistSong.Idx",function(err,rows) {
     var playlists = {};
     for (i in rows) {
       if (playlists.hasOwnProperty(rows[i].PlaylistID)) {
-        playlists[rows[i].PlaylistID].Songs.push({'Title':rows[i].Title,'SongID':rows[i].SongID,'Score':rows[i].Score});
+        playlists[rows[i].PlaylistID].Songs.push({'Title':rows[i].Title,'SongID':rows[i].SongID,'Score':rows[i].Score,'Idx':rows[i].Idx});
       }
       else {
-        playlists[rows[i].PlaylistID] = {'PlaylistName':rows[i].Name,'Songs':[{'Title':rows[i].Title,'SongID':rows[i].SongID,'Score':rows[i].Score}]};
+        playlists[rows[i].PlaylistID] = {'PlaylistName':rows[i].Name,'Songs':[{'Title':rows[i].Title,'SongID':rows[i].SongID,'Score':rows[i].Score,'Idx':rows[i].Idx}]};
       }
     }
-    //res.json(playlists);
     req.playlists = playlists;
   });
   next();
@@ -144,6 +143,8 @@ router.post('/api/addsong', function(req,res,next) {
 
   stmt = "INSERT OR IGNORE INTO PlaylistSong (PlaylistID,SongID,Score,Idx) VALUES ("+req.body.pid+",'"+req.body.id+"',0,"+req.body.idx+")";
   db.run(stmt);
+
+  console.log(stmt);
 
   res.send("Song added");
 });

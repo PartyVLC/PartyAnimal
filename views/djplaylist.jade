@@ -1,30 +1,13 @@
-extends ./index.jade
+extends ./playlist.jade
 
-block js
+block append js
     script(src='/js/djplaylist.js')
 
 block title
 
-block prepend body
-  body
-
-block playlist
-  .padding1em
+block append playlist
   .input-group
       input(type="text", class="form-control", placeholder="New Playlist",onkeypress='addPlaylistKeyPress(this)')
       span(class="input-group-btn")
         button(class="btn btn-default", type="button", onclick='addPlaylist(this)')
           span(class="glyphicon glyphicon-plus",aria-hidden="true")
-
-block playlists
-  .panel-group
-    #playlistAccordion(role='tablist',aria-multiselectable="true")
-
-block search
-  .padding1em
-  .input-group
-    input(type="text", class="form-control", placeholder="Search", aria-hiddenscribedby="basic-addon1",id='searchBar',onkeypress='searchKeyPress()')
-    div(class="input-group-btn")
-      button(onclick='search()',id='searchButt',class="btn btn-default", type="button") Go
-  
-  div(id='searchResults',class="btn-group" role="group")

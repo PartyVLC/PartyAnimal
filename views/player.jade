@@ -4,9 +4,10 @@ block js
   script(src='/js/player.js')
   script(src='/js/expanderButtons.js')
   script.
-    socket.on('playsong', function(id){
-      playVideo(id);
+    socket.on('playsong', function(ids){
+      playVideo(ids.sid);
     });
+
 block title
 
 block prepend body
@@ -26,7 +27,7 @@ block playerheader
 block player
   .list-group
     .row
-      #player(display:hidden).col-xs-6.col-xs-offset-3
+      #player(style="display:none").col-xs-6.col-xs-offset-3
     .row
         .padding1em
     .row.col-md-12

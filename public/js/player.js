@@ -21,7 +21,7 @@ function onYouTubeIframeAPIReady() {
     },
     fs:0,
     iv_load_policy:3,
-    disablekb:1
+    disablekb:1,
   });
 }
 
