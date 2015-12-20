@@ -5,6 +5,9 @@ block js
   script(src='/js/expanderButtons.js')
 block title
 
+block prepend body
+  body(onresize="initProgressBar();")
+
 block qr
   h5.text-center Follow this QR to add songs on mobile devices!
   img(src='/images/ip_qr.svg' width='50%' style='max-width:100px;' align='middle').center-block

@@ -6,7 +6,6 @@ window.onload = function() {
   activePlaylist = null;
   idx = 1;
   lastIdx = 1;
-
   loadPlaylist();
 }
 
@@ -195,35 +194,22 @@ function deletePlaylist(e,pid) {
 }
 
 function songSelect(id) {
-  var xhttp = new XMLHttpRequest();
-  var sendData = "pid="+activePlaylist+"&sid="+id;
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-      idx = JSON.parse(xhttp.responseText);
-    }
-  };
-  xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
-  xhttp.send();
+  // var xhttp = new XMLHttpRequest();
+  // var sendData = "pid="+activePlaylist+"&sid="+id;
+  // xhttp.onreadystatechange = function() {
+  //   if (xhttp.readyState == 4 && xhttp.status == 200) {
+  //     idx = JSON.parse(xhttp.responseText);
+  //   }
+  // };
+  // xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
+  // xhttp.send();
 
-  playVideo(id);
-}
+  var socket = io();
+  socket.emit('playsong', id);
 
-function playVideo(id) {
-  if (id != player.getVideoData().video_id) {
-    $.get('https://www.googleapis.com/youtube/v3/videos',
-      {
-        part:'snippet',
-        key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
-        id:id
-      },
-      function(response){
-        var currentlyPlaying = document.getElementById('currentlyPlaying');
-        currentlyPlaying.innerHTML = "Currently Playing: "+response.items[0].snippet.title;
-      }
-    );
+  // playVideo(id);
 
-    player.loadVideoById(id);
-  }
+
 }
 
 function upVote(e,SongID,PlaylistID)

@@ -115,3 +115,21 @@ function setProgressPercent(percent)
     e = document.getElementById("progressTimeBar");
     e.style.width = percent + "%";
 }
+
+function playVideo(id) {
+  if (id != player.getVideoData().video_id) {
+    $.get('https://www.googleapis.com/youtube/v3/videos',
+      {
+        part:'snippet',
+        key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
+        id:id
+      },
+      function(response){
+        var currentlyPlaying = document.getElementById('currentlyPlaying');
+        currentlyPlaying.innerHTML = "Currently Playing: "+response.items[0].snippet.title;
+      }
+    );
+
+    player.loadVideoById(id);
+  }
+}

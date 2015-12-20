@@ -1,9 +1,12 @@
 extends ./index.jade
 
 block js
-    script(src='/js/guestplaylist.js')
+  script(src='/js/guestplaylist.js')
 
 block title
+
+block prepend body
+  body
 
 block playlist
   .padding1em

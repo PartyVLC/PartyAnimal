@@ -287,14 +287,14 @@ function search() {
 }
 
 function addFromSearch(song) {
-  // if (activePlaylist) {
-  //   lastIdx++;
-  //   var xhttp = new XMLHttpRequest();
-  //   var sendData = "id="+song.id+"&title="+song.title+"&pid="+activePlaylist+"&idx="+lastIdx;
-  //   xhttp.open("POST", "/api/addsong", true);
-  //   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  //   xhttp.send(sendData);
-  //   loadPlaylist();
-  // }
-  
+  lastIdx++;
+  var xhttp = new XMLHttpRequest();
+  var sendData = "id="+song.id+"&title="+song.title+"&pid="+activePlaylist+"&idx="+lastIdx;
+  xhttp.open("POST", "/api/addsong", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(sendData);
+  loadPlaylist();
+
+  var socket = io();
+  socket.emit('addSong', 'added a song');
 }
