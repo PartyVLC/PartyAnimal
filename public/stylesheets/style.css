@@ -155,6 +155,7 @@ div.progressContainer
     margin-right:16px;
     border-radius:4px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    display:flex;
 }
 
 button.progressPlayPause
@@ -211,6 +212,9 @@ div.progressInnerContainer
     border-bottom-style: solid;
     border-width: 1px;
     border-color: grey;
+    flex: 1;
+    -ms-flex: 1;
+    -webkit-flex: 1;
 }
 
 div.progressTimeBar

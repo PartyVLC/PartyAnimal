@@ -77,7 +77,7 @@ function showHideToggle() {
   var player = document.getElementById("player");
   var showHideButt = document.getElementById("showHideButt");
   if (player.style.display == "none") {
-    player.style.display = "initial";
+    player.style.display = "block";
     showHideButt.className = 'glyphicon glyphicon-eye-open';
   }
   else {
@@ -87,13 +87,6 @@ function showHideToggle() {
 }
 
 //my progress bar stuff
-
-function initProgressBar()
-{
-    e = document.getElementById("progressInnerCont");
-    wid = e.parentNode.offsetWidth - 192 + "px";
-    e.style.width = wid;
-}
 
 function setProgressPercent(percent)
 {
