@@ -1,19 +1,8 @@
 var lastIdx;
-var activePlaylist
-
-var socket = io();
-socket.on('setActivePlaylist',function(pid) {
-  activePlaylist = pid;
-});
+var activePlaylist;
 
 window.onload = function() {
-  lastIdx = 1;
-  var socket = io();
-  socket.emit('getActivePlaylist');
-  socket.on('getActivePlaylist',function(pid) {
-    activePlaylist = pid;
-  });
-  loadPlaylist();
+  setLastIdx();
 }
 
 document.onclick = function() {
@@ -26,6 +15,17 @@ function clearSearch() {
   while (resultList.hasChildNodes()) {
     resultList.removeChild(resultList.lastChild);
   }
+}
+
+function setLastIdx() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      lastIdx = JSON.parse(xhttp.responseText);
+    }
+  }
+  xhttp.open("GET", "/api/getLastIdx?pid="+activePlaylist, true);
+  xhttp.send();
 }
 
 function upVote(e,SongID,PlaylistID)
@@ -47,8 +47,7 @@ function upVote(e,SongID,PlaylistID)
   // xhttp.open("GET","/api/score?"+sendData,true);
   // xhttp.send();
 
-  var socket = io();
-  socket.emit('loadplaylist');
+  socket.emit('loadSongs');
 }
 
 function downVote(e,SongID,PlaylistID)
@@ -74,8 +73,7 @@ function downVote(e,SongID,PlaylistID)
   // xhttp.open("GET","/api/score?"+sendData,true);
   // xhttp.send();
 
-  var socket = io();
-  socket.emit('loadplaylist');
+  socket.emit('loadSongs');
 }
 
 function searchKeyPress() {
@@ -132,6 +130,5 @@ function addFromSearch(song) {
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
 
-  var socket = io();
-  socket.emit('loadplaylist')
+  socket.emit('loadSongs')
 }

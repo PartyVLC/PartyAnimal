@@ -4,23 +4,28 @@ block js
   script(src='/js/playlist.js')
   script.
     socket.on('loadplaylist',function() {
-      loadPlaylist();
+      //loadSongs();
     });
 
     socket.on('activeplaylist', function(pid) {
       activePlaylist = pid;
-      loadPlaylist();
+      loadSongs();
+    });
+
+    socket.on('loadSongs',function() {
+      loadSongs();
     });
 
 block prepend body
   body
 
-block playlist
-  .padding1em
+//- block playlist
+//-   .padding1em
 
 block playlists
-  .panel-group
-    #playlistAccordion(role='tablist',aria-multiselectable="true")
+  //- .panel-group
+  //-   #playlistAccordion(role='tablist',aria-multiselectable="true")
+
 
 block search
   .padding1em

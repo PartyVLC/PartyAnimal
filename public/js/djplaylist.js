@@ -1,157 +1,130 @@
-function setActivePlaylist(id) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-      lastIdx = JSON.parse(xhttp.responseText);
-    }
-  }
-  xhttp.open("GET", "/api/getLastIdx?pid="+activePlaylist, true);
-  xhttp.send();
+window.addEventListener('load', function() {
+  socket.on('getActivePlaylist',function(pid) {
+    activePlaylist = pid;
+  });
+  loadPlaylistDropDown();
+});
 
-  // activePlaylist = id;
-  socket.emit('setActivePlaylist',id);
-  socket.emit('activeplaylist',id);
-}
+socket.on('setActivePlaylist',function(pid) {
+  activePlaylist = pid;
+  loadPlaylistDropDown();
+  setLastIdx();
+});
 
-function loadPlaylist() {
+function loadPlaylistDropDown() {
 
-  var playlistAccordion = document.getElementById('playlistAccordion');
+  var pSelect = document.getElementById('playlistSelect');
 
-  while (playlistAccordion.hasChildNodes()) {
-    playlistAccordion.removeChild(playlistAccordion.lastChild);
+  while (pSelect.hasChildNodes()) {
+    pSelect.removeChild(pSelect.lastChild);
   }
 
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       var playlists = JSON.parse(xhttp.responseText);
+      for (i in playlists) {
+        var id = playlists[i].PlaylistID;
+        var name = playlists[i].Name;
 
-      var pIDs = Object.keys(playlists); 
+        var pOption = document.createElement('option');
+        pOption.innerHTML = name;
+        pOption.value = id;
 
-      for (i in pIDs) {
-        var id = pIDs[i];
-        var playlist = playlists[id];
+        pSelect.appendChild(pOption);
+      }
 
-        var playlistAccordion = document.getElementById('playlistAccordion');
+      if (activePlaylist === undefined) {
+        activePlaylist = playlists[0].PlaylistID;
+        socket.emit('setActivePlaylist',activePlaylist);
+      }
+      else {
+        pSelect.value = activePlaylist;
+      }
 
-        var playlistPanel = document.createElement('div');
-        playlistPanel.className = 'panel panel-default';
+      loadSongs();
+    }
+  };
 
-        var playlistHeading = document.createElement('div');
-        playlistHeading.className = 'panel-heading';
+  xhttp.open("GET", "/api/getPlaylists2", true);
+  xhttp.send();
+}
 
-        playlistHeading.id = id;
-        playlistHeading.setAttribute('role','tab');
+function loadSongs() {
+  var pList = document.getElementById('pll');
+  while (pList.hasChildNodes()) {
+    pList.removeChild(pList.lastChild);
+  }
 
-        var playlistTitle = document.createElement('h4');
-        playlistTitle.className = 'panel-title';
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      var songs = JSON.parse(xhttp.responseText);
+      for (i in songs) {
+        var song = songs[i];
+        var sli = document.createElement('li');
+        sli.className = 'playlistSong';
 
-        var playlistA = document.createElement('a');
-        playlistA.className = 'collapsed';
-        playlistA.setAttribute('role','button');
-        playlistA.setAttribute('data-toggle','collapse');
-        playlistA.setAttribute('data-parent','#playlistAccordion');
-        playlistA.href = '#songList-'+id;
-        playlistA.setAttribute('aria-expanded','true');
-        playlistA.setAttribute('aria-controls','#songList-'+id);
-        playlistA.onclick = new Function("","setActivePlaylist('"+id+"')");
+        sli.style.cursor = 'pointer';
+        sli.onclick = new Function("","songSelect('"+song.SongID+"','"+activePlaylist+"')");
 
-        var playlistDel = document.createElement('button');
-        playlistDel.className = 'btn btn-default btn-sm';
-        playlistDel.onclick = new Function("","deletePlaylist(this,"+id+")");
+        var songP = document.createElement('p');
+        songP.style.display = 'inline';
+        songP.innerHTML = song.Title;
 
-        var playlistSpan = document.createElement('span');
-        playlistSpan.className = 'glyphicon glyphicon-remove';
-        playlistSpan.setAttribute('aria-hidden','true');
+        var songDel = document.createElement('button');
+        songDel.className = 'btn btn-default btn-sm';
+        songDel.id = 'songDelButt';
 
-        var songCollapse = document.createElement('div');
-        songCollapse.id = 'songList-'+id;
+        songDel.onclick = new Function("","deleteFromPlaylist(this,'"+song.SongID+"',"+activePlaylist+")");
 
-        if (activePlaylist == id) {
-          songCollapse.className = 'panel-collapse collapse in';
-        }
-        else {
-          songCollapse.className = 'panel-collapse collapse';
-        }
+        var songSpan = document.createElement('span');
+        songSpan.className = 'glyphicon glyphicon-remove';
+        songSpan.setAttribute('aria-hidden','true');
 
-        songCollapse.role = 'tabpanel';
-        songCollapse.setAttribute('area-labelledby','heading-'+id);
+        songDel.appendChild(songSpan);
 
-        var songContent = document.createElement('div');
-        songContent.className = 'panel-fbody';
+        var downV = document.createElement('button');
+        downV.type='button';
+        downV.className='btn btn-default';
+        downV.onclick = new Function("","downVote(this,'"+song.SongID+"',"+activePlaylist+")");
+        var downSpan = document.createElement('span');
+        downSpan.id='downVoteButt';
+        downSpan.className='glyphicon glyphicon-thumbs-down';
+        downV.appendChild(downSpan);
 
-        playlistA.innerHTML += "\t"+playlist.PlaylistName;
+        var score = document.createElement('span');
+        score.innerHTML = song.Score;
 
-        playlistDel.appendChild(playlistSpan);
-        playlistTitle.appendChild(playlistDel);
+        var upV = document.createElement('button');
+        upV.type='button';
+        upV.className='btn btn-default';
+        upV.onclick = new Function("","upVote(this,'"+song.SongID+"',"+activePlaylist+")");
+        var upSpan = document.createElement('span');
+        upSpan.id='upVoteButt';
+        upSpan.className='glyphicon glyphicon-thumbs-up';
+        upV.appendChild(upSpan);
 
-        songCollapse.appendChild(songContent);
-
-        playlistTitle.appendChild(playlistA);
-        playlistHeading.appendChild(playlistTitle);
-        playlistPanel.appendChild(playlistHeading);
-        playlistPanel.appendChild(songCollapse);
-        playlistAccordion.appendChild(playlistPanel);
-
-        for (j in playlist.Songs) {
-          var song = playlist.Songs[j];
-
-          var songA = document.createElement('a');
-          songA.className = 'list-group-item';
-          songA.style.cursor = 'pointer';
-          songA.onclick = new Function("","songSelect('"+song.SongID+"','"+id+"')");
-
-          var songP = document.createElement('p');
-          songP.style.display = 'inline';
-          songP.innerHTML = song.Title;
-
-          var songDel = document.createElement('button');
-          songDel.className = 'btn btn-default btn-sm';
-          songDel.id = 'songDelButt';
-
-          songDel.onclick = new Function("","deleteFromPlaylist(this,'"+song.SongID+"',"+id+")");
-
-          var songSpan = document.createElement('span');
-          songSpan.className = 'glyphicon glyphicon-remove';
-          songSpan.setAttribute('aria-hidden','true');
-
-          songDel.appendChild(songSpan);
-          songA.appendChild(songDel);
-          songA.appendChild(songP);
-
-          var downV = document.createElement('button');
-          downV.type='button';
-          downV.className='btn btn-default';
-          downV.onclick = new Function("","downVote(this,'"+song.SongID+"',"+id+")");
-          var downSpan = document.createElement('span');
-          downSpan.id='downVoteButt';
-          downSpan.className='glyphicon glyphicon-thumbs-down';
-          downV.appendChild(downSpan);
-          
-          var score = document.createElement('span');
-          score.innerHTML = song.Score;
-          
-          var upV = document.createElement('button');
-          upV.type='button';
-          upV.className='btn btn-default';
-          upV.onclick = new Function("","upVote(this,'"+song.SongID+"',"+id+")");
-          var upSpan = document.createElement('span');
-          upSpan.id='upVoteButt';
-          upSpan.className='glyphicon glyphicon-thumbs-up';
-          upV.appendChild(upSpan);
-          
-          songA.appendChild(downV);
-          songA.appendChild(score);
-          songA.appendChild(upV);
-
-          songContent.appendChild(songA);
-        }
+        sli.appendChild(songDel);
+        sli.appendChild(songP);
+        sli.appendChild(downV);
+        sli.appendChild(score);
+        sli.appendChild(upV);
+        pList.appendChild(sli);
       }
     }
   };
 
-  xhttp.open("GET", "/api/getPlaylists", true);
+  xhttp.open("GET", "/api/getSongsByPlaylist?pid="+activePlaylist, true);
   xhttp.send();
+}
+
+function playlistSelect() {
+  var pSelect = document.getElementById('playlistSelect');
+  //socket.emit('setActivePlaylist',pSelect.value);
+  activePlaylist = pSelect.value;
+  loadPlaylistDropDown();
+  setLastIdx();
 }
 
 function deleteFromPlaylist(e,sid,pid) {
@@ -161,9 +134,8 @@ function deleteFromPlaylist(e,sid,pid) {
   xhttp.open("POST", "/api/deletefromplaylist", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
-  // e.parentNode.parentNode.removeChild(e.parentNode);
-  var socket = io();
-  socket.emit('loadplaylist');
+
+  socket.emit('loadSongs');
 }
 
 function deletePlaylist(e,pid) {
@@ -177,9 +149,7 @@ function deletePlaylist(e,pid) {
 }
 
 function songSelect(sid,pid) {
-
-
-  var socket = io();
+  socket.emit('setActivePlaylist',pid);
   socket.emit('playsong', sid, pid);
 }
 
@@ -195,7 +165,7 @@ function addPlaylist(e) {
 
     name.value = "";
 
-    loadPlaylist();
+    loadPlaylistDropDown();
   }
 }
 
@@ -208,7 +178,7 @@ function addPlaylistKeyPress(e) {
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send(sendData);
       e.value = "";
-      loadPlaylist();
+      loadPlaylistDropDown();
     }
   }
 }

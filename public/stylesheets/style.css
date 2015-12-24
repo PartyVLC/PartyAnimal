@@ -28,7 +28,7 @@ progress {
 
 body
 {
-	font-family: 'Raleway', sans-serif;
+    font-family: 'Raleway', sans-serif;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d8d8d8+0,f0f0f0+33,f0f0f0+66,d8d8d8+100 */
     background: rgb(216,216,216); /* Old browsers */
     background: -moz-linear-gradient(left,  rgba(216,216,216,1) 0%, rgba(240,240,240,1) 33%, rgba(240,240,240,1) 66%, rgba(216,216,216,1) 100%); /* FF3.6+ */
@@ -43,74 +43,76 @@ body
 
 div.contentPane
 {
-	background-color: #f8f8f8;
-	box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+    background-color: #f8f8f8;
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
     overflow: hidden;
     border-radius: 8px;
+    transition: height 0.2s;
 }
 
 div.titleBar
 {
-	height: 64px;
-	font-family: 'Roboto', sans-serif;
+    height: 64px;
+    font-family: 'Roboto', sans-serif;
 }
 
 div.headerBar
 {
     font-size:20px;
-	line-height: 64px;
-	font-family: 'Roboto', sans-serif;
-	width: 100%;
-	height: 64px;
-	background-color: #e0e0e0;
+    line-height: 64px;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    height: 64px;
+    background-color: #d4d4d4;
+    border-bottom: solid 1px #c0c0c0;
 }
 
-div.showHideButt
+button.showHideButt
 {
     text-align: center;
     cursor: pointer;
     line-height: 36px;
-	width: 32px;
-	height: 32px;
-	background-color: #25b5b9;
-	margin: 16px;
-	float: left;
-	box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
+    width: 32px;
+    height: 32px;
+    background-color: #25b5b9;
+    margin: 16px;
+    border-style: none;
+    float: left;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
     border-radius: 4px;
+    transition: width 0.2s, height 0.2s;
+    position:relative;
+    overflow:hidden;
 }
 
-div.showHideButt:hover
+button.showHideButt:hover
 {
-	box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
 }
 
-div.showHideButt:active
+button.showHideButt:active
 {
-	box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+}
+
+button.showHideButt:focus
+{
+    outline:none;
 }
 
 div.hiddenRickAstleyButt
 {
-	width: 32px;
-	height: 32px;
-	margin: 16px;
-	float: right;
-	cursor: default;
+    width: 32px;
+    height: 32px;
+    margin: 16px;
+    float: right;
+    cursor: default;
 }
 
 div.padding1em
 {
-	width:100%;
-	height: 16px;
-}
-
-div.mockVid
-{
-	background-color: black;
-	width: 18%;
-	padding: 18%;
-	max-width: 640;
-	max-height: 360;
+    width:100%;
+    height: 16px;
 }
 
 ul
@@ -122,62 +124,82 @@ ul
 
 li.playlistEntry
 {
-	list-style-position: outside;
-	list-style-type: none;
-	height: 32px;
-	border-width: 1px;
-	border-top-color: white;
-	border-top-style: solid;
-	border-bottom-color: #f0f0f0;
-	border-bottom-style: solid;
-	padding-left: 0px;
-	margin-left: 0px;
+    list-style-position: outside;
+    list-style-type: none;
+    height: 32px;
+    border-width: 1px;
+    border-top-color: white;
+    border-top-style: solid;
+    border-bottom-color: #f0f0f0;
+    border-bottom-style: solid;
+    padding-left: 0px;
+    margin-left: 0px;
 }
 
 li.nowPlaying
 {
-	background-color: #c1eff1;
-	border-top-color: #c9f7f9;
-	border-top-style: solid;
-	border-bottom-color: #b9e7e9;
-	border-bottom-style: solid;
+    background-color: #c1eff1;
+    border-top-color: #c9f7f9;
+    border-top-style: solid;
+    border-bottom-color: #b9e7e9;
+    border-bottom-style: solid;
 }
 
 /*my progress bar stuff*/
 
 div.progressContainer
 {
-    height: 16px;
+    -webkit-user-select: none;
+    height: 20px;
+    margin-left:16px;
+    margin-right:16px;
+    border-radius:4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-div.progressPlayPause
+button.progressPlayPause
 {
     cursor: pointer;
     float: left;
-    background-color: #e0e0e0;
+    background-color: white;
     width: 64px;
     height: 100%;
     border-radius: 4px 0px 0px 4px;
-    box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
+    border-style: solid;
+    border-right-style: none;
+    border-width: 1px;
+    border-color: grey;
 }
 
-div.progressPlayPause:hover
+button.progressPlayPause:hover
 {
-	box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
+    border-color:black;
+    background-color: #e6e6e6;
+    text-shadow: 0 0 4px rgba(0,0,0,.2);
 }
 
-div.progressPlayPause:active
+button.progressPlayPause:active
 {
-	box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+    background-color: #d4d4d4;
+    text-shadow: 0 0 4px rgba(0,0,0,.2);
+}
+
+button.progressPlayPause:focus
+{
+    outline: none;
 }
 
 div.progressTime
 {
     float: right;
-    background-color: #e0e0e0;
+    background-color: white;
     width: 128px;
     height: 100%;
     border-radius: 0px 4px 4px 0px;
+    border-style: solid;
+    border-left-style: none;
+    border-width: 1px;
+    border-color: grey;
 }
 
 div.progressInnerContainer
@@ -185,6 +207,10 @@ div.progressInnerContainer
     box-shadow: 0px 1px 3px rgba(0,0,0,0.5) inset;
     float: left;
     height: 100%;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: grey;
 }
 
 div.progressTimeBar
@@ -197,219 +223,89 @@ div.progressTimeBar
 
 /* QR code expander stuff */
 
-div.addButton
+button.addButton
 {
     overflow:hidden;
     text-align:center;
     cursor: pointer;
-    background-color: red;
+    background-color: white;
     width:32px;
     height:32px;
+    border: none;
     border-radius: 16px;
     position: fixed;
     right:16px;
     bottom:16px;
     box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
-    z-index: 10;
+    transition: width 0.2s, height 0.2s;
+    z-index:10;
 }
 
-div.addButton:hover
+button.addButton:hover
 {
     box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
 }
 
-div.addButtonExp
+button.addButton:focus
 {
-    text-align:center;
-    overflow:hidden;
-    cursor: pointer;
-    background-color: red;
-    width:32px;
-    height:32px;
-    border-radius: 16px;
-    position: fixed;
-    right:16px;
-    bottom:16px;
-    box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
-    animation-name: expand;
-    animation-duration: 0.2s;
-    animation-fill-mode: forwards;
-    z-index: 10;
+    outline:none;
 }
 
-div.addButtonExp:hover
+.hiddenContent
 {
-    box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
-}
-
-div.addButtonCon
-{
-    text-align:center;
-    overflow:hidden;
-    cursor: pointer;
-    background-color: red;
-    width:32px;
-    height:32px;
-    border-radius: 16px;
-    position: fixed;
-    right:16px;
-    bottom:16px;
-    box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
-    animation-name: contract;
-    animation-duration: 0.2s;
-    animation-fill-mode: forwards;
-    z-index: 10;
-}
-
-div.addButtonCon:hover
-{
-    box-shadow: 0px 3px 5px rgba(0,0,0,0.5);
-}
-
-div.hiddenContent
-{
-    position: absolute;
-    left:0px;
-    top:0px;
     opacity: 0;
+    transition: opacity 0.2s;
 }
 
-div.fadeIn
-{
-    position: absolute;
-    left:0px;
-    top:0px;
-    animation-name: fadein;
-    animation-duration: 0.2s;
-    animation-fill-mode: forwards;
-}
-
-div.fadeOut
-{
-    position: absolute;
-    left:0px;
-    top:0px;
-    animation-name: fadeout;
-    animation-duration: 0.2s;
-    animation-fill-mode: forwards;
-}
-
-div.shownContent
+.shownContent
 {
     opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.absoluteTopLeft
+{
     position: absolute;
     left:0px;
     top:0px;
 }
 
-@-webkit-keyframes expand
+/* Playlist Stuff */
+
+div.listContainer
 {
-    from
-    {
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-    }
-    to
-    {
-        width: 256px;
-        height: 256px;
-        border-radius: 2px 2px 16px 2px;
-    }
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.5) inset;
+    height: 256px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: height 0.2s;
 }
 
-@keyframes expand
+ul.playlistList
 {
-    from
-    {
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-    }
-    to
-    {
-        width: 256px;
-        height: 256px;
-        border-radius: 2px 2px 16px 2px;
-    }
+    
 }
 
-@-webkit-keyframes contract
+li.playlistSong
 {
-    from
-    {
-        width: 256px;
-        height: 256px;
-        border-radius: 2px 2px 16px 2px;
-    }
-    to
-    {
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-    }
+    background: #f8f8f8;
+    border-top: 1px solid white;
+    border-bottom: 1px solid lightgrey;
+    height: 64px;
 }
 
-@keyframes contract
+li.playlistSong:nth-child(odd)
 {
-    from
-    {
-        width: 256px;
-        height: 256px;
-        border-radius: 2px 2px 16px 2px;
-    }
-    to
-    {
-        width: 32px;
-        height: 32px;
-        border-radius: 16px;
-    }
+    background: #f0f0f0;
 }
 
-@-webkit-keyframes fadein
+div.addNewSong
 {
-    from
-    {
-        opacity: 0;
-    }
-    to
-    {
-        opacity: 1;
-    }
-}
-
-@keyframes fadein
-{
-    from
-    {
-        opacity: 0;
-    }
-    to
-    {
-        opacity: 1;
-    }
-}
-
-@-webkit-keyframes fadeout
-{
-    from
-    {
-        opacity: 1;
-    }
-    to
-    {
-        opacity: 0;
-    }
-}
-
-@keyframes fadeout
-{
-    from
-    {
-        opacity: 1;
-    }
-    to
-    {
-        opacity: 0;
-    }
+    font-size:20px;
+    line-height: 64px;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    height: 64px;
+    background-color: #d4d4d4;
+    border-top: solid 1px white;
 }

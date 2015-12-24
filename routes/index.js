@@ -136,6 +136,12 @@ router.get('/api/getPlaylists',function(req,res,next) {
   });
 });
 
+router.get('/api/getPlaylists2',function(req,res,next) {
+  db.all("SELECT PlaylistID,Name FROM Playlist",function(err,rows) {
+    res.json(rows);
+  });
+});
+
 router.post('/api/addsong', function(req,res,next) {
   var title = req.body.title.replace(/'/g,"\'\'");
   var stmt = "INSERT OR IGNORE INTO Song (SongId,Title) VALUES ('"+req.body.id+"','"+title+"')";
@@ -254,11 +260,13 @@ router.get('/api/song/getIdx',function(req,res,next) {
   var sid = result[1].slice(4);
 
   db.all("select Idx from PlaylistSong where PlaylistID="+pid+" AND SongID='"+sid+"'",function(err,rows) {
-    if (rows.length !== 0)
-      res.json(rows[0]["Idx"]);
-    else
-      res.json(0);
-  })
+    if (rows) {
+      if (rows.length !== 0)
+        res.json(rows[0]["Idx"]);
+      else
+        res.json(0);
+    }
+  });
 });
 
 /**

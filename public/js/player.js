@@ -1,7 +1,6 @@
 var idx;
 var activePlaylist;
 
-var socket = io();
 socket.on('setActivePlaylist',function(pid) {
   activePlaylist = pid;
 });
@@ -9,7 +8,6 @@ socket.on('setActivePlaylist',function(pid) {
 window.onload = function() {
   initProgressBar();
   idx = 1;
-  var socket = io();
   socket.emit('getActivePlaylist');
   socket.on('getActivePlaylist',function(pid) {
     activePlaylist = pid;
@@ -50,6 +48,7 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
   var myPlayPause = document.getElementById("myPlayPause");
   if (event.data == YT.PlayerState.ENDED) {
+    console.log(activePlaylist);
     var xhttp = new XMLHttpRequest();
     var sendData = "idx="+(idx+1)+"&pid="+activePlaylist;
     xhttp.onreadystatechange = function() {
@@ -131,7 +130,6 @@ function setProgressPercent(percent)
 }
 
 function playVideo(id) {
-  var socket = io();
   var xhttp = new XMLHttpRequest();
   var sendData = "pid="+activePlaylist+"&sid="+id;
   xhttp.onreadystatechange = function() {
@@ -170,6 +168,5 @@ function songSelect(sid,pid) {
   xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
   xhttp.send();
 
-  var socket = io();
   socket.emit('playsong', sid, pid);
 }

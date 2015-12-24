@@ -24,47 +24,44 @@ html
 
   block body
 
-    //- JAVASCRIPT
+  //- JAVASCRIPT
 
-    //- Old version works????
-    script(src="https://cdn.socket.io/socket.io-1.0.0.js")
+  //- Old version works????
+  script(src="https://cdn.socket.io/socket.io-1.0.0.js")
 
-    //- Don't work??????
-    //- script(src="https://cdn.socket.io/socket.io-1.3.7.js")
-    //- script(src="http://localhost:3001/socket.io/socket.io.js")
-    
-    script(src='https://apis.google.com/js/client.js?onload=init')
-    script(src='/js/jquery.js')
-    script(src='/bootstrap/js/bootstrap.js')
+  //- Don't work??????
+  //- script(src="https://cdn.socket.io/socket.io-1.3.7.js")
+  //- script(src="http://localhost:3001/socket.io/socket.io.js")
+  
+  script(src='https://apis.google.com/js/client.js?onload=init')
+  script(src='/js/jquery.js')
+  script(src='/bootstrap/js/bootstrap.js')
+  script(src='/js/playlistMenuStuff.js')
+  script(src='/js/expanderButtons.js')
 
-    script.
-      var socket = io.connect('http://localhost');
+  script.
+    var socket = io.connect('http://localhost');
 
-    block js
+  block js
 
-    //- TITLE
-    .container.titleBar.contentPane: #title
-      h1.text-center Party Animal
-      +flash-messages(messages)
-    block title
-      block content
-    .padding1em
-    //- Player
-    .container.contentPane
-      block playerheader
-      .row
-        .col-sm-6: #search
-          block search
-        .col-sm-6: #playlist
-          block playlist
-          //- Playlists
-          block playlists
+  //- TITLE
+  .container.titleBar.contentPane: #title
+    h1.text-center Party Animal
+    +flash-messages(messages)
+  block title
+    block content
+  .padding1em
+  //- Player
+  .container.contentPane
+    block player
 
-      .row
-        block player
-        .container: #player
-    block qrbutt
-    //- FOOTER
-    //- //.container: #footer
-    //- //  block footer
-    //- //  p <a href="__" target="_blank"></a>.
+  block playlists
+    .row
+      .container: #player
+  block qrbutt
+  //- FOOTER
+  //- //.container: #footer
+  //- //  block footer
+  //- //  p <a href="__" target="_blank"></a>.
+
+  block search
