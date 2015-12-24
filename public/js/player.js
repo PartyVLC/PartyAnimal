@@ -56,7 +56,7 @@ function onPlayerStateChange(event) {
         var response = JSON.parse(xhttp.responseText);
         if (response){
           var songid = response.SongID;
-          songSelect(songid);
+          songSelect(songid,activePlaylist);
           idx = response.Idx;
         }
       }

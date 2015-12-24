@@ -1,11 +1,11 @@
 // Server side socket code
 module.exports = function (io) {
-  var activeplaylist = null;
+  var activeplaylist;
+  var currSong;
 
   io.on('connection', function(socket) {
     socket.on('playsong',function(sid,pid) {
       io.emit('playsong',{'sid':sid,'pid':pid});
-      console.log(activeplaylist);
       if (activeplaylist != pid) {
         io.emit('activeplaylist',pid);
       }
