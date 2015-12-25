@@ -138,14 +138,21 @@ function deleteFromPlaylist(e,sid,pid) {
   socket.emit('loadSongs');
 }
 
-function deletePlaylist(e,pid) {
+function deletePlaylist() {
   window.event.stopPropagation();
+
+  var pid = document.getElementById('playlistSelect').value;
+
+  console.log(pid);
+
   var xhttp = new XMLHttpRequest();
   var sendData = "pid="+pid;
   xhttp.open("POST", "/api/deleteplaylist", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(sendData);
-  e.parentNode.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode.parentNode);
+  activePlaylist = undefined;
+  
+  loadPlaylistDropDown();
 }
 
 function songSelect(sid,pid) {
@@ -164,7 +171,6 @@ function addPlaylist(e) {
     xhttp.send(sendData);
 
     name.value = "";
-
     loadPlaylistDropDown();
   }
 }

@@ -2,19 +2,6 @@ extends ./index.jade
 
 block js
   script(src='/js/playlist.js')
-  script.
-    socket.on('loadplaylist',function() {
-      //loadSongs();
-    });
-
-    socket.on('activeplaylist', function(pid) {
-      activePlaylist = pid;
-      loadSongs();
-    });
-
-    socket.on('loadSongs',function() {
-      loadSongs();
-    });
 
 block prepend body
   body

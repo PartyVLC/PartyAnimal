@@ -1,6 +1,20 @@
 var lastIdx;
 var activePlaylist;
 
+//Socket functions
+socket.on('loadplaylist',function() {
+  //loadSongs();
+});
+
+socket.on('activeplaylist', function(pid) {
+  activePlaylist = pid;
+  loadSongs();
+});
+
+socket.on('loadSongs',function() {
+  loadSongs();
+});
+
 window.onload = function() {
   setLastIdx();
 }
