@@ -123,7 +123,7 @@ function search() {
 
 function addFromSearch(song) {
   lastIdx++;
-
+  console.log(lastIdx);
   var xhttp = new XMLHttpRequest();
   var sendData = "id="+song.id+"&title="+song.title+"&pid="+activePlaylist+"&idx="+lastIdx;
   xhttp.open("POST", "/api/addsong", true);
