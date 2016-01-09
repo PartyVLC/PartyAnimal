@@ -8,39 +8,6 @@ var db = new sqlite3.Database('PartyAnimal.db');
 
 router.get('/', function(req,res,next) {
 
-  // var os = require('os');
-  // var ifaces = os.networkInterfaces();
-
-  // Object.keys(ifaces).forEach(function (ifname) {
-  //   var alias = 0;
-
-  //   ifaces[ifname].forEach(function (iface) {
-  //     if ('IPv4' !== iface.family || iface.internal !== false) {
-  //       // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-  //       return;
-  //     }
-
-  //     if (alias >= 1) {
-  //       // this single interface has multiple ipv4 addresses
-  //       console.log(ifname + ':' + alias, iface.address);
-  //     } else {
-  //       // this interface has only one ipv4 adress
-  //       console.log(ifname, iface.address);
-  //     }
-  //     ++alias;
-  //   });
-
-  //   var options2 = {
-  //     host: '',
-  //     port: 3000,
-  //     path: '/api/ip',
-  //     method: 'GET'
-  //   };
-  //   var ip = http.request(options2);
-  //   ip.end();
-
-  // });
-
   db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
 
   db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
@@ -51,6 +18,7 @@ router.get('/', function(req,res,next) {
 });
 
 router.get('/api/getSongs', function(req,res,next) {
+  // not working
     db.all("SELECT * FROM Song", function(err, rows){
       rows.forEach(function(row) {
       if (err) {

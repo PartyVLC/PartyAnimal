@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var routes = require('./routes/index');
-var player = require('./routes/player');
+//var player = require('./routes/player');
 var dj = require('./routes/dj');
 var guest = require('./routes/guest');
 
