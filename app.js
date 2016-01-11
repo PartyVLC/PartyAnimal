@@ -1,11 +1,14 @@
 var express = require('express');
+var router = express.Router();
 var socket_io    = require( "socket.io" );
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var models = require('./models');
 
+//////////////////////////////////////////////////////
 var app = express();
 
 var routes = require('./routes/index');
@@ -83,6 +86,46 @@ Object.keys(ifaces).forEach(function (ifname) {
       qr_svg.pipe(require('fs').createWriteStream('./public/images/ip_qr.svg'));
     }
     ++alias;
+  });
+});
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+
+var morgan = require('morgan')('combined');
+var cp = require('cookie-parser')();
+var bp = require('body-parser').urlencoded({ extended: true });
+var session = require('express-session')({ secret: 'G0N0r$3', resave: false, saveUninitialized: false });
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+//////////////////////////////////////////////////////
+
+// Login via Passport-Local
+
+passport.use(new Strategy(
+  function(username, password, done) {
+    models.users.findByUsername(username, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false, { message: "Username does not exist!" }); }
+      console.log(user);
+      if (!models.users.verifyPassword(user, password)) { return done(null, false, { message: "Incorrect Username/Password!" }); }
+      return done(null, user);
+    });
+  }
+));
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  db.users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
   });
 });
 

@@ -6,6 +6,9 @@ var http = require('http');
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+
 router.get('/', function(req,res,next) {
 
   db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
@@ -14,8 +17,31 @@ router.get('/', function(req,res,next) {
 
   db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, Idx INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
-  res.render('testpages');
+  res.render('testpages', { user: req.user });
 });
+
+router.get('/login',
+  function(req, res){
+    res.render('login');
+  });
+  
+router.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+  
+router.get('/logout',
+  function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
+router.get('/profile',
+  //require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.render('profile', { user: req.user });
+  });
 
 router.get('/api/getSongs', function(req,res,next) {
   // not working
