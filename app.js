@@ -6,7 +6,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var models = require('./models');
+var mongoose = require('mongoose');
 
 //////////////////////////////////////////////////////
 var app = express();
@@ -26,11 +26,26 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+var session = require('express-session')({ secret: 'G0N0r$3', resave: false, saveUninitialized: false });
 app.use(express.static(path.join(__dirname, 'public')));
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/dj', dj);
 app.use('/guest', guest);
+
+// passport config
+var Account = require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// mongoose
+mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -92,41 +107,42 @@ Object.keys(ifaces).forEach(function (ifname) {
 // Initialize Passport and restore authentication state, if any, from the
 // session.
 
-var morgan = require('morgan')('combined');
-var cp = require('cookie-parser')();
-var bp = require('body-parser').urlencoded({ extended: true });
-var session = require('express-session')({ secret: 'G0N0r$3', resave: false, saveUninitialized: false });
-var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
+// var morgan = require('morgan')('combined');
+// var cp = require('cookie-parser')();
+// var bp = require('body-parser').urlencoded({ extended: true });
+// var session = require('express-session')({ secret: 'G0N0r$3', resave: false, saveUninitialized: false });
 
-app.use(passport.initialize());
-app.use(passport.session());
 
-//////////////////////////////////////////////////////
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-// Login via Passport-Local
+// models.users.verify();
 
-passport.use(new Strategy(
-  function(username, password, done) {
-    models.users.findByUsername(username, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false, { message: "Username does not exist!" }); }
-      console.log(user);
-      if (!models.users.verifyPassword(user, password)) { return done(null, false, { message: "Incorrect Username/Password!" }); }
-      return done(null, user);
-    });
-  }
-));
+// //////////////////////////////////////////////////////
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
-});
+// // Login via Passport-Local
 
-passport.deserializeUser(function(id, cb) {
-  db.users.findById(id, function (err, user) {
-    if (err) { return cb(err); }
-    cb(null, user);
-  });
-});
+// passport.use(new Strategy(
+//   function(username, password, done) {
+//     models.users.findByUsername(username, function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) { return done(null, false, { message: "Username does not exist!" }); }
+//       console.log(user);
+//       if (!models.users.verifyPassword(user, password)) { return done(null, false, { message: "Incorrect Username/Password!" }); }
+//       return done(null, user);
+//     });
+//   }
+// ));
+
+// passport.serializeUser(function(user, cb) {
+//   cb(null, user.id);
+// });
+
+// passport.deserializeUser(function(id, cb) {
+//   db.users.findById(id, function (err, user) {
+//     if (err) { return cb(err); }
+//     cb(null, user);
+//   });
+// });
 
 module.exports = app;

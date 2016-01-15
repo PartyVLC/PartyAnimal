@@ -6,8 +6,10 @@ var http = require('http');
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
+
 var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
+var Account = require('../models/account');
+
 
 router.get('/', function(req,res,next) {
 
@@ -20,28 +22,38 @@ router.get('/', function(req,res,next) {
   res.render('testpages', { user: req.user });
 });
 
-router.get('/login',
-  function(req, res){
-    res.render('login');
-  });
-  
-router.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
+router.get('/register', function(req, res) {
+    res.render('register', { });
+});
+
+router.post('/register', function(req, res) {
+    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+        if (err) {
+          return res.render("register", {info: "Sorry. That username already exists. Try again."});
+        }
+
+        passport.authenticate('local')(req, res, function () {
+            res.redirect('/');
+        });
+    });
+});
+
+router.get('/login', function(req, res) {
+    res.render('login', { user : req.user });
+});
+
+router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');
-  });
-  
-router.get('/logout',
-  function(req, res){
+});
+
+router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
-  });
+});
 
-router.get('/profile',
-  //require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render('profile', { user: req.user });
-  });
+router.get('/ping', function(req, res){
+    res.status(200).send("pong!");
+});
 
 router.get('/api/getSongs', function(req,res,next) {
   // not working
