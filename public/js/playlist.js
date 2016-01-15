@@ -15,10 +15,6 @@ socket.on('loadSongs',function() {
   loadSongs();
 });
 
-window.onload = function() {
-  setLastIdx();
-}
-
 document.onclick = function() {
   clearSearch();
 }
@@ -38,6 +34,7 @@ function setLastIdx() {
       lastIdx = JSON.parse(xhttp.responseText);
     }
   }
+  console.log(activePlaylist);
   xhttp.open("GET", "/api/getLastIdx?pid="+activePlaylist, true);
   xhttp.send();
 }

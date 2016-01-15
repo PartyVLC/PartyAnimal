@@ -2,12 +2,14 @@ window.addEventListener('load', function() {
   socket.emit('getActivePlaylist');
   socket.on('getActivePlaylist',function(pid) {
     activePlaylist = pid;
+    setLastIdx();
     loadSongs();
   });
 });
 
 socket.on('setActivePlaylist',function(pid) {
   activePlaylist = pid;
+  setLastIdx();
   loadSongs();
 });
 
@@ -66,7 +68,6 @@ function loadSongs() {
       }
     }
   };
-  console.log(activePlaylist);
   xhttp.open("GET", "/api/getSongsByPlaylist?pid="+activePlaylist, true);
   xhttp.send();
 }
