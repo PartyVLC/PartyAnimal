@@ -46,6 +46,10 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');
 });
 
+router.post('/delete', function(req, res) {
+  Account.delete();
+});
+
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
