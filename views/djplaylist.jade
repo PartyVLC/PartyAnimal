@@ -1,0 +1,32 @@
+extends ./playlist.jade
+
+block append js
+  script(src='/js/djplaylist.js')
+
+block playlists
+  .container.contentPane
+    .row
+      .headerBar
+        button(id="plsh" onclick="togglePlaylists(this)").showHideButt
+            span(id='plshIcon',class='glyphicon glyphicon-eye-open',aria-hidden='true')
+          text-center(id='currPlaylist')="Current Playlist: "
+            select(id='playlistSelect',onchange='playlistSelect()')
+          button(id='plstDelButt' class='btn btn-default' onclick = "deletePlaylist()")
+            span(class='glyphicon glyphicon-trash',aria-hidden='true')
+
+        .listContainer(id="listContainer")
+          ul(class="playlistList",id="pll")
+        .addNewSong
+          button(id="addSong", onclick="betterExpand('addSong','addSongIcon','addSongInput',32,32,256,32);").showHideButt
+            .shownContent
+              span(id="addSongIcon",class='glyphicon glyphicon-plus',aria-hidden='true')
+            div(id="addSongInput").hiddenContent.absoluteTopLeft
+          text-center()="Add New Song"
+
+
+block append search
+  .input-group
+    input(type="text", class="form-control", placeholder="New Playlist",onkeypress='addPlaylistKeyPress(this)')
+    span(class="input-group-btn")
+      button(class="btn btn-default", type="button", onclick='addPlaylist(this)')
+        span(class="glyphicon glyphicon-plus",aria-hidden="true")

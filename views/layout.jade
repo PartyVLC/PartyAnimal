@@ -22,49 +22,39 @@ html
 
     block head
 
-  body(onresize="initProgressBar();")
+  block body
 
-    //- JAVASCRIPT
-    script(src='/js/playlist.js')
-    script(src='/js/player.js')
-    script(src='/js/expanderButtons.js')
-    script(src='https://apis.google.com/js/client.js?onload=init')
-    script(src='/js/jquery.js')
-    script(src='/bootstrap/js/bootstrap.js')
+  //- JAVASCRIPT
+  script(src="http://localhost:3000/socket.io/socket.io.js")
+  
+  script(src='https://apis.google.com/js/client.js?onload=init')
+  script(src='/js/jquery.js')
+  script(src='/bootstrap/js/bootstrap.js')
+  script(src='/js/playlistMenuStuff.js')
+  script(src='/js/expanderButtons.js')
 
-    block js
+  script.
+    var socket = io.connect('http://localhost:3000');
+  block js
 
-    //- TITLE
-    .container.titleBar.contentPane: #title
-      h1.text-center Party Animal
-      +flash-messages(messages)
-    block title
-      block content
-    .padding1em
-    //- Player
-    .container.contentPane
-      .row
-        .headerBar
-          .showHideButt(id="shb",onclick='showHideToggle()')
-            span(id='showHideButt',class='glyphicon glyphicon-eye-open',aria-hidden='true')
-          text-center(id='currentlyPlaying')="Currently Playing: "
-      .row
-        .col-sm-6: #search
-          block search
-        .col-sm-6: #playlist
-          block playlist
-          //- Playlists
-          block playlists
+  //- TITLE
+  .container.titleBar.contentPane: #title
+    h1.text-center Party Animal
+    +flash-messages(messages)
+  block title
+    block content
+  .padding1em
+  //- Player
+  .container.contentPane
+    block player
 
-      .row
-        block player
-        .container: #player
-    .addButton(id="expander", onclick="expand('expander','plus','qr')")
-        .shownContent(id="plus")
-            span(id='plusIcon',class='glyphicon glyphicon-plus',aria-hidden='true')
-        .hiddenContent(id="qr")
-            block qr
-    //- FOOTER
-    //.container: #footer
-    //  block footer
-    //  p <a href="__" target="_blank"></a>.
+  block playlists
+    .row
+      .container: #player
+  block qrbutt
+  //- FOOTER
+  //- //.container: #footer
+  //- //  block footer
+  //- //  p <a href="__" target="_blank"></a>.
+
+  block search

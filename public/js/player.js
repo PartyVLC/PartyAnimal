@@ -1,5 +1,17 @@
+var idx;
+var activePlaylist;
+
+socket.on('setActivePlaylist',function(pid) {
+  activePlaylist = pid;
+});
+
 window.onload = function() {
   initProgressBar();
+  idx = 1;
+  socket.emit('getActivePlaylist');
+  socket.on('getActivePlaylist',function(pid) {
+    activePlaylist = pid;
+  });
 }
 
 var tag = document.createElement('script');
@@ -13,7 +25,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     height: '390',
     width: '640',
-    playerVars: {'controls':0, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
+    playerVars: {'controls':1, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
     videoId: 'dQw4w9WgXcQ',
     events: {
       'onReady': onPlayerReady,
@@ -21,7 +33,7 @@ function onYouTubeIframeAPIReady() {
     },
     fs:0,
     iv_load_policy:3,
-    disablekb:1
+    disablekb:1,
   });
 }
 
@@ -36,8 +48,21 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
   var myPlayPause = document.getElementById("myPlayPause");
   if (event.data == YT.PlayerState.ENDED) {
-    currentlyPlayingIdx++;
-    loadPlaylist();
+    console.log(activePlaylist);
+    var xhttp = new XMLHttpRequest();
+    var sendData = "idx="+(idx+1)+"&pid="+activePlaylist;
+    xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+        var response = JSON.parse(xhttp.responseText);
+        if (response){
+          var songid = response.SongID;
+          songSelect(songid,activePlaylist);
+          idx = response.Idx;
+        }
+      }
+    };
+    xhttp.open("GET","/api/song/getNext?"+sendData,true);
+    xhttp.send();
   }
 
   else if (event.data == YT.PlayerState.PLAYING) {
@@ -102,4 +127,46 @@ function setProgressPercent(percent)
 {
     e = document.getElementById("progressTimeBar");
     e.style.width = percent + "%";
+}
+
+function playVideo(id) {
+  var xhttp = new XMLHttpRequest();
+  var sendData = "pid="+activePlaylist+"&sid="+id;
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      idx = JSON.parse(xhttp.responseText);
+    }
+  };
+  xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
+  xhttp.send();
+
+  if (id != player.getVideoData().video_id) {
+    $.get('https://www.googleapis.com/youtube/v3/videos',
+      {
+        part:'snippet',
+        key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
+        id:id
+      },
+      function(response){
+        var currentlyPlaying = document.getElementById('currentlyPlaying');
+        currentlyPlaying.innerHTML = "Currently Playing: "+response.items[0].snippet.title;
+      }
+    );
+
+    player.loadVideoById(id);
+  }
+}
+
+function songSelect(sid,pid) {
+  var xhttp = new XMLHttpRequest();
+  var sendData = "pid="+activePlaylist+"&sid="+sid;
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      idx = JSON.parse(xhttp.responseText);
+    }
+  };
+  xhttp.open("GET", "/api/song/getIdx?"+sendData, true);
+  xhttp.send();
+
+  socket.emit('playsong', sid, pid);
 }

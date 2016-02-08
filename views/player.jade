@@ -2,26 +2,54 @@ extends ./index.jade
 
 block js
   script(src='/js/player.js')
+  script(src='/js/expanderButtons.js')
+  script.
+    socket.on('playsong', function(ids){
+      playVideo(ids.sid);
+    });
 
 block title
 
-block qr
-  h5.text-center Follow this QR to add songs on mobile devices!
-  img(src='/images/ip_qr.svg' width='50%' style='max-width:100px;' align='middle').center-block
+block prepend body
+  body(onresize="initProgressBar();")
+
+//- block qr
+//-   h5.text-center Follow this QR to add songs on mobile devices!
+//-   img(src='/images/ip_qr.svg' width='50%' style='max-width:100px;' align='middle').center-block
 
 block player
-  .list-group
-    .row
-      #player(display:hidden).col-xs-6.col-xs-offset-3
-    .row
-        .padding1em
-    .row.col-md-12
-        .progressContainer
-            .progressPlayPause.text-center(onclick='playPause()')
-                .span(id='myPlayPause', class='glyphicon glyphicon-pause', aria-hidden='true')
-            .progressInnerContainer(id="progressInnerCont")
-                .progressTimeBar(id="progressTimeBar")
-            .progressTime.text-center
-                .span(id='myTime')
-    .row
-        .padding1em
+  .row
+    .headerBar
+      button(id="shb",onclick='showHideToggle()').showHideButt
+        span(id='showHideButt',class='glyphicon glyphicon-eye-open',aria-hidden='true')
+      text-center(id='currentlyPlaying')="Currently Playing: "
+  .row
+    .list-group
+      .row
+        #player(display:hidden).col-xs-6.col-xs-offset-3
+      .row
+          .padding1em
+      .row.col-md-12
+          .progressContainer
+              button(onclick='playPause()').progressPlayPause.text-center
+                  .span(id='myPlayPause', class='glyphicon glyphicon-pause', aria-hidden='true')
+              .progressInnerContainer(id="progressInnerCont")
+                  .progressTimeBar(id="progressTimeBar")
+              .progressTime.text-center
+                  .span(id='myTime')
+      .row
+          .padding1em
+
+block qrbutt
+  //- .addButton(id="expander", onclick="expand('expander','plus','qr')")
+  //-   .shownContent(id="plus")
+  //-     span(id='plusIcon',class='glyphicon glyphicon-plus',aria-hidden='true')
+  //-   .hiddenContent(id="qr")
+  //-     block qr
+
+  button(id="expander", onclick="betterExpand('expander','plus','qr',32,32,256,256);").addButton
+      .shownContent(id="plus").absoluteTopLeft
+          img(src='/images/ip_qr.svg', width='32px', height='32px')
+      .hiddenContent(id="qr").absoluteTopLeft
+          img(src='/images/ip_qr.svg', width='256px', height='256px')
+  .padding1em

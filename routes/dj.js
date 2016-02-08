@@ -8,7 +8,7 @@ router.get('/player/:id',function(req,res,next){
 });
 
 router.get('/playlist/:id',function(req,res,next){
-	res.render('playlist', { title: 'Playlist' });
+	res.render('djplaylist', { title: 'Playlist' });
 });
 
 router.get('/login',function(req,res,next){
