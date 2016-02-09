@@ -9,8 +9,8 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     p
-      a(href="http://www.yourpartyanimal.com/dj/player/1") DJ Player
+      a(href="http://"+process.env.prefix+".yourpartyanimal.com/dj/player/1") DJ Player
     p
-      a(href="http://www.yourpartyanimal.com/dj/playlist/1") DJ Playlist
+      a(href="http://"+process.env.prefix+".yourpartyanimal.com/dj/playlist/1") DJ Playlist
     p
-      a(href="http://www.yourpartyanimal.com/guest/1/1") Guest Page
+      a(href="http://"+process.env.prefix+".yourpartyanimal.com/guest/1/1") Guest Page
