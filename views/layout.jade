@@ -25,7 +25,7 @@ html
   block body
 
   //- JAVASCRIPT
-  script(src="http://"+{{prefix}}+".yourpartyanimal.com/socket.io/socket.io.js")
+  script(src="http://{{prefix}}.yourpartyanimal.com/socket.io/socket.io.js")
   
   script(src='https://apis.google.com/js/client.js?onload=init')
   script(src='/js/jquery.js')
@@ -34,7 +34,7 @@ html
   script(src='/js/expanderButtons.js')
 
   script.
-    var socket = io.connect("http://"+{{prefix}}+".yourpartyanimal.com");
+    var socket = io.connect("http://{{prefix}}.yourpartyanimal.com");
   block js
 
   //- TITLE
