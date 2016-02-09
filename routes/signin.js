@@ -3,5 +3,5 @@ var router = express.Router();
 
 /* GET User page. */
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Login' });
+  res.render('login', { title: 'Login' , prefix: process.env.prefix});
 });
