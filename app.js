@@ -64,7 +64,7 @@ app.use(function(err, req, res, next) {
 
 var qr = require('qr-image');
 
-var qr_svg = qr.image(process.env.prefix+"yourpartyanimal.com/guest/1/1", { type: 'svg'});
+var qr_svg = qr.image("http://"+process.env.prefix+".yourpartyanimal.com/guest/1/1", { type: 'svg'});
 qr_svg.pipe(require('fs').createWriteStream('./public/images/ip_qr.svg'));
 
 module.exports = app;
