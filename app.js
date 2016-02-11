@@ -1,4 +1,4 @@
-process.env['prefix'] = 'www';
+process.env['prefix'] = 'test';
 
 var express = require('express');
 var socket_io    = require( "socket.io" );
