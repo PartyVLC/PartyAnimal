@@ -47,7 +47,7 @@ router.get('/', function(req,res,next) {
 
   db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, Idx INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
-  res.render('testpages');
+  res.render('testpages',{prefix: process.env.prefix});
 });
 
 router.get('/api/getSongs', function(req,res,next) {
