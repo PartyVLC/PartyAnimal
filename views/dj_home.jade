@@ -12,4 +12,13 @@ block content
 								li Email    ---> #{user.email}
 								li First Name ---> #{user.firstName} 
 								li Last Name ---> #{user.lastName}
+							if (user.playlists = [])
+								h3.text-center <b> #{user.username} has no playlists!</b>
+								p.text-center Make A New Playlist!
+								
+							else
+								h3.text-center #{user.username}'s Playlists
+								ul: #playlists
+									each playlist, index in user.playlists
+										p.text-center <b>#{index+1}</b>. playlist
 						a(href='/dj/signout', class='text-center new-account') Sign Out

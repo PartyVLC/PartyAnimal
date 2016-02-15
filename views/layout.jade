@@ -40,6 +40,13 @@ html
   block js
 
   //- TITLE
+  .container.login: #login
+    if user
+      p Sign Out #{user.username}
+    else
+      p Sign In as a DJ
+
+      
   .container.titleBar.contentPane: #title
     h1.text-center Party Animal
     +flash-messages(messages)
