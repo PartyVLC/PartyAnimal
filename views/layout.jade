@@ -9,11 +9,13 @@ html
 
     title Party Animal
 
+    
+
     //-[if lt IE 9]
       script(src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js")
       script(src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.js")
     //-[endif]
-    link(rel='shortcut icon', type='image/png', href='/images/Party_Hat.png')
+    //-link(rel='shortcut icon', type='image/png', href='/images/Party_Hat.png')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.css')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
@@ -38,6 +40,13 @@ html
   block js
 
   //- TITLE
+  .container.login: #login
+    if user
+      p Sign Out #{user.username}
+    else
+      p Sign In as a DJ
+
+      
   .container.titleBar.contentPane: #title
     h1.text-center Party Animal
     +flash-messages(messages)

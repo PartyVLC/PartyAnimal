@@ -1,5 +1,6 @@
-doctype html
+extends layout.jade
 
+<<<<<<< HEAD
 html
   head
     title testpage
@@ -14,3 +15,14 @@ html
       a(href="http://#{prefix}.yourpartyanimal.com/dj/playlist/1") DJ Playlist
     p
       a(href="http://#{prefix}.yourpartyanimal.com/guest/1/1") Guest Page
+=======
+block content
+  .container
+    h2
+      a(href="http://localhost:3000/dj/home") DJ Home
+    h2
+      a(href="http://localhost:3000/dj/playlist/1") DJ Playlist 
+      p (does not work)
+    h2
+      a(href="http://localhost:3000/guest/1/1") Guest Page
+>>>>>>> passport

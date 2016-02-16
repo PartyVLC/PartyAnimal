@@ -1,12 +1,8 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
-var Playlist = new Schema({
-    plname: String,
-    owner: String,
-    songs: String
+module.exports = mongoose.model('DJ',{
+	id: String,
+	title: String,
+	users: [],
+	songs: []
 });
-
-Playlist.plugin(passportLocalMongoose);
-
-module.exports = mongoose.model('Playlist', Playlist);
