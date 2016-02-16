@@ -27,8 +27,8 @@ html
   block body
 
   //- JAVASCRIPT
-  //-script(src="http://#{prefix}.yourpartyanimal.com/socket.io/socket.io.js")
-  script(src="http://localhost:3000/socket.io/socket.io.js")
+  script(src="http://#{prefix}.yourpartyanimal.com/socket.io/socket.io.js")
+  //-script(src="http://localhost:3000/socket.io/socket.io.js")
   
   script(src='https://apis.google.com/js/client.js?onload=init')
   script(src='/js/jquery.js')
@@ -37,8 +37,8 @@ html
   script(src='/js/expanderButtons.js')
 
   script.
-    //var socket = io.connect("http://#{prefix}.yourpartyanimal.com");
-    var socket = io.connect("http://localhost:3000");
+    var socket = io.connect("http://#{prefix}.yourpartyanimal.com");
+    //- var socket = io.connect("http://localhost:3000");
   block js
 
   //- TITLE
@@ -56,21 +56,21 @@ html
     block content
   .padding1em
   //- Player
-//  p.text-right
-//    if {{ user }}
-//      Log Out
-//    else:
-//      Log In
-  .container.contentPane
-    block player
+//- //  p.text-right
+//- //    if {{ user }}
+//- //      Log Out
+//- //    else:
+//- //      Log In
+//-   .container.contentPane
+//-     block player
 
-  block playlists
-    .row
-      .container: #player
-  block qrbutt
-  //- FOOTER
-  //- //.container: #footer
-  //- //  block footer
-  //- //  p <a href="__" target="_blank"></a>.
+//-   block playlists
+//-     .row
+//-       .container: #player
+//-   block qrbutt
+//-   //- FOOTER
+//-   //- //.container: #footer
+//-   //- //  block footer
+//-   //- //  p <a href="__" target="_blank"></a>.
 
-  block search
+//-   block search
