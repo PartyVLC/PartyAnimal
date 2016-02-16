@@ -2,10 +2,10 @@ extends layout
 
 block content
   .container
-    h1 Login Page
-    p If you have an account, enter your information below. <a href='/register'>Register</a> if you still need an account!
+    h1 Register Page
+    p.lead Say something worthwhile here.
     br
-    form(role='form', action="/login",method="post", style='max-width: 300px;')
+    form(role='form', action="/register",method="post", style='max-width: 300px;')
       .form-group
           input.form-control(type='text', name="username", placeholder='Enter Username')
       .form-group
@@ -13,3 +13,5 @@ block content
       button.btn.btn-default(type='submit') Submit
       a(href='/')
         button.btn.btn-primary(type="button") Cancel
+    br
+    h4= info
