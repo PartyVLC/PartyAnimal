@@ -13,10 +13,6 @@ block title
 block prepend body
   body(onresize="initProgressBar();")
 
-//- block qr
-//-   h5.text-center Follow this QR to add songs on mobile devices!
-//-   img(src='/images/ip_qr.svg' width='50%' style='max-width:100px;' align='middle').center-block
-
 block player
   .row
     .headerBar
@@ -41,11 +37,6 @@ block player
           .padding1em
 
 block qrbutt
-  //- .addButton(id="expander", onclick="expand('expander','plus','qr')")
-  //-   .shownContent(id="plus")
-  //-     span(id='plusIcon',class='glyphicon glyphicon-plus',aria-hidden='true')
-  //-   .hiddenContent(id="qr")
-  //-     block qr
 
   button(id="expander", onclick="betterExpand('expander','plus','qr',32,32,256,256);").addButton
       .shownContent(id="plus").absoluteTopLeft

@@ -1,5 +1,3 @@
-console.log(process.env.prefix)
-
 var express = require('express');
 var router = express.Router();
 
