@@ -63,7 +63,6 @@ router.get('/', function(req,res,next) {
 
 router.get('/ping', function(req, res){
     res.status(200).send("pong!");
->>>>>>> passport
 });
 
 router.get('/api/getSongs', function(req,res,next) {

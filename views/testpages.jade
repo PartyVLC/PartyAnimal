@@ -1,6 +1,5 @@
 extends layout.jade
 
-<<<<<<< HEAD
 html
   head
     title testpage
@@ -8,21 +7,13 @@ html
     link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.css')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    p 
-      a(href="http://#{prefix}.yourpartyanimal.com/dj/player/1") DJ Player
-    p
-      a(href="http://#{prefix}.yourpartyanimal.com/dj/playlist/1") DJ Playlist
-    p
-      a(href="http://#{prefix}.yourpartyanimal.com/guest/1/1") Guest Page
-=======
-block content
-  .container
-    h2
-      a(href="http://localhost:3000/dj/home") DJ Home
-    h2
-      a(href="http://localhost:3000/dj/playlist/1") DJ Playlist 
-      p (does not work)
-    h2
-      a(href="http://localhost:3000/guest/1/1") Guest Page
->>>>>>> passport
+  block content
+    .container
+      h2 
+        a(href="http://#{prefix}.yourpartyanimal.com/dj/player/1") DJ Player
+      h2
+        a(href="http://#{prefix}.yourpartyanimal.com/dj/playlist/1") DJ Playlist
+      h2
+        a(href="http://#{prefix}.yourpartyanimal.com/guest/1/1") Guest Page
+      h2
+        a(href="http://#{prefix}.yourpartyanimal.com/dj/home") DJ Home
