@@ -22,4 +22,4 @@ node_modules/
 .DS_Store
 
 #qr file
-/public/images/ip_qr.svg
+public/images/ip_qr.svg
