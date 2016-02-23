@@ -9,11 +9,13 @@ html
 
     title Party Animal
 
+    
+
     //-[if lt IE 9]
       script(src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js")
       script(src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.js")
     //-[endif]
-    link(rel='shortcut icon', type='image/png', href='/images/Party_Hat.png')
+    //- link(rel='shortcut icon', type='image/png', href='/images/Party_Hat.png')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.css')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
@@ -26,6 +28,7 @@ html
 
   //- JAVASCRIPT
   script(src="http://#{prefix}.yourpartyanimal.com/socket.io/socket.io.js")
+  //- script(src="http://localhost:3000/socket.io/socket.io.js")
   
   script(src='https://apis.google.com/js/client.js?onload=init')
   script(src='/js/jquery.js')
@@ -35,9 +38,17 @@ html
 
   script.
     var socket = io.connect("http://#{prefix}.yourpartyanimal.com");
+    //- var socket = io.connect("http://localhost:3000");
   block js
 
   //- TITLE
+  .container.login: #login
+    if user
+      p Sign Out #{user.username}
+    else
+      p Sign In as a DJ
+
+      
   .container.titleBar.contentPane: #title
     h1.text-center Party Animal
     +flash-messages(messages)
@@ -52,9 +63,5 @@ html
     .row
       .container: #player
   block qrbutt
-  //- FOOTER
-  //- //.container: #footer
-  //- //  block footer
-  //- //  p <a href="__" target="_blank"></a>.
 
   block search

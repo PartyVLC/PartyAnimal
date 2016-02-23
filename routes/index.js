@@ -6,40 +6,15 @@ var http = require('http');
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
+
+//var passport = require('passport');
+//var Account = require('../models/dj');
+
+
 router.get('/', function(req,res,next) {
-
-  // var os = require('os');
-  // var ifaces = os.networkInterfaces();
-
-  // Object.keys(ifaces).forEach(function (ifname) {
-  //   var alias = 0;
-
-  //   ifaces[ifname].forEach(function (iface) {
-  //     if ('IPv4' !== iface.family || iface.internal !== false) {
-  //       // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-  //       return;
-  //     }
-
-  //     if (alias >= 1) {
-  //       // this single interface has multiple ipv4 addresses
-  //       console.log(ifname + ':' + alias, iface.address);
-  //     } else {
-  //       // this interface has only one ipv4 adress
-  //       console.log(ifname, iface.address);
-  //     }
-  //     ++alias;
-  //   });
-
-  //   var options2 = {
-  //     host: '',
-  //     port: 3000,
-  //     path: '/api/ip',
-  //     method: 'GET'
-  //   };
-  //   var ip = http.request(options2);
-  //   ip.end();
-
-  // });
+  if (req.user) {
+    console.log("Current User: " + req.user.username);
+  }
 
   db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
 
@@ -47,10 +22,51 @@ router.get('/', function(req,res,next) {
 
   db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, Idx INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
-  res.render('testpages',{prefix: process.env.prefix});
+  res.render('testpages', { prefix: process.env.prefix, user: req.user });
+});
+
+// router.get('/register', function(req, res) {
+//     res.render('register', { });
+// });
+
+// router.post('/register', function(req, res) {
+//     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+//         if (err) {
+//           return res.render("register", {info: "Sorry. That username already exists. Try again."});
+//         }
+
+//         passport.authenticate('local')(req, res, function () {
+//             res.redirect('/');
+//         });
+//     });
+// });
+
+// router.get('/login', function(req, res) {
+//     res.render('login', { user : req.user });
+// });
+
+// router.post('/login', passport.authenticate('local'), function(req, res) {
+//   // console.log(req.user.username);
+//   passport.authenticate('local')(req, res, function () {
+//     res.redirect('/');
+//   });
+// });
+
+// router.post('/delete', function(req, res) {
+//   Account.delete();
+// });
+
+// router.get('/logout', function(req, res) {
+//     req.logout();
+//     res.redirect('/');
+// });
+
+router.get('/ping', function(req, res){
+    res.status(200).send("pong!");
 });
 
 router.get('/api/getSongs', function(req,res,next) {
+  // not working
     db.all("SELECT * FROM Song", function(err, rows){
       rows.forEach(function(row) {
       if (err) {
