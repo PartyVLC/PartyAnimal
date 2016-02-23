@@ -31,7 +31,7 @@ function setLastIdx() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-      lastIdx = JSON.parse(xhttp.responseText);
+      lastIdx = JSON.parse(xhttp.responseText) + 1;
     }
   }
   console.log(activePlaylist);
@@ -133,8 +133,7 @@ function search() {
 }
 
 function addFromSearch(song) {
-  lastIdx++;
-  console.log(lastIdx);
+  setLastIdx();
   var xhttp = new XMLHttpRequest();
   var sendData = "id="+song.id+"&title="+song.title+"&pid="+activePlaylist+"&idx="+lastIdx;
   xhttp.open("POST", "/api/addsong", true);
