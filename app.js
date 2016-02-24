@@ -22,6 +22,8 @@ app.use(cookieParser());
 
 // passport config
 var DJ = require('./models/dj');
+var DJSet = require('./models/djset');
+var Song = require('./models/song');
 var passport = require('passport');
 var expressSession = require('express-session');
 
@@ -55,7 +57,7 @@ var flash = require('connect-flash');
 app.use(flash());
 
 var index = require('./routes/index');
-var dj = require('./routes/dj')(passport);
+var dj = require('./routes/dj')(passport, db, DJSet, Song);
 var guest = require('./routes/guest');
 
 app.use('/', index);

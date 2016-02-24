@@ -14,7 +14,7 @@ block content
 								li Last Name ---> #{user.lastName}
 							if (user.playlists = [])
 								h3.text-center <b> #{user.username} has no playlists!</b>
-								p.text-center Make A New Playlist!
+								p.text-center <a href="localhost:3000/dj/set/new"> Make A New Playlist! </a>
 								
 							else
 								h3.text-center #{user.username}'s Playlists

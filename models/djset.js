@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-module.exports = mongoose.model('DJ',{
+module.exports = mongoose.model('Set',{
 	id: String,
 	title: String,
 	users: [],
