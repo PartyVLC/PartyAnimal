@@ -1,11 +1,11 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema
 
 module.exports = mongoose.model('DJ',{
-	id: String,
 	username: String,
 	password: String,
 	email: String,
 	firstName: String,
 	lastName: String,
-	playlists: []
+	playlists: [ {type: Schema.Types.ObjectId, ref: 'Playlist'} ]
 });

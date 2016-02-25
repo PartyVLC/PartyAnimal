@@ -23,7 +23,7 @@ app.use(logger('dev'));
 
 // passport config
 var DJ = require('./models/dj');
-var DJSet = require('./models/djset');
+var Playlist = require('./models/playlist');
 var Song = require('./models/song');
 var passport = require('passport');
 var expressSession = require('express-session');
@@ -34,15 +34,6 @@ app.use(passport.session());
 
 var initPassport = require('./passport/init');
 initPassport(passport);
-
-// passport.serializeUser(function(DJ, done) {
-//   done(null, DJ._id);
-// });
-// passport.deserializeUser(function(id, done) {
-//   DJ.findById(id, function(err, DJ) {
-//     done(err, DJ);
-//   });
-// });
 
 // ***** mongoose configs *****
 var mongoose = require('mongoose');
@@ -58,7 +49,7 @@ var flash = require('connect-flash');
 app.use(flash());
 
 var index = require('./routes/index');
-var dj = require('./routes/dj')(passport, db, DJSet, Song);
+var dj = require('./routes/dj')(passport, db, Playlist, Song);
 var guest = require('./routes/guest');
 
 app.use('/', index);
