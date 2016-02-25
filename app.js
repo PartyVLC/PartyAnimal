@@ -19,7 +19,7 @@ app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(logger('dev'));
+//app.use(logger('tiny'));
 
 // passport config
 var DJ = require('./models/dj');
