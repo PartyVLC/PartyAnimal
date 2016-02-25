@@ -62,7 +62,7 @@ module.exports = function(passport, db, Playlist, Song){
     });
 
     /* Handle New Set POST */
-    router.post('/set/new', isAuthenticated, function(req, res) {
+    router.get('/set/new', isAuthenticated, function(req, res) {
         var newPL = new Playlist({
         	title: "Stuffy Stuff",
         	_creator: req.user._id
