@@ -45,7 +45,7 @@ initPassport(passport);
 
 // ***** mongoose configs *****
 var mongoose = require('mongoose');
-var mongodbUri = 'mongodb://michael:408999@ds059365.mongolab.com:59365/partyanimal';
+var mongodbUri = process.env.MONGO;
 mongoose.connect(mongodbUri);
 
 var db = mongoose.connection;
