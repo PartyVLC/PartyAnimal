@@ -50,11 +50,11 @@ module.exports = function(passport){
 	});
 
   router.get('/player/:id',function(req,res,next){
-    res.render('player', { title: 'Playing' , prefix: process.env.prefix});
+    res.render('player', { title: 'Playing' , domain: process.env.DOMAIN});
   });
 
   router.get('/playlist/:id',function(req,res,next){
-    res.render('djplaylist', { title: 'Playlist' , prefix: process.env.prefix});
+    res.render('djplaylist', { title: 'Playlist' , domain: process.env.DOMAIN});
   });
 
 

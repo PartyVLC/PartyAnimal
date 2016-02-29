@@ -34,18 +34,9 @@ app.use(passport.session());
 var initPassport = require('./passport/init');
 initPassport(passport);
 
-// passport.serializeUser(function(DJ, done) {
-//   done(null, DJ._id);
-// });
-// passport.deserializeUser(function(id, done) {
-//   DJ.findById(id, function(err, DJ) {
-//     done(err, DJ);
-//   });
-// });
-
 // ***** mongoose configs *****
 var mongoose = require('mongoose');
-var mongodbUri = 'mongodb://michael:408999@ds059365.mongolab.com:59365/partyanimal';
+var mongodbUri = process.env.MONGO;
 mongoose.connect(mongodbUri);
 
 var db = mongoose.connection;
@@ -208,5 +199,7 @@ qr_svg.pipe(require('fs').createWriteStream('./public/images/guest_qr.svg'));
 //     }
 //   )
 // });
+
+// console.log(process.env.DOMAIN);
 
 module.exports = app;
