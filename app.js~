@@ -53,7 +53,7 @@ app.use(flash());
 var index = require('./routes/index');
 var dj = require('./routes/dj')(passport, db, Playlist, Song);
 var guest = require('./routes/guest');
-var songs = require('./routes/songs')(db, Playlist, Song, DJ);
+var songs = require('./routes/songs');
 
 app.use('/', index);
 app.use('/dj', dj);

@@ -1,0 +1,23 @@
+extends layout
+
+html
+  head
+    title testpage
+    link(rel='shortcut icon', type='image/png', href='/images/Party_Hat.png')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  block content
+    .container
+      h2 
+        a(href="http://#{prefix}.yourpartyanimal.com/dj/player/1") DJ Player
+        //- a(href="http://localhost:3000/dj/player/1") DJ Player
+      h2
+        a(href="http://#{prefix}.yourpartyanimal.com/dj/playlist/1") DJ Playlist
+        //- a(href="http://localhost:3000/dj/playlist/1") DJ Playlist
+      h2
+        a(href="http://#{prefix}.yourpartyanimal.com/guest/1/1") Guest Page
+        //- a(href="http://localhost:3000/guest/1/1") Guest Page
+      h2
+        a(href="http://#{prefix}.yourpartyanimal.com/dj/home") DJ Home
+        //- a(href="http://localhost:3000/dj/home") DJ Home
