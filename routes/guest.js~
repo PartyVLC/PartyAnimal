@@ -22,4 +22,43 @@ var isAuthenticated = function (req, res, next) {
 	res.redirect('/dj');
 }
 
+module.exports = function(passport){
 
+	/* GET login page. */
+	router.get('/', function(req, res) {
+    	// Display the Login page with any flash message, if any
+		res.render('dj_index', { message: req.flash('message') });
+	});
+
+	/* Handle Login POST */
+	router.post('/login', passport.authenticate('login', {
+		successRedirect: '/dj/home',
+		failureRedirect: '/dj',
+		failureFlash : true  
+	}));
+
+	/* GET Registration Page */
+	router.get('/signup', function(req, res){
+		res.render('dj_register',{message: req.flash('message')});
+	});
+
+	/* Handle Registration POST */
+	router.post('/signup', passport.authenticate('signup', {
+		successRedirect: '/dj/home',
+		failureRedirect: '/dj/signup',
+		failureFlash : true  
+	}));
+
+	/* GET Home Page */
+	router.get('/home', isAuthenticated, function(req, res){
+		res.render('dj_home', { user: req.user });
+	});
+
+	/* Handle Logout */
+	router.get('/signout', function(req, res) {
+		req.logout();
+		res.redirect('/dj');
+	});
+
+	return router;
+}
