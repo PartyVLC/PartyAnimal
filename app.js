@@ -7,6 +7,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override')
 
 //////////////////////////////////////////////////////
 var app = express();
@@ -21,7 +22,7 @@ app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use(logger('tiny'));
+app.use(logger('tiny'));
 
 // passport config
 var DJ = require('./models/dj');
@@ -33,6 +34,14 @@ var expressSession = require('express-session');
 app.use(expressSession({ secret: 'G0N0r$3', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(methodOverride(function(req, res){
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
+}))
 
 var initPassport = require('./passport/init');
 initPassport(passport);

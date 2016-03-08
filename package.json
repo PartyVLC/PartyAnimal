@@ -16,6 +16,7 @@
     "express": "~4.13.1",
     "express-session": "^1.13.0",
     "jade": "~1.11.0",
+    "method-override": "^2.3.5",
     "mongoose": ">2.1.0",
     "morgan": "~1.6.1",
     "nopt": "^3.0.6",

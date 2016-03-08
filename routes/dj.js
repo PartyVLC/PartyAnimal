@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var http = require('http');
 
 var isAuthenticated = function (req, res, next) {
     // if user is authenticated in the session, call the next() to call the next request handler 
@@ -16,6 +17,8 @@ var _getMsg = function(playlists, user, callback) {
         callback(PList);
     });
 }
+
+// var delSet = function()
 
 module.exports = function(passport, db, Playlist, Song){
 	var users = db.collection("djs")
@@ -61,9 +64,9 @@ module.exports = function(passport, db, Playlist, Song){
     });
 
     /* Handle New Set POST */
-    router.get('/set/new', isAuthenticated, function(req, res) {
+    router.post('/set/new', isAuthenticated, function(req, res) {
         var newPL = new Playlist({
-        	title: "Stuffy Stuff",
+        	title: req.body.title,
         	_creator: req.user._id
         })
         newPL.save(function (err) {
@@ -80,18 +83,59 @@ module.exports = function(passport, db, Playlist, Song){
       	res.redirect('/dj/home');
     });
 
+    router.get('/set/delete/:id', isAuthenticated, function(req, res) {
+        var path = '/dj/set/'+req.params.id;
+        var options = {
+            host: 'localhost',
+            port: '5000',
+            path: path,
+            method: 'delete'
+        };
+        callback = function(response) {
+          var str = ''
+          response.on('data', function (chunk) {
+            str += chunk;
+          });
+
+          response.on('end', function () {
+            console.log(str);
+            //res.redirect('/dj/home');
+          });
+        }
+        console.log('ID: '+ req.params.id);
+        http.request(options, callback).end();
+        //res.redirect('/dj/home')
+    })
+
     /* Handle Delete Set */
     router.delete('/set/:id', isAuthenticated, function(req, res) {
-    	if (req.params.id in req.user.playlists) {
-    		users.findAndModify(
-    			{ _id: req.user._id },
-    			{ remove: { playlists: req.params.id }}
-    		);
-    		playlists.remove(
-    			{ _id: req.params._id },
-    			{ justOne: true }
-    		)
-    	}
+        console.log('ID: '+ req.params.id);
+        console.log('From: '+ req.user.playlists)
+    	//if (req.params.id in req.user.playlists) {
+        console.log("Index: "+req.user.playlists.indexOf(req.params.id))
+        if (req.user.playlists.indexOf(req.params.id)) {
+            console.log('Deleting '+req.params.id)
+            users.findAndModify(
+                { _id: req.user._id },
+                { $remove: { playlists: req.params.id }}
+            );
+            playlists.remove(
+                { _id: req.params._id },
+                { justOne: true }
+            )
+            }
+     //        console.log('Deleting '+req.params.id)
+    	// 	users.findAndModify(
+    	// 		{ _id: req.user._id },
+    	// 		{ remove: { playlists: req.params.id }}
+    	// 	);
+    	// 	playlists.remove(
+    	// 		{ _id: req.params._id },
+    	// 		{ justOne: true }
+    	// 	)
+    	// }
+        //res.send(req.body.id)
+        res.redirect('/dj/home');
     });
 
 	router.get('/player/:id',function(req,res,next){

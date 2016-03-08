@@ -15,11 +15,20 @@ block content
 
 							if (user.playlists == [])
 								h3.text-center <b> #{user.username} has no playlists!</b>
-								p.text-center <a href="localhost:3000/dj/set/new"> Make A New Playlist! </a>
+								p.text-center <a href="/dj/set/new"> Make A New Playlist! </a>
 								
 							else
 								h3.text-center #{user.username}'s Playlists
 								ul: #playlists
 									each playlist, index in playlists
-										p.text-center <b>#{index+1}</b>. #{playlist.title}
+										form(class='form-delPL', action='/dj/set/#{playlist._id}', method='POST')
+											input(type='hidden', name='_method', value='delete')
+											button(class='btn btn-lg btn-primary btn-block', type='submit') <b>#{index+1}</b>. #{playlist.title}
+
+							h1.text-center.login-title Add a New Playlist
+								form(class='form-newSet', action='/dj/set/new', method='POST')
+									input(type='hidden', name='_method', value='delete')
+									input(type='text', name='title', class='form-control', placeholder='Title',required, autofocus)
+									button(class='btn btn-lg btn-primary btn-block', type='submit') Create
+									span.clearfix
 						a(href='/dj/signout', class='text-center new-account') Sign Out
