@@ -17,6 +17,12 @@ var _getMsg = function(playlists, user, callback) {
     });
 }//change to look through multiple tables yay
 
+var _getSong = function(songs, id, callback) {
+    songs.find({ id: id }).toArray(function (err, SList) {
+        callback(SList);
+    });
+}
+
 module.exports = function(db, Playlist, Song, DJ){
 	var users = db.collection("djs")
 	var playlists = db.collection("playlists")
@@ -27,26 +33,35 @@ module.exports = function(db, Playlist, Song, DJ){
 	/* GET Song Page */
        router.get('/add', function(req, res) {
            res.render('addsong',{message: req.flash('message')});
-       });
+       })
 
        /* Handle Song POST */
       router.post('/add', function(req,res) {
          var title = req.body.title;
-         var id = req.body.songid;
-         var newS = new Song({
-           title:title,
-           id:id
-         });
-          
-         //change this to update
-         newS.save(function (err) {
-           if (err) return handleError(err);
+         var sid = req.body.songid;
+         var pid = req.body.pid;
+
+         // add song to songs db
+         songs.update(
+          { title: title, id: sid },
+          { title: title,
+          id: sid },
+          {upsert: true}
+         )
+
+        //next update playlist db to have this new song
+         _getSong(songs,sid, function(SList) {
+          console.log(SList[0]._id, pid)
+          playlists.findAndModify({
+            query: { _id: { $oid: pid } },
+            update: { $push: { songs: SList[0]._id }},
+            upsert: true
+           })
          })
 
-        //next update playlist to have this new song
-         res.redirect('/');
-       });
 
+         res.redirect('/')
+       })
 
-	return router;
+	return router
 }

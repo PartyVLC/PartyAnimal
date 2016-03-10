@@ -8,5 +8,3 @@ router.get('/:partyID/:activePlaylistID',function(req,res,next){
 });
 
 module.exports = router;
-
-
