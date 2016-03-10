@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+//var ObjectID = require('mongoose').ObjectID
+var ObjectId = require('mongodb').ObjectId
 
 var isAuthenticated = function (req, res, next) {
     // if user is authenticated in the session, call the next() to call the next request handler 
@@ -44,21 +46,17 @@ module.exports = function(db, Playlist, Song, DJ){
          // add song to songs db
          songs.update(
           { title: title, id: sid },
-          { title: title,
-          id: sid },
+          { title: title, id: sid },
           {upsert: true}
          )
 
         //next update playlist db to have this new song
-         _getSong(songs,sid, function(SList) {
-          console.log(SList[0]._id, pid)
-          playlists.findAndModify({
-            query: { _id: { $oid: pid } },
-            update: { $push: { songs: SList[0]._id }},
-            upsert: true
-           })
+         _getSong(songs, sid, function(SList) {
+          playlists.update(
+            { _id: ObjectId(pid) },
+            { $push: { songs: SList[0]._id } }
+           ) 
          })
-
 
          res.redirect('/')
        })

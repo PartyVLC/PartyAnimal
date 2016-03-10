@@ -24,6 +24,9 @@ module.exports = function(passport, db, Playlist, Song){
     /* GET login page. */
     router.get('/', function(req, res) {
         // Display the Login page with any flash message, if any
+        playlists.find({ title : "Stuffy Stuff"}).toArray(function (err, PList) {
+        console.log(PList);
+    });
         res.render('dj_index', { message: req.flash('message') });
     });
 
