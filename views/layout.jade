@@ -42,9 +42,11 @@ html
   //- TITLE
   .container.login: #login
     if user
-      p Sign Out #{user.username}
+      a(href="/dj/signout")
+        p Sign Out #{user.username}
     else
-      p Sign In as a DJ
+      a(href="/dj")
+        p Sign In as a DJ
 
       
   .container.titleBar.contentPane: #title
