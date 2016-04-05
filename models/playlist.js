@@ -6,5 +6,4 @@ module.exports = mongoose.model('Playlist',{
 	title: String,
 	followers: [ {type: Schema.Types.ObjectId, ref: 'DJ'} ],
 	songs: [ {type: Schema.Types.ObjectId, ref: 'Song'} ]
-	
 });

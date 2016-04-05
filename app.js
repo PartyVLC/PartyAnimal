@@ -55,11 +55,13 @@ var index = require('./routes/index');
 var dj = require('./routes/dj')(passport, db, Playlist, Song);
 var guest = require('./routes/guest');
 var songs = require('./routes/songs')(db, Playlist, Song, DJ);
+var playlist = require('./routes/playlist')(db, Playlist, Song, DJ);
 
 app.use('/', index);
 app.use('/dj', dj);
 app.use('/guest', guest);
 app.use('/songs', songs);
+app.use('/playlist', playlist);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'Party_Hat.png')));

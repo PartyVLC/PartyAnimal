@@ -25,7 +25,7 @@ module.exports = function(passport, db, Playlist, Song){
     router.get('/', function(req, res) {
         // Display the Login page with any flash message, if any
         playlists.find({ title : "Stuffy Stuff"}).toArray(function (err, PList) {
-        console.log(PList);
+        //console.log(PList);
     });
         res.render('dj_index', { message: req.flash('message') });
     });
@@ -53,7 +53,6 @@ module.exports = function(passport, db, Playlist, Song){
     router.get('/home', isAuthenticated, function(req, res) {
 		_getMsg(playlists, req.user, function (PList) {
 		    res.render('dj_home', { user: req.user, playlists: PList });
-		    
 		});
     });
 
@@ -64,9 +63,9 @@ module.exports = function(passport, db, Playlist, Song){
     });
 
     /* Handle New Set POST */
-    router.get('/set/new', isAuthenticated, function(req, res) {
+    router.post('/set/new', isAuthenticated, function(req, res) {
         var newPL = new Playlist({
-        	title: "Stuffy Stuff",
+        	title: req.body.title,
         	_creator: req.user._id
         })
         newPL.save(function (err) {

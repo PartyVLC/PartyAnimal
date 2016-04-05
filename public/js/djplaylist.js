@@ -116,6 +116,7 @@ function loadSongs() {
   };
 
   xhttp.open("GET", "/api/getSongsByPlaylist?pid="+activePlaylist, true);
+  //xhttp.open("GET", "/songs/"+activePlaylist, true);
   xhttp.send();
 }
 
