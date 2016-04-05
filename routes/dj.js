@@ -53,7 +53,6 @@ module.exports = function(passport, db, Playlist, Song){
     router.get('/home', isAuthenticated, function(req, res) {
 		_getMsg(playlists, req.user, function (PList) {
 		    res.render('dj_home', { user: req.user, playlists: PList });
-		    
 		});
     });
 

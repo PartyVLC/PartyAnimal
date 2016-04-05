@@ -21,6 +21,7 @@ block content
 								h3.text-center #{user.username}'s Playlists
 								ul: #playlists
 									each playlist, index in playlists
+<<<<<<< HEAD
 										form(class='form-delPL', action='/dj/set/#{playlist._id}', method='POST')
 											input(type='hidden', name='_method', value='delete')
 											button(class='btn btn-lg btn-primary btn-block', type='submit') <b>#{index+1}</b>. #{playlist.title}
@@ -30,4 +31,13 @@ block content
 									input(type='text', name='title', class='form-control', placeholder='Title',required, autofocus)
 									button(class='btn btn-lg btn-primary btn-block', type='submit') Create
 									span.clearfix
+=======
+										p.text-center <b>#{index+1}</b>. #{playlist.title}
+
+							h1.text-center.login-title Add a New Playlist
+								form(class='form-newSet', action='/dj/set/new',method='POST')
+										input(type='text',name='title',class='form-control',placeholder='Title',required,autofocus)
+										button(class='btn btn-lg btn-primary btn-block', type='submit') Create
+										span.clearfix
+>>>>>>> mongod
 						a(href='/dj/signout', class='text-center new-account') Sign Out

@@ -15,7 +15,7 @@ router.get('/', function(req,res,next) {
   if (req.user) {
     console.log("Current User: " + req.user.username);
   }
-  console.log(process.env.DOMAIN)
+  //console.log(process.env.DOMAIN)
 
   db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
 
@@ -65,6 +65,7 @@ router.get('/', function(req,res,next) {
 router.get('/ping', function(req, res){
     res.status(200).send("pong!");
 });
+
 
 router.get('/api/getSongs', function(req,res,next) {
   // not working

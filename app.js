@@ -48,7 +48,8 @@ initPassport(passport);
 
 // ***** mongoose configs *****
 var mongoose = require('mongoose');
-var mongodbUri = process.env.MONGO;
+//var mongodbUri = process.env.MONGO;
+var mongodbUri = 'mongodb://michael:408999@ds059365.mongolab.com:59365/partyanimal';
 mongoose.connect(mongodbUri);
 
 var db = mongoose.connection;
@@ -62,10 +63,14 @@ app.use(flash());
 var index = require('./routes/index');
 var dj = require('./routes/dj')(passport, db, Playlist, Song);
 var guest = require('./routes/guest');
+var songs = require('./routes/songs')(db, Playlist, Song, DJ);
+var playlist = require('./routes/playlist')(db, Playlist, Song, DJ);
 
 app.use('/', index);
 app.use('/dj', dj);
 app.use('/guest', guest);
+app.use('/songs', songs);
+app.use('/playlist', playlist);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'Party_Hat.png')));
