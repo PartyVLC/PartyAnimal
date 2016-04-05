@@ -51,6 +51,7 @@ module.exports = function(passport, db, Playlist, Song){
 
     /* GET Home Page */
     router.get('/home', isAuthenticated, function(req, res) {
+        //update jade for new database format
 		_getMsg(playlists, req.user, function (PList) {
 		    res.render('dj_home', { user: req.user, playlists: PList });
 		});
@@ -64,19 +65,9 @@ module.exports = function(passport, db, Playlist, Song){
 
     /* Handle New Set POST */
     router.post('/set/new', isAuthenticated, function(req, res) {
-        var newPL = new Playlist({
-        	title: req.body.title,
-        	_creator: req.user._id
-        })
-        newPL.save(function (err) {
-        	if (err) return handleError(err);
-        })
-        //console.log("PL _id: " + newPL._id)
-        //console.log("Playlists(pre): " + req.user.playlists)
-
         users.update(
         	{ _id: req.user._id },
-        	{ $push: { playlists: newPL._id } }
+        	{ $push: { playlists: {title: req.body.title, _creator: req.user._id, songs: []} } }
         );
         //console.log("Playlists: " + req.user.playlists);
       	res.redirect('/dj/home');
