@@ -47,8 +47,8 @@ module.exports = function(db, Playlist, Song, DJ){
         }
       }
     )
-    
-   res.redirect('/')
+
+    res.redirect('/')
   })
 
   router.post('/delete', function(req,res) {
