@@ -1,6 +1,5 @@
-var express = require('express');
-var router = express.Router();
-//var ObjectID = require('mongoose').ObjectID
+var express = require('express')
+var router = express.Router()
 var ObjectId = require('mongodb').ObjectId
 
 var isAuthenticated = function (req, res, next) {
@@ -8,27 +7,9 @@ var isAuthenticated = function (req, res, next) {
   // Passport adds this method to request object. A middleware is allowed to add properties to
   // request and response objects
   if (req.isAuthenticated())
-      return next();
+      return next()
   // if the user is not authenticated then redirect them to the login page
-  res.redirect('/dj');
-}
-
-var _getSong = function(songs, id, callback) {
-  songs.find({ id: id }).toArray(function (err, SList) {
-      callback(SList);
-  })
-}
-
-var _getSongsByOId = function(songs, oidlist, callback) {
-  songs.find({ _id: {$in : oidlist }}).toArray(function (err, SList) {
-    callback(SList)
-  })
-}
-
-var _getPlaylist = function(playlists, pid, callback) {
-  playlists.find({ _id : ObjectId(pid) }).toArray(function (err, PList) {
-    callback(PList)
-  })
+  res.redirect('/dj')
 }
 
 module.exports = function(db, Playlist, Song, DJ){
@@ -43,32 +24,35 @@ module.exports = function(db, Playlist, Song, DJ){
 
   /* Add Song to Playlist POST */
   router.post('/add', function(req,res) {
-   var title = req.body.title;
-   var sid = req.body.sid;
-   var pid = req.body.pid;
+   var title = req.body.title
+   var sid = req.body.sid
+   var pname = req.body.pid
 
-  //  // add song to songs db
-  //  songs.update(
-  //   { title: title, id: sid },
-  //   { title: title, id: sid },
-  //   { upsert: true }
-  //  )
+    users.update(
+      { 
+        _id : req.user._id,
+        'playlists.title': pname
+      },
+      {
+        $push : { 
+          'playlists.$.songs' : { title: title, id : sid } 
+        }
+      },
+      function(err, result) {
+        if (err) {
+          console.log(err)
+        }
+        else {
+          console.log(result)
+        }
+      }
+    )
 
-  // //next update playlist db to have this new song
-  //  _getSong(songs, sid, function(SList) {
-  //   playlists.update(
-  //     { _id: ObjectId(pid) },
-  //     { $push: { songs: SList[0]._id } }
-  //    )
-  //  })
+    res.redirect('/')
+  })
 
-   _getPlaylist(playlists,pid,function(PList) {
-    playlists.update(
-      { _id: ObjectId(pid) },
-      { $push: { songs: { title: title, id: sid } } }
-     )
-   })
-   res.redirect('/')
+  router.post('/delete', function(req,res) {
+    res.redirect('/')
   })
 
 	return router
