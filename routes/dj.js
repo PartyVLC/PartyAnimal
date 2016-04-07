@@ -58,7 +58,12 @@ module.exports = function(passport, db, Playlist, Song){
     router.post('/set/new', isAuthenticated, function(req, res) {
         users.update(
           { _id: req.user._id },
-          { $push: { playlists: {title: req.body.title, songs: []} } }
+          { $addToSet: { playlists: { title: req.body.title, songs: [] } } },
+          function(err) {
+            if (err) {
+              console.log(err)
+            }
+          }
         )
         res.redirect('/dj/home')
     });
