@@ -21,8 +21,10 @@ block content
 								h3.text-center #{user.username}'s Playlists
 								ul: #playlists
 									each playlist, index in playlists
-										form(class='form-delPL', action='/dj/set/#{playlist._id}', method='POST')
-											input(type='hidden', name='_method', value='delete')
+										//- form(class='form-delPL', action='/dj/set/#{playlist._id}', method='POST')
+										form(class='form-delPL', action='/dj/set/delete', method='POST')
+											//- input(type='hidden', name='_method', value='delete')
+											input(type='hidden', name='playlist', value='#{playlist.title}')
 											button(class='btn btn-lg btn-primary btn-block', type='submit') <b>#{index+1}</b>. #{playlist.title}
 
 							h1.text-center.login-title Add a New Playlist

@@ -23,8 +23,8 @@ var _getMsg = function(users, user, callback) {
 // var delSet = function()
 
 module.exports = function(passport, db, Playlist, Song){
-	var users = db.collection("djs")
-	var playlists = db.collection("playlists")
+  var users = db.collection("djs")
+  var playlists = db.collection("playlists")
 
     /* GET login page. */
     router.get('/', function(req, res) {
@@ -54,9 +54,9 @@ module.exports = function(passport, db, Playlist, Song){
     /* GET Home Page */
     router.get('/home', isAuthenticated, function(req, res) {
         //update jade for new database format
-		_getMsg(users, req.user, function (PList) {
-		    res.render('dj_home', { user: req.user, playlists: PList });
-		});
+    _getMsg(users, req.user, function (PList) {
+        res.render('dj_home', { user: req.user, playlists: PList });
+    });
 
         //should be able to just pass req.user.playlists
         //why is req.user.playlists always empty?!
@@ -64,18 +64,38 @@ module.exports = function(passport, db, Playlist, Song){
 
     /* Handle Logout */
     router.get('/signout', function(req, res) {
-        req.logout();
-        res.redirect('/dj');
+        req.logout()
+        res.redirect('/dj')
     });
 
     /* Handle New Set POST */
     router.post('/set/new', isAuthenticated, function(req, res) {
         users.update(
-        	{ _id: req.user._id },
-        	{ $push: { playlists: {title: req.body.title, songs: []} } }
-        );
-      	res.redirect('/dj/home');
+          { _id: req.user._id },
+          { $push: { playlists: {title: req.body.title, songs: []} } }
+        )
+        res.redirect('/dj/home')
     });
+
+    //I made this one for deleting..
+    router.post('/set/delete', isAuthenticated, function(req, res) {
+        users.update(
+            {
+              _id: req.user._id
+            },
+            { 
+              $pull : {
+                playlists : { title : req.body.playlist } 
+              }
+            },
+            function(err) {
+              if (err) {
+                console.log(err)
+              }
+            }
+        )
+        res.redirect('/dj/home')
+    })
 
     // What the fuck is this?
     router.get('/set/delete/:id', isAuthenticated, function(req, res) {
@@ -106,7 +126,7 @@ module.exports = function(passport, db, Playlist, Song){
     router.delete('/set/:id', isAuthenticated, function(req, res) {
         console.log('ID: '+ req.params.id);
         console.log('From: '+ req.user.playlists)
-    	//if (req.params.id in req.user.playlists) {
+      //if (req.params.id in req.user.playlists) {
         console.log("Index: "+req.user.playlists.indexOf(req.params.id))
         if (req.user.playlists.indexOf(req.params.id)) {
             console.log('Deleting '+req.params.id)
@@ -120,26 +140,26 @@ module.exports = function(passport, db, Playlist, Song){
             )
             }
      //        console.log('Deleting '+req.params.id)
-    	// 	users.findAndModify(
-    	// 		{ _id: req.user._id },
-    	// 		{ remove: { playlists: req.params.id }}
-    	// 	);
-    	// 	playlists.remove(
-    	// 		{ _id: req.params._id },
-    	// 		{ justOne: true }
-    	// 	)
-    	// }
+      //  users.findAndModify(
+      //    { _id: req.user._id },
+      //    { remove: { playlists: req.params.id }}
+      //  );
+      //  playlists.remove(
+      //    { _id: req.params._id },
+      //    { justOne: true }
+      //  )
+      // }
         //res.send(req.body.id)
         res.redirect('/dj/home');
     });
 
-	router.get('/player/:id',function(req,res,next){
-		res.render('player', { title: 'Playing'});
-	});
+  router.get('/player/:id',function(req,res,next){
+    res.render('player', { title: 'Playing'});
+  });
 
-	router.get('/playlist/:id',function(req,res,next){
-		res.render('djplaylist', { title: 'Playlist'});
-	});
+  router.get('/playlist/:id',function(req,res,next){
+    res.render('djplaylist', { title: 'Playlist'});
+  });
 
     return router;
 }
