@@ -12,14 +12,6 @@ var isAuthenticated = function (req, res, next) {
     res.redirect('/dj');
 }
 
-var _getMsg = function(users, user, callback) {
-    users.find({ 
-        _id : user._id 
-    }).toArray(function (err, UList) {
-        callback(UList[0].playlists);
-    });
-}
-
 // var delSet = function()
 
 module.exports = function(passport, db, Playlist, Song){
@@ -53,13 +45,7 @@ module.exports = function(passport, db, Playlist, Song){
 
     /* GET Home Page */
     router.get('/home', isAuthenticated, function(req, res) {
-        //update jade for new database format
-    _getMsg(users, req.user, function (PList) {
-        res.render('dj_home', { user: req.user, playlists: PList });
-    });
-
-        //should be able to just pass req.user.playlists
-        //why is req.user.playlists always empty?!
+      res.render('dj_home', { user: req.user })
     });
 
     /* Handle Logout */
@@ -79,79 +65,80 @@ module.exports = function(passport, db, Playlist, Song){
 
     //I made this one for deleting..
     router.post('/set/delete', isAuthenticated, function(req, res) {
-        users.update(
-            {
-              _id: req.user._id
-            },
-            { 
-              $pull : {
-                playlists : { title : req.body.playlist } 
-              }
-            },
-            function(err) {
-              if (err) {
-                console.log(err)
-              }
-            }
-        )
-        res.redirect('/dj/home')
-    })
-
-    // What the fuck is this?
-    router.get('/set/delete/:id', isAuthenticated, function(req, res) {
-        var path = '/dj/set/'+req.params.id;
-        var options = {
-            host: 'localhost',
-            port: '5000',
-            path: path,
-            method: 'delete'
-        };
-        callback = function(response) {
-          var str = ''
-          response.on('data', function (chunk) {
-            str += chunk;
-          });
-
-          response.on('end', function () {
-            console.log(str);
-            //res.redirect('/dj/home');
-          });
+      console.log(req.body.playlist)
+      users.update(
+        {
+          _id: req.user._id
+        },
+        { 
+          $pull : {
+            playlists : { title : req.body.playlist } 
+          }
+        },
+        function(err) {
+          if (err) {
+            console.log(err)
+          }
         }
-        console.log('ID: '+ req.params.id);
-        http.request(options, callback).end();
-        //res.redirect('/dj/home')
+      )
+      res.redirect('/dj/home')
     })
 
-    /* Handle Delete Set */
-    router.delete('/set/:id', isAuthenticated, function(req, res) {
-        console.log('ID: '+ req.params.id);
-        console.log('From: '+ req.user.playlists)
-      //if (req.params.id in req.user.playlists) {
-        console.log("Index: "+req.user.playlists.indexOf(req.params.id))
-        if (req.user.playlists.indexOf(req.params.id)) {
-            console.log('Deleting '+req.params.id)
-            users.findAndModify(
-                { _id: req.user._id },
-                { $remove: { playlists: req.params.id }}
-            );
-            playlists.remove(
-                { _id: req.params._id },
-                { justOne: true }
-            )
-            }
-     //        console.log('Deleting '+req.params.id)
-      //  users.findAndModify(
-      //    { _id: req.user._id },
-      //    { remove: { playlists: req.params.id }}
-      //  );
-      //  playlists.remove(
-      //    { _id: req.params._id },
-      //    { justOne: true }
-      //  )
-      // }
-        //res.send(req.body.id)
-        res.redirect('/dj/home');
-    });
+    // // What the fuck is this?
+    // router.get('/set/delete/:id', isAuthenticated, function(req, res) {
+    //     var path = '/dj/set/'+req.params.id;
+    //     var options = {
+    //         host: 'localhost',
+    //         port: '5000',
+    //         path: path,
+    //         method: 'delete'
+    //     };
+    //     callback = function(response) {
+    //       var str = ''
+    //       response.on('data', function (chunk) {
+    //         str += chunk;
+    //       });
+
+    //       response.on('end', function () {
+    //         console.log(str);
+    //         //res.redirect('/dj/home');
+    //       });
+    //     }
+    //     console.log('ID: '+ req.params.id);
+    //     http.request(options, callback).end();
+    //     //res.redirect('/dj/home')
+    // })
+
+    // /* Handle Delete Set */
+    // router.delete('/set/:id', isAuthenticated, function(req, res) {
+    //     console.log('ID: '+ req.params.id);
+    //     console.log('From: '+ req.user.playlists)
+    //   //if (req.params.id in req.user.playlists) {
+    //     console.log("Index: "+req.user.playlists.indexOf(req.params.id))
+    //     if (req.user.playlists.indexOf(req.params.id)) {
+    //         console.log('Deleting '+req.params.id)
+    //         users.findAndModify(
+    //             { _id: req.user._id },
+    //             { $remove: { playlists: req.params.id }}
+    //         );
+    //         playlists.remove(
+    //             { _id: req.params._id },
+    //             { justOne: true }
+    //         )
+    //         }
+    //  //        console.log('Deleting '+req.params.id)
+    //   //  users.findAndModify(
+    //   //    { _id: req.user._id },
+    //   //    { remove: { playlists: req.params.id }}
+    //   //  );
+    //   //  playlists.remove(
+    //   //    { _id: req.params._id },
+    //   //    { justOne: true }
+    //   //  )
+    //   // }
+    //     //res.send(req.body.id)
+    //     res.redirect('/dj/home');
+    // });
 
   router.get('/player/:id',function(req,res,next){
     res.render('player', { title: 'Playing'});

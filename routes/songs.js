@@ -42,9 +42,6 @@ module.exports = function(db, Playlist, Song, DJ){
         if (err) {
           console.log(err)
         }
-        else {
-          console.log(result)
-        }
       }
     )
 
