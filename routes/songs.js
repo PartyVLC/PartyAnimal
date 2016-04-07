@@ -26,7 +26,7 @@ module.exports = function(db, Playlist, Song, DJ){
   router.post('/add', function(req,res) {
    var title = req.body.title
    var sid = req.body.sid
-   var pname = req.body.pid
+   var pname = req.body.pname
 
     users.update(
       { 
@@ -48,7 +48,26 @@ module.exports = function(db, Playlist, Song, DJ){
     res.redirect('/')
   })
 
+  // probs should test this at some point
   router.post('/delete', function(req,res) {
+    var id = req.body.id
+    var pname = req.body.pname
+
+    users.update(
+    {
+      _id : id,
+      'playlists.title' : pname
+    },
+    {
+      $pull : {
+        'playlists.$.songs' : { id : id }
+      }
+    },
+    function(err,result) {
+      if (err) {
+        console.log(err)
+      }
+    })
     res.redirect('/')
   })
 
