@@ -20,6 +20,13 @@ var _getMsg = function(users, user, callback) {
     });
 }
 
+var updateUser = function(users, user, callback) {
+    users.findOne({ 'username' :  user.username }),
+        function(err, userupdate) {
+            return callback(userupdate)
+        }
+}
+
 // var delSet = function()
 
 module.exports = function(passport, db, Playlist, Song){
