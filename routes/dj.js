@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var http = require('http');
+var test = require('./tools')
 
 var isAuthenticated = function (req, res, next) {
     // if user is authenticated in the session, call the next() to call the next request handler 
@@ -45,6 +46,7 @@ module.exports = function(passport, db, Playlist, Song){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
+    test.preparePlayer(req)
     res.render('dj_home', { user: req.user })
   });
 
