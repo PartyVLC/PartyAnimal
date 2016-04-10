@@ -62,9 +62,21 @@ function showPlaylistMenu()
   sidebarplaylistmenu.style.left = 0;
 }
 
+function showPlaylistsMenu()
+{
+  sidebarplaylistmenu = document.getElementById("sidebarplaylistsmenu");
+  sidebarplaylistmenu.style.left = 0;
+}
+
 function hidePlaylistMenu()
 {
   sidebarplaylistmenu = document.getElementById("sidebarplaylistmenu");
+  sidebarplaylistmenu.style.left = "100%";
+}
+
+function hidePlaylistsMenu()
+{
+  sidebarplaylistmenu = document.getElementById("sidebarplaylistsmenu");
   sidebarplaylistmenu.style.left = "100%";
 }
 
@@ -87,6 +99,13 @@ function clickPlaylist()
   showPlaylistMenu();
 }
 
+function clickPlaylists()
+{
+  expandSidebar();
+  hideMainMenu();
+  showPlaylistsMenu();
+}
+
 function clickSearch()
 {
   expandSidebar();
@@ -99,5 +118,6 @@ function clickBack()
   shrinkSidebar();
   showMainMenu();
   hidePlaylistMenu();
+  hidePlaylistsMenu();
   hideSearchMenu();
 }

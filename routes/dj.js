@@ -32,7 +32,6 @@ module.exports = function(passport, db, Playlist, Song){
   });
 
   router.get('/newtest',function(req, res) {
-      console.log(req.user)
       res.render('dj', { dj : req.user })
   })
 
@@ -68,38 +67,39 @@ module.exports = function(passport, db, Playlist, Song){
 
   /* Handle New Set POST */
   router.post('/set/new', isAuthenticated, function(req, res) {
-      users.update(
-        { _id: req.user._id },
-        { $push: { playlists: {title: req.body.title, songs: []} } }
-      );
-      res.redirect('/dj/home');
+    users.update(
+      { _id: req.user._id },
+      { $push: { playlists: { title: req.body.title, songs: [] } } }
+    );
+    res.redirect('/dj/home');
   });
 
-    // What the fuck is this?
-  router.get('/set/delete/:id', isAuthenticated, function(req, res) {
-      var path = '/dj/set/'+req.params.id;
-      var options = {
-          host: 'localhost',
-          port: '5000',
-          path: path,
-          method: 'delete'
-      };
-      callback = function(response) {
-        var str = ''
-        response.on('data', function (chunk) {
-          str += chunk;
-        });
-
-        response.on('end', function () {
-          console.log(str);
-          //res.redirect('/dj/home');
-        });
+  router.post('/set/current', isAuthenticated, function(req, res) {
+    users.findOne(
+      {
+        _id : req.user._id,
+      },
+      {
+        playlists : { $elemMatch : { title :  req.body.playlist } }
+      },
+      function(err, user) {
+        if (err) {
+          res.redirect('/')
+        }
+        else {
+          users.update(
+            { _id : user._id },
+            { $set :
+              { currentPlaylist : user.playlists[0] }
+            }
+          )
+          res.redirect('/dj/newtest')
+        }
       }
-    res.redirect('/dj/home')
-  });
+    )
+  })
 
   router.post('/set/delete', isAuthenticated, function(req, res) {
-    console.log(req.body.playlist)
     users.update(
       {
         _id: req.user._id

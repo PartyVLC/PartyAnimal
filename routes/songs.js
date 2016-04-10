@@ -48,6 +48,18 @@ module.exports = function(db, Playlist, Song, DJ){
     res.redirect('/')
   })
 
+  // router.post('/current', function(req, res) {
+  //   var pname = req.body.pname
+  //   var 
+
+  //   users.update(
+  //   {
+  //     _id : req.user._id,
+  //     'playlists.title' : pname
+  //   }
+  //   )
+  // })
+
   // probs should test this at some point
   router.post('/delete', function(req,res) {
     var id = req.body.id

@@ -14,8 +14,9 @@ module.exports = mongoose.model('DJ',{
         [{ 
           title: String,
           id : String
-        }]
-    }]
+        }],
+      currentSong: Number
+    }],
   currentPlaylist: 
     { 
       title: String,
@@ -23,7 +24,7 @@ module.exports = mongoose.model('DJ',{
         [{ 
           title: String,
           id : String
-        }] 
+        }],
+      currentSong: Number
     },
-  currentSong: Number
 });
