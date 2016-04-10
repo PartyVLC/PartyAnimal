@@ -7,5 +7,23 @@ module.exports = mongoose.model('DJ',{
 	email: String,
 	firstName: String,
 	lastName: String,
-	playlists: []
+	playlists: 
+    [{ 
+      title: String,
+      songs: 
+        [{ 
+          title: String,
+          id : String
+        }]
+    }]
+  currentPlaylist: 
+    { 
+      title: String,
+      songs: 
+        [{ 
+          title: String,
+          id : String
+        }] 
+    },
+  currentSong: Number
 });
