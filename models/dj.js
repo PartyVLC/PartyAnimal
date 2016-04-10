@@ -7,5 +7,5 @@ module.exports = mongoose.model('DJ',{
 	email: String,
 	firstName: String,
 	lastName: String,
-	playlists: [ {type: Schema.Types.ObjectId, ref: 'Playlist'} ]
+	playlists: []
 });

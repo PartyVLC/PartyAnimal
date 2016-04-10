@@ -12,14 +12,6 @@ var isAuthenticated = function (req, res, next) {
     res.redirect('/dj');
 }
 
-var _getMsg = function(users, user, callback) {
-    users.find({ 
-        _id : user._id 
-    }).toArray(function (err, UList) {
-        callback(UList[0].playlists);
-    });
-}
-
 var updateUser = function(users, user, callback) {
     users.findOne({ 'username' :  user.username }),
         function(err, userupdate) {
@@ -38,6 +30,11 @@ module.exports = function(passport, db, Playlist, Song){
         // Display the Login page with any flash message, if any
         res.render('index', { message: req.flash('message') });
     });
+
+    router.get('/newtest',function(req, res) {
+        console.log(req.user)
+        res.render('dj', { dj : req.user })
+    })
 
     /* Handle Login POST */
     router.post('/signin', passport.authenticate('login', {
@@ -60,13 +57,7 @@ module.exports = function(passport, db, Playlist, Song){
 
     /* GET Home Page */
     router.get('/home', isAuthenticated, function(req, res) {
-        //update jade for new database format
-		_getMsg(users, req.user, function (PList) {
-		    res.render('dj_home', { user: req.user, playlists: PList });
-		});
-
-        //should be able to just pass req.user.playlists
-        //why is req.user.playlists always empty?!
+	    res.render('dj_home', { user: req.user });
     });
 
     /* Handle Logout */
