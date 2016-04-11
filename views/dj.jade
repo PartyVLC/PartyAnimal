@@ -1,0 +1,85 @@
+html
+  head
+    title #{dj.username}
+    link(rel="stylesheet", type="text/css", href="/stylesheets/djplayer.css")
+    script(type="text/javascript", src="/js/djplayer.js")
+
+body
+  div(id="sidebartoggle", onclick="showSidebar();")
+  div(id="sidebar")
+    div(id="sidebarmainmenu")
+      div(class="titlebar")
+        h1 Menu
+      if dj.currentPlaylist
+        div(class="sidebarmainmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
+
+      div(class="sidebarmainmenuitem", onclick="clickPlaylists();") Playlists
+      div(class="sidebarmainmenuitem", onclick="clickSearch();") Search Songs
+      div(class="sidebarmainmenuitem", onclick="expandSidebar();") Login As DJ
+      div(class="sidebarmainmenuitem", onclick="expandSidebar();") Other Stuff
+      div(class="sidebarmainmenuitem", onclick="expandSidebar();") We Might
+      div(class="sidebarmainmenuitem", onclick="expandSidebar();") Want Later
+    
+    div(id="sidebarplaylistmenu")
+      div(class="titlebar")
+        h1 #{dj.currentPlaylist.title}
+        br
+
+      button(class="sidebarbackbutton", onclick="clickBack();") back to main menu
+      div(class="sidebarplaylistcontainer")
+        each song, index in dj.currentPlaylist.songs
+          - console.log(song.title)
+          div(class="playlistsong")
+            div(class="votebox")
+              button(class="voteboxvote") +
+              button(class="voteboxvote") -
+            div(class="voteboxnumber") 69
+            a(href='https://www.youtube.com/watch?v=#{song.id}') #{index+1}. #{song.title}
+            button(class="songx") x
+
+    div(id="sidebarplaylistsmenu")
+      div(class="titlebar")
+        h1 Playlists
+        br
+
+      button(class="sidebarbackbutton", onclick="clickBack();") back to main menu
+      div(class="sidebarplaylistcontainer")
+        each playlist,index in dj.playlists
+          div(class="playlistsong")
+            form(action='/dj/set/current', method='POST')
+              input(type='hidden', name='playlist', value='#{playlist.title}')
+              button(type='submit') <b>#{index+1}</b>. #{playlist.title}
+            button(class="songx") x  
+
+    div(id="sidebarsearchmenu")
+      div(class="titlebar")
+        h1 Search Songs
+        br
+      
+      button(class="sidebarbackbutton", onclick="clickBack();") back to main menu
+      div(class="searchbar")
+        input(class="searchinput", placeholder="Search for a Song")
+        button(class="searchbutton") GO
+      
+          
+      div(class="searchresults")
+        div(class="playlistsong")
+          div(class="votebox")
+            button(class="voteboxvote") +
+            button(class="voteboxvote") -
+          
+          div(class="voteboxnumber") 6
+          p Michael Jackson - Thriller
+          button(class="songx") x
+        
+        div(class="playlistsong")
+          button(class="songadd") ADD
+          p Jesse James - 50's Japan
+        
+        div(class="playlistsong")
+          button(class="songadd") ADD
+          p Tennyson - No Answer
+      
+      button(class="showmore") Show more resluts
+
+  div(id="sidebarshadow")

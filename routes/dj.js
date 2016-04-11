@@ -3,13 +3,20 @@ var router = express.Router();
 var http = require('http');
 
 var isAuthenticated = function (req, res, next) {
-    // if user is authenticated in the session, call the next() to call the next request handler 
-    // Passport adds this method to request object. A middleware is allowed to add properties to
-    // request and response objects
-    if (req.isAuthenticated())
-        return next();
-    // if the user is not authenticated then redirect them to the login page
-    res.redirect('/dj');
+  // if user is authenticated in the session, call the next() to call the next request handler 
+  // Passport adds this method to request object. A middleware is allowed to add properties to
+  // request and response objects
+  if (req.isAuthenticated())
+      return next();
+  // if the user is not authenticated then redirect them to the login page
+  res.redirect('/dj');
+}
+
+var updateUser = function(users, user, callback) {
+  users.findOne({ 'username' :  user.username }),
+    function(err, userupdate) {
+      return callback(userupdate)
+    }
 }
 
 // var delSet = function()
@@ -23,6 +30,10 @@ module.exports = function(passport, db, Playlist, Song){
       // Display the Login page with any flash message, if any
       res.render('index', { message: req.flash('message') });
   });
+
+  router.get('/newtest',function(req, res) {
+      res.render('dj', { dj : req.user })
+  })
 
   /* Handle Login POST */
   router.post('/signin', passport.authenticate('login', {
@@ -45,32 +56,55 @@ module.exports = function(passport, db, Playlist, Song){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
+<<<<<<< HEAD
     //test.preparePlayer(req)
     res.render('dj_home', { user: req.user })
+=======
+    res.render('dj_home', { user: req.user });
+>>>>>>> e1779697d985490db1c15a171852c0ceb529b6e8
   });
 
   /* Handle Logout */
   router.get('/signout', function(req, res) {
-      req.logout()
-      res.redirect('/dj')
+      req.logout();
+      res.redirect('/dj');
   });
 
   /* Handle New Set POST */
   router.post('/set/new', isAuthenticated, function(req, res) {
-      users.update(
-        { _id: req.user._id },
-        { $addToSet: { playlists: { title: req.body.title, songs: [] } } },
-        function(err,result) {
-          if (err) {
-            console.log(err)
-          }
-        }
-      )
-      res.redirect('/dj/home')
+    users.update(
+      { _id: req.user._id },
+      { $push: { playlists: { title: req.body.title, songs: [] } } }
+    );
+    res.redirect('/dj/home');
   });
 
+  router.post('/set/current', isAuthenticated, function(req, res) {
+    users.findOne(
+      {
+        _id : req.user._id,
+      },
+      {
+        playlists : { $elemMatch : { title :  req.body.playlist } }
+      },
+      function(err, user) {
+        if (err) {
+          res.redirect('/')
+        }
+        else {
+          users.update(
+            { _id : user._id },
+            { $set :
+              { currentPlaylist : user.playlists[0] }
+            }
+          )
+          res.redirect('/dj/newtest')
+        }
+      }
+    )
+  })
+
   router.post('/set/delete', isAuthenticated, function(req, res) {
-    console.log(req.body.playlist)
     users.update(
       {
         _id: req.user._id
