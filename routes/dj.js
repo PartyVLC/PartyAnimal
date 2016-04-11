@@ -23,11 +23,10 @@ var updateUser = function(users, user, callback) {
 
 module.exports = function(passport, db, Playlist, Song){
   var users = db.collection("djs")
-  var playlists = db.collection("playlists")
 
   /* GET login page. */
   router.get('/', function(req, res) {
-      // Display the Login page with any flash message, if any
+      // Display the Login page with a flash message, if any
       res.render('index', { message: req.flash('message') });
   });
 
@@ -123,9 +122,12 @@ module.exports = function(passport, db, Playlist, Song){
       { "username": req.params.username },
       { "password": 0},
       function(err, document) {
-        //console.log(document);
-        //return document
-        res.render('guest_home', { profile: document })
+        if (document == null) {
+          res.redirect('/guest')
+        }
+        else {
+          res.render('guest_home', { profile: document })
+        }
       });
   })
 
