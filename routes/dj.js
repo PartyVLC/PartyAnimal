@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var http = require('http');
-var test = require('./tools')
 
 var isAuthenticated = function (req, res, next) {
     // if user is authenticated in the session, call the next() to call the next request handler 
@@ -46,7 +45,7 @@ module.exports = function(passport, db, Playlist, Song){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
-    test.preparePlayer(req)
+    //test.preparePlayer(req)
     res.render('dj_home', { user: req.user })
   });
 
@@ -88,6 +87,17 @@ module.exports = function(passport, db, Playlist, Song){
       }
     )
     res.redirect('/dj/home')
+  })
+
+  router.get('/find/:username', function(req,res){
+    var dj = users.findOne(
+      { "username": req.params.username },
+      { "password": 0},
+      function(err, document) {
+        //console.log(document);
+        //return document
+        res.render('guest_home', { profile: document })
+      });
   })
 
   router.get('/player/:id',function(req,res,next){

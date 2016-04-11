@@ -15,13 +15,6 @@ router.get('/', function(req,res,next) {
   if (req.user) {
     console.log("Current User: " + req.user.username);
   }
-  //console.log(process.env.DOMAIN)
-
-  db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
-
-  db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
-
-  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, Idx INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
 
   res.render('testpages', { domain: process.env.DOMAIN, user: req.user });
 });
