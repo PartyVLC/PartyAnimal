@@ -56,12 +56,7 @@ module.exports = function(passport, db, Playlist, Song){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
-<<<<<<< HEAD
-    //test.preparePlayer(req)
-    res.render('dj_home', { user: req.user })
-=======
     res.render('dj_home', { user: req.user });
->>>>>>> e1779697d985490db1c15a171852c0ceb529b6e8
   });
 
   /* Handle Logout */
