@@ -16,7 +16,7 @@ module.exports = function(db, Playlist, Song){
   });
 
   router.post('/party', function(req, res, next) {
-  	res.redirect('/guest/party/'+req.body.dj);
+  	res.redirect('party/'+req.body.dj);
   })
 
   router.get('/party/:username', function(req, res) {
@@ -28,7 +28,7 @@ module.exports = function(db, Playlist, Song){
       		res.redirect('/guest')
       	}
       	else {
-	        res.render('guest_home', { profile: document })
+	        res.render('guest/home', { profile: document })
     	}
       });
   });

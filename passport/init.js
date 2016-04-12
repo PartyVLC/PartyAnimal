@@ -1,5 +1,7 @@
 var login = require('./login');
 var signup = require('./signup');
+var deleteUser = require('./deleteUser');
+var deactivate = require('./deactivate');
 var User = require('../models/dj');
 
 module.exports = function(passport){
@@ -20,5 +22,7 @@ module.exports = function(passport){
     // Setting up Passport Strategies for Login and SignUp/Registration
     login(passport);
     signup(passport);
+    deactivate(passport);
+    deleteUser(passport);
 
 }

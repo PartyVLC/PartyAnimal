@@ -55,7 +55,7 @@ module.exports = function(passport, db, Playlist, Song){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
-    res.render('dj_home', { user: req.user });
+    res.render('dj/home', { user: req.user });
   });
 
   /* Handle Logout */
@@ -117,19 +117,25 @@ module.exports = function(passport, db, Playlist, Song){
     res.redirect('/dj/home')
   })
 
-  router.get('/find/:username', function(req,res){
-    var dj = users.findOne(
-      { "username": req.params.username },
-      { "password": 0},
-      function(err, document) {
-        if (document == null) {
-          res.redirect('/guest')
-        }
-        else {
-          res.render('guest_home', { profile: document })
-        }
-      });
-  })
+  // router.post('/delete', isAuthenticated, passport.authenticate(, function(req, res) {
+
+  // })
+
+
+
+  // router.get('/find/:username', function(req,res){
+  //   var dj = users.findOne(
+  //     { "username": req.params.username },
+  //     { "password": 0},
+  //     function(err, document) {
+  //       if (document == null) {
+  //         res.redirect('/guest')
+  //       }
+  //       else {
+  //         res.render('guest_home', { profile: document })
+  //       }
+  //   });
+  // })
 
   router.get('/player/:id',function(req,res,next){
     res.render('player', { title: 'Playing'});

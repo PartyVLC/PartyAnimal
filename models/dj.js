@@ -2,6 +2,8 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema
 
 module.exports = mongoose.model('DJ',{
+  isAdmin: Boolean,
+  isActive: Boolean,
 	username: String,
 	password: String,
 	email: String,
