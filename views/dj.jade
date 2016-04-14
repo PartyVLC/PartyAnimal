@@ -2,17 +2,30 @@ html
   head
     title #{dj.username}
     link(rel="stylesheet", type="text/css", href="/stylesheets/djplayer.css")
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css")
+    script(src="/socket.io/socket.io.js")
     script(type="text/javascript", src="/js/djplayer.js")
-
+    script(type="text/javascript", src="/js/youtube.js")
+    script(type="text/javascript", src="/js/jquery.js")
+    script(type="text/javascript", src="/js/socket.js")
 body
-  div(id="sidebartoggle", onclick="showSidebar();")
+  div(class="container")
+    h1 #{dj.username} - #{dj.currentPlaylist.title}
+    div(class="contentarea")
+      div(id="player", class="video")
+      div(class="progressbarcontainer")
+        button(id="progressbarplaypause", onclick="playPause();") >
+        div(class="progressbar")
+        div(class="progressbartime") 4:20
+
+  button(id="sidebartoggle", onclick="showSidebar();")
+    i(id="sidebartoggleicon", class="fa fa-caret-left")
   div(id="sidebar")
     div(id="sidebarmainmenu")
-      div(class="titlebar")
+      div(class="sidebartitlebar")
         h1 Menu
       if dj.currentPlaylist
         div(class="sidebarmainmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
-
       div(class="sidebarmainmenuitem", onclick="clickPlaylists();") Playlists
       div(class="sidebarmainmenuitem", onclick="clickSearch();") Search Songs
       div(class="sidebarmainmenuitem", onclick="expandSidebar();") Login As DJ
@@ -21,28 +34,27 @@ body
       div(class="sidebarmainmenuitem", onclick="expandSidebar();") Want Later
     
     div(id="sidebarplaylistmenu")
-      div(class="titlebar")
-        h1 #{dj.currentPlaylist.title}
-        br
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton", onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+        h1(style="display:inline;") #{dj.currentPlaylist.title}
 
-      button(class="sidebarbackbutton", onclick="clickBack();") back to main menu
-      div(class="sidebarplaylistcontainer")
+      div(id="sidebarplaylistcontainer", class="sidebarplaylistcontainer")
         each song, index in dj.currentPlaylist.songs
-          - console.log(song.title)
-          div(class="playlistsong")
+          div(class="playlistsong", id="#{song.id}")
             div(class="votebox")
               button(class="voteboxvote") +
               button(class="voteboxvote") -
             div(class="voteboxnumber") 69
-            a(href='https://www.youtube.com/watch?v=#{song.id}') #{index+1}. #{song.title}
-            button(class="songx") x
+            a(href="#", onclick="selectSong('#{song.id}');") #{song.title}
+            button(class="songx", onclick="delSong('#{song.id}');") x
 
     div(id="sidebarplaylistsmenu")
-      div(class="titlebar")
-        h1 Playlists
-        br
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton", onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+        h1(style="display:inline;") Playlists
 
-      button(class="sidebarbackbutton", onclick="clickBack();") back to main menu
       div(class="sidebarplaylistcontainer")
         each playlist,index in dj.playlists
           div(class="playlistsong")
@@ -52,33 +64,33 @@ body
             button(class="songx") x  
 
     div(id="sidebarsearchmenu")
-      div(class="titlebar")
-        h1 Search Songs
-        br
-      
-      button(class="sidebarbackbutton", onclick="clickBack();") back to main menu
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton", onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+        h1(style="display:inline;") Search Songs
+
       div(class="searchbar")
-        input(class="searchinput", placeholder="Search for a Song")
-        button(class="searchbutton") GO
+        input(id="searchinput", placeholder="Search for a Song", onkeypress="searchKeyPress();")
+        button(class="searchbutton", onclick="search();") GO
       
           
-      div(class="searchresults")
-        div(class="playlistsong")
-          div(class="votebox")
-            button(class="voteboxvote") +
-            button(class="voteboxvote") -
+      div(id="searchresults")
+        //- div(class="playlistsong")
+        //-   div(class="votebox")
+        //-     button(class="voteboxvote") +
+        //-     button(class="voteboxvote") -
           
-          div(class="voteboxnumber") 6
-          p Michael Jackson - Thriller
-          button(class="songx") x
+        //-   div(class="voteboxnumber") 6
+        //-   p Michael Jackson - Thriller
+        //-   button(class="songx") x
         
-        div(class="playlistsong")
-          button(class="songadd") ADD
-          p Jesse James - 50's Japan
+        //- div(class="playlistsong")
+        //-   button(class="songadd") ADD
+        //-   p Jesse James - 50's Japan
         
-        div(class="playlistsong")
-          button(class="songadd") ADD
-          p Tennyson - No Answer
+        //- div(class="playlistsong")
+        //-   button(class="songadd") ADD
+        //-   p Tennyson - No Answer
       
       button(class="showmore") Show more resluts
 

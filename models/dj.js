@@ -23,7 +23,8 @@ module.exports = mongoose.model('DJ',{
       songs: 
         [{ 
           title: String,
-          id : String
+          id: String,
+          score: Number
         }],
       currentSong: Number
     },

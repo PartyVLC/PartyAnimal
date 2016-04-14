@@ -2,11 +2,13 @@ function showSidebar()
 {
   sidebar = document.getElementById("sidebar");
   sidebartoggle = document.getElementById("sidebartoggle");
+  sidebartoggleicon = document.getElementById("sidebartoggleicon");
   sidebarshadow = document.getElementById("sidebarshadow");
   sidebar.style.right = 0;
   sidebarshadow.style.right = 0;
   sidebartoggle.style.right = "25%";
   sidebartoggle.onclick = function() { hideSidebar() };
+  sidebartoggleicon.style.transform = "rotate(180deg)";
 }
 
 function hideSidebar()
@@ -14,14 +16,17 @@ function hideSidebar()
   shrinkSidebar();
   showMainMenu();
   hidePlaylistMenu();
+  hidePlaylistsMenu();
   hideSearchMenu();
   sidebar = document.getElementById("sidebar");
   sidebartoggle = document.getElementById("sidebartoggle");
+  sidebartoggleicon = document.getElementById("sidebartoggleicon");
   sidebarshadow = document.getElementById("sidebarshadow");
   sidebar.style.right = "-25%";
   sidebarshadow.style.right = "-25%";
   sidebartoggle.style.right = 0;
   sidebartoggle.onclick = function() { showSidebar() };
+  sidebartoggleicon.style.transform = "rotate(0)";
 }
 
 function expandSidebar()
@@ -64,8 +69,8 @@ function showPlaylistMenu()
 
 function showPlaylistsMenu()
 {
-  sidebarplaylistmenu = document.getElementById("sidebarplaylistsmenu");
-  sidebarplaylistmenu.style.left = 0;
+  sidebarplaylistsmenu = document.getElementById("sidebarplaylistsmenu");
+  sidebarplaylistsmenu.style.left = 0;
 }
 
 function hidePlaylistMenu()
@@ -76,14 +81,15 @@ function hidePlaylistMenu()
 
 function hidePlaylistsMenu()
 {
-  sidebarplaylistmenu = document.getElementById("sidebarplaylistsmenu");
-  sidebarplaylistmenu.style.left = "100%";
+  sidebarplaylistsmenu = document.getElementById("sidebarplaylistsmenu");
+  sidebarplaylistsmenu.style.left = "100%";
 }
 
 function showSearchMenu()
 {
   sidebarsearchmenu = document.getElementById("sidebarsearchmenu");
   sidebarsearchmenu.style.left = 0;
+  clearSearch();
 }
 
 function hideSearchMenu()

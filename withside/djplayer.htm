@@ -3,29 +3,48 @@
 <head>
 <title>DJ Player Page Mockup</title>
 <link rel="stylesheet" type="text/css" href="djplayer.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <script type="text/javascript" src="djplayer.js"></script>
 </head>
 
 <body>
-<div id="sidebartoggle" onclick="showSidebar();"></div>
+<div class="container">
+  <h1>Espey's Playlist</h1>
+  <div class="contentarea">
+    <div class="video"></div>
+    <div class="progressbarcontainer">
+      <button class="progressbarplaypause">>||</button>
+      <div class="progressbar"></div>
+      <div class="progressbartime">4:20</div>
+    </div>
+  </div>
+</div>
+
+
+
+<button id="sidebartoggle" onclick="showSidebar();"><i id="sidebartoggleicon" class="fa fa-caret-left"></i></button>
 <div id="sidebar">
   <div id="sidebarmainmenu">
-    <div class="titlebar">
+    <div class="sidebartitlebar">
       <h1>Menu</h1>
     </div>
-    <div class="sidebarmainmenuitem" onclick="clickPlaylist();">Current Playlist</div>
-    <div class="sidebarmainmenuitem" onclick="clickSearch();">Search Songs</div>
-    <div class="sidebarmainmenuitem" onclick="expandSidebar();">Login As DJ</div>
-    <div class="sidebarmainmenuitem" onclick="expandSidebar();">Other Stuff</div>
-    <div class="sidebarmainmenuitem" onclick="expandSidebar();">We Might</div>
-    <div class="sidebarmainmenuitem" onclick="expandSidebar();">Want Later</div>
+    <button class="sidebarmainmenuitem" onclick="clickPlaylist();">Current Playlist</button>
+    <button class="sidebarmainmenuitem" onclick="clickSearch();">Search Songs</button>
+    <button class="sidebarmainmenuitem" onclick="expandSidebar();">Login As DJ</button>
+    <button class="sidebarmainmenuitem" onclick="expandSidebar();">Other Stuff</button>
+    <button class="sidebarmainmenuitem" onclick="expandSidebar();">We Might</button>
+    <button class="sidebarmainmenuitem" onclick="expandSidebar();">Want Later</button>
   </div>
   <div id="sidebarplaylistmenu">
-    <div class="titlebar">
-      <h1>Current Playlist</h1><br />
+    <div class="sidebartitlebar">
+      <button class="sidebarbackbutton" onclick="clickBack();">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <h1 style="display:inline;">
+      Current Playlist
+      </h1>
     </div>
-    <button class="sidebarbackbutton" onclick="clickBack();">back to main menu</button>
-    <div class="sidebarplaylistcontainer">
+    <div class="sidebarplaylistscontainer">
       <div class="playlistsong">
         <div class="votebox">
           <button class="voteboxvote">+</button>
@@ -37,7 +56,7 @@
         Michael Espey - Butt
         <button class="songx">x</button>
       </div>
-      <div class="playlistsong">
+      <div class="playlistsongactive">
         <div class="votebox">
           <button class="voteboxvote">+</button>
           <button class="voteboxvote">-</button>
@@ -85,10 +104,14 @@
   </div>
   
   <div id="sidebarsearchmenu">
-    <div class="titlebar">
-      <h1>Search Songs</h1><br />
+    <div class="sidebartitlebar">
+      <button class="sidebarbackbutton" onclick="clickBack();">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <h1 style="display:inline;">
+        Search Songs
+      </h1>
     </div>
-    <button class="sidebarbackbutton" onclick="clickBack();">back to main menu</button>
     <div class="searchbar">
       <input class="searchinput" placeholder="Search for a Song"></input>
       <button class="searchbutton">GO</button>

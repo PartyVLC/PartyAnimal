@@ -21,9 +21,8 @@ var updateUser = function(users, user, callback) {
 
 // var delSet = function()
 
-module.exports = function(passport, db, Playlist, Song){
+module.exports = function(passport, db){
   var users = db.collection("djs")
-  var playlists = db.collection("playlists")
 
   /* GET login page. */
   router.get('/', function(req, res) {
@@ -56,7 +55,8 @@ module.exports = function(passport, db, Playlist, Song){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
-    res.render('dj_home', { user: req.user });
+    //res.render('dj_home', { user: req.user });
+    res.render('dj', {dj : req.user})
   });
 
   /* Handle Logout */
@@ -93,10 +93,36 @@ module.exports = function(passport, db, Playlist, Song){
               { currentPlaylist : user.playlists[0] }
             }
           )
-          res.redirect('/dj/newtest')
+          res.redirect('/dj/home')
         }
       }
     )
+    // res.end()
+  })
+
+  router.post('/set/refresh', isAuthenticated, function(req, res) {
+    users.findOne(
+      {
+        _id : req.user._id,
+      },
+      {
+        playlists : { $elemMatch : { title :  req.user.currentPlaylist.title } }
+      },
+      function(err, user) {
+        if (err) {
+          console.log(err)
+        }
+        else {
+          users.update(
+            { _id : user._id },
+            { $set :
+              { currentPlaylist : user.playlists[0] }
+            }
+          )
+        }
+      }
+    )
+    res.end()
   })
 
   router.post('/set/delete', isAuthenticated, function(req, res) {

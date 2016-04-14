@@ -12,75 +12,44 @@ var isAuthenticated = function (req, res, next) {
   res.redirect('/dj')
 }
 
-module.exports = function(db, Playlist, Song, DJ){
+module.exports = function(db){
 	var users = db.collection("djs")
-	var playlists = db.collection("playlists")
-  var songs = db.collection("songs")
-
-  /* GET Song Page */
-  router.get('/add', function(req, res) {
-     res.render('addsong',{message: req.flash('message')});
-  })
 
   /* Add Song to Playlist POST */
   router.post('/add', function(req,res) {
-   var title = req.body.title
-   var sid = req.body.sid
-   var pname = req.body.pname
+    var title = req.body.title
+    var id = req.body.id
 
     users.update(
-      { 
-        _id : req.user._id,
-        'playlists.title': pname
-      },
-      {
-        $push : { 
-          'playlists.$.songs' : { title: title, id : sid } 
-        }
-      },
-      function(err, result) {
-        if (err) {
-          console.log(err)
-        }
+    { 
+      _id : req.user._id,
+      'playlists.title': req.user.currentPlaylist.title
+    },
+    {
+      $push : { 
+        'playlists.$.songs' : { title: title, id : id, score: 0 } 
       }
-    )
+    })
 
-    res.redirect('/')
+    res.end()
+    
   })
 
-  // router.post('/current', function(req, res) {
-  //   var pname = req.body.pname
-  //   var 
-
-  //   users.update(
-  //   {
-  //     _id : req.user._id,
-  //     'playlists.title' : pname
-  //   }
-  //   )
-  // })
-
-  // probs should test this at some point
   router.post('/delete', function(req,res) {
     var id = req.body.id
-    var pname = req.body.pname
 
     users.update(
     {
-      _id : id,
-      'playlists.title' : pname
+      _id : req.user._id,
+      'playlists.title' : req.user.currentPlaylist.title
     },
     {
       $pull : {
         'playlists.$.songs' : { id : id }
       }
-    },
-    function(err,result) {
-      if (err) {
-        console.log(err)
-      }
     })
-    res.redirect('/')
+
+    res.end()
   })
 
 	return router

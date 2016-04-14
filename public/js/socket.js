@@ -1,3 +1,5 @@
+var socket = io.connect("/");
+
 socket.on('updateActivePlaylist',function(pid) {
 
 })
@@ -14,3 +16,7 @@ socket.on('updatePlaylistOrder', function() {
 
 })
 
+socket.on('addSong', function(song) {
+  
+  addSongHTML(song.id, song.title);
+})

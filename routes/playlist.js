@@ -11,10 +11,8 @@ var isAuthenticated = function (req, res, next) {
     res.redirect('/dj');
 }
 
-module.exports = function(db, Playlist, Song, DJ){
+module.exports = function(db){
   var users = db.collection("djs")
-  var playlists = db.collection("playlists")
-  var songs = db.collection("songs")
 
   return router;
 }
