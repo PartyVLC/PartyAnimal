@@ -9,6 +9,7 @@ module.exports = function(passport){
         function(req, username, done) {
 
             deactivateUser = function(){
+                console.log("deactivate user")
                 // find a user in Mongo with provided username
                 User.findOne({ 'username' :  username }, function(err, user) {
                     // In case of any error, return using the done method
@@ -25,6 +26,7 @@ module.exports = function(passport){
                         // set isActive to false
                         // if needed, admins can fully delete accounts
                         user.isActive = false;
+                        console.log("user.isActive = " + user.isActive)
 
                         // save the user
                         user.save(function(err) {
@@ -33,7 +35,7 @@ module.exports = function(passport){
                                 throw err;  
                             }
                             console.log('User '+username+' is now deactivated');    
-                            return done(null, newUser);
+                            return done(null, true);
                         });
                     }
                 });

@@ -25,6 +25,8 @@ block content
 											input(type='hidden', name='playlist', value='#{playlist.title}')
 											button(class='btn btn-lg btn-primary btn-block', type='submit') Delete #{playlist.title}
 											a(href="/dj/set/current"): button(class='btn btn-lg btn-primary btn-block', type="button") <b>#{index+1}</b>. #{playlist.title}
+							form(class='form-delPL container-fluid', action='/dj/delete', method='POST')
+								button(class='btn btn-lg btn-primary btn-block', type="submit") Delete Dis Usr
 
 							h1.text-center.login-title.container-fluid Add a New Playlist
 								form(class='form-newSet', action='/dj/set/new', method='POST')

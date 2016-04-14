@@ -31,7 +31,7 @@ module.exports = function(passport, db, Playlist, Song){
   });
 
   router.get('/newtest',function(req, res) {
-      res.render('dj', { dj : req.user })
+      res.render('dj/dj', { dj : req.user })
   })
 
   /* Handle Login POST */
@@ -43,7 +43,7 @@ module.exports = function(passport, db, Playlist, Song){
 
   /* GET Registration Page */
   router.get('/signup', function(req, res) {
-      res.render('dj_register',{message: req.flash('message')});
+      res.render('dj/register',{message: req.flash('message')});
   });
 
   /* Handle Registration POST */
@@ -117,25 +117,45 @@ module.exports = function(passport, db, Playlist, Song){
     res.redirect('/dj/home')
   })
 
-  // router.post('/delete', isAuthenticated, passport.authenticate(, function(req, res) {
+    /* Handle Delete POST */
+  router.post('/delete', isAuthenticated, function(req, res) {
+    function(req) {deactivateUser = function(){
+          console.log("deactivate user")
+          // find a user in Mongo with provided username
+          User.findOne({ 'username' :  req.user.username }, function(err, user) {
+              // In case of any error, return using the done method
+              if (err){
+                  console.log('Error in Deactivation: '+err);
+                  res.redirect('/dj/home')
+              }
+              // User does not exist
+              if (user == null) {
+                  console.log('User does not exist with the username '+username);
+                  res.redirect('/dj/home')
+              } else {
+                  // if there is a user with that username
+                  // set isActive to false
+                  // if needed, admins can fully delete accounts
+                  user.isActive = false;
+                  console.log("user.isActive = " + user.isActive)
 
-  // })
-
-
-
-  // router.get('/find/:username', function(req,res){
-  //   var dj = users.findOne(
-  //     { "username": req.params.username },
-  //     { "password": 0},
-  //     function(err, document) {
-  //       if (document == null) {
-  //         res.redirect('/guest')
-  //       }
-  //       else {
-  //         res.render('guest_home', { profile: document })
-  //       }
-  //   });
-  // })
+                  // save the user
+                  user.save(function(err) {
+                      if (err){
+                          console.log('Error in Saving user: '+err);  
+                          throw err;  
+                      }
+                      console.log('User '+username+' is now deactivated');    
+                      res.redirect('/')
+                  })
+              }
+          })
+      }
+      // Delay the execution of deactivateUser and execute the method
+      // in the next tick of the event loop
+      process.nextTick(deactivateUser);
+    }
+  })
 
   router.get('/player/:id',function(req,res,next){
     res.render('player', { title: 'Playing'});
