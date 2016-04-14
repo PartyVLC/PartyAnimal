@@ -26,24 +26,24 @@ module.exports = function(passport, db){
 
   /* GET login page. */
   router.get('/', function(req, res) {
-      // Display the Login page with any flash message, if any
+      // Display the Login page with a flash message, if any
       res.render('index', { message: req.flash('message') });
   });
 
-  router.get('/newtest',function(req, res) {
+  router.get('/play/:username',function(req, res) {
       res.render('dj', { dj : req.user })
   })
 
   /* Handle Login POST */
-  router.post('/signin', passport.authenticate('login', {
-      successRedirect: '/dj/home',
-      failureRedirect: '/dj',
-      failureFlash : true  
-  }));
+  router.post('/signin', 
+    passport.authenticate('login'), 
+    function(req,res) {
+    res.redirect('/dj/play/'+req.user.username)
+  });
 
   /* GET Registration Page */
   router.get('/signup', function(req, res) {
-      res.render('dj_register',{message: req.flash('message')});
+      res.render('dj/register',{message: req.flash('message')});
   });
 
   /* Handle Registration POST */
@@ -55,7 +55,6 @@ module.exports = function(passport, db){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
-    //res.render('dj_home', { user: req.user });
     res.render('dj', {dj : req.user})
   });
 
@@ -143,6 +142,46 @@ module.exports = function(passport, db){
     )
     res.redirect('/dj/home')
   })
+
+  //   /* Handle Delete POST */
+  // router.post('/delete', isAuthenticated, function(req, res) {
+  //   function(req) {deactivateUser = function(){
+  //         console.log("deactivate user")
+  //         // find a user in Mongo with provided username
+  //         User.findOne({ 'username' :  req.user.username }, function(err, user) {
+  //             // In case of any error, return using the done method
+  //             if (err){
+  //                 console.log('Error in Deactivation: '+err);
+  //                 res.redirect('/dj/home')
+  //             }
+  //             // User does not exist
+  //             if (user == null) {
+  //                 console.log('User does not exist with the username '+username);
+  //                 res.redirect('/dj/home')
+  //             } else {
+  //                 // if there is a user with that username
+  //                 // set isActive to false
+  //                 // if needed, admins can fully delete accounts
+  //                 user.isActive = false;
+  //                 console.log("user.isActive = " + user.isActive)
+
+  //                 // save the user
+  //                 user.save(function(err) {
+  //                     if (err){
+  //                         console.log('Error in Saving user: '+err);  
+  //                         throw err;  
+  //                     }
+  //                     console.log('User '+username+' is now deactivated');    
+  //                     res.redirect('/')
+  //                 })
+  //             }
+  //         })
+  //     }
+  //     // Delay the execution of deactivateUser and execute the method
+  //     // in the next tick of the event loop
+  //     process.nextTick(deactivateUser);
+  //   }
+  // })
 
   router.get('/player/:id',function(req,res,next){
     res.render('player', { title: 'Playing'});

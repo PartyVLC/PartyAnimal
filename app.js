@@ -62,7 +62,7 @@ app.use(flash());
 
 var index = require('./routes/index');
 var dj = require('./routes/dj')(passport, db, Playlist, Song);
-var guest = require('./routes/guest');
+var guest = require('./routes/guest')(db, Playlist, Song);
 var songs = require('./routes/songs')(db, Playlist, Song, DJ);
 var playlist = require('./routes/playlist')(db, Playlist, Song, DJ);
 
@@ -91,7 +91,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.render('misc/error', {
       message: err.message,
       error: err
     });
@@ -102,7 +102,7 @@ if (app.get('env') === 'development') {
 // ****** no stacktraces leaked to user *****
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+  res.render('misc/error', {
     message: err.message,
     error: {}
   });

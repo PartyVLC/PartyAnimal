@@ -28,8 +28,8 @@ module.exports = function (io) {
     //   io.emit('loadSongs');
     // });
 
-    socket.on('addSong', function(song) {
-      io.emit('addSong',song)
+    socket.on('addSong', function(data) {
+      io.emit('addSong',data)
     })
 
   });

@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+	div.container
+		div.row
+			div.col-sm-6.col-md-4.col-md-offset-4
+				div.signup-wall
+					h2.text-center Welcome to #{profile.firstName}'s Profile
+					ul.user-details.text-center
+						li Username ---> #{profile.username}
+						li Email    ---> #{profile.email}
+						li First Name ---> #{profile.firstName} 
+						li Last Name ---> #{profile.lastName}
+
+					if (profile.playlists == [])
+						h2.text-center <b> #{profile.username} has no playlists!</b>
+						
+					else
+						h2.text-center #{profile.username}'s Playlists
+						ul.text-center: #playlists
+							each playlist, index in profile.playlists
+								li: h3 <b>#{index+1}</b>. #{playlist.title}
+									if (playlist.songs == [])
+										h4: b #{playlist.title} has no songs...
+									else
+										ul: #songs
+										each song in playlist.songs
+											h4: li #{song.title}
+					a(href='/guest/#{profile.username}'): button(class='btn btn-lg btn-primary btn-block') #{profile.username}'s Currently Playing
+
+								//- form(class='form-delPL', action='/dj/set/delete', method='POST')
+								//- 	input(type='hidden', name='playlist', value='#{playlist.title}')
+								//- 	button(class='btn btn-lg btn-primary btn-block', type='submit') <b>#{index+1}</b>. #{playlist.title}
+
+					//- h1.text-center.login-title Add a New Playlist
+					//- 	form(class='form-newSet', action='/dj/set/new', method='POST')
+					//- 		input(type='text', name='title', class='form-control', placeholder='Title',required, autofocus)
+					//- 		button(class='btn btn-lg btn-primary btn-block', type='submit') Create
+					//- 		span.clearfix

@@ -113,7 +113,7 @@ function showSearchResultsHTML(index,song) {
 function addSong(id, title) {
   $.post("/songs/add", {id: id, title: title})
   $.post("/dj/set/refresh");
-  socket.emit('addSong',{id: id, title: title});
+  socket.emit('addSong',{id: id, title: title, url: window.location.href});
 }
 
 function addSongHTML(id, title) {

@@ -12,60 +12,15 @@ var db = new sqlite3.Database('PartyAnimal.db');
 
 
 router.get('/', function(req,res,next) {
-  if (req.user) {
-    console.log("Current User: " + req.user.username);
-  }
-  //console.log(process.env.DOMAIN)
-
-  db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
-
-  db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
-
-  db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, Idx INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
-
-  res.render('testpages', { domain: process.env.DOMAIN, user: req.user });
+  // if (req.user) {
+  //   console.log("Current User: " + req.user.username);
+  // }
+  res.render('index', { message: req.flash('message') });
 });
-
-// router.get('/register', function(req, res) {
-//     res.render('register', { });
-// });
-
-// router.post('/register', function(req, res) {
-//     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
-//         if (err) {
-//           return res.render("register", {info: "Sorry. That username already exists. Try again."});
-//         }
-
-//         passport.authenticate('local')(req, res, function () {
-//             res.redirect('/');
-//         });
-//     });
-// });
-
-// router.get('/login', function(req, res) {
-//     res.render('login', { user : req.user });
-// });
-
-// router.post('/login', passport.authenticate('local'), function(req, res) {
-//   // console.log(req.user.username);
-//   passport.authenticate('local')(req, res, function () {
-//     res.redirect('/');
-//   });
-// });
-
-// router.post('/delete', function(req, res) {
-//   Account.delete();
-// });
-
-// router.get('/logout', function(req, res) {
-//     req.logout();
-//     res.redirect('/');
-// });
 
 router.get('/ping', function(req, res){
     res.status(200).send("pong!");
 });
-
 
 router.get('/api/getSongs', function(req,res,next) {
   // not working
