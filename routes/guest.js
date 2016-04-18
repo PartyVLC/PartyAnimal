@@ -12,9 +12,10 @@ module.exports = function(db, Playlist, Song){
   /* GET guest landing page. */
   router.get('/', function(req, res) {
       // Display the Login page with any flash message, if any
-      res.render('index', { message: req.flash('message') });
+      // res.render('index', { message: req.flash('message') });
+      res.redirect('/')
   });
-
+  
   router.post('/party', function(req, res, next) {
   	res.redirect('party/'+req.body.dj);
   })
@@ -25,7 +26,7 @@ module.exports = function(db, Playlist, Song){
       { "password": 0},
       function(err, document) {
       	if (document == null) {
-      		res.redirect('/guest')
+      		res.redirect('/')
       	}
       	else {
 	        res.render('guest/home', { profile: document })

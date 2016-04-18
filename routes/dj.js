@@ -2,16 +2,6 @@ var express = require('express');
 var router = express.Router();
 var http = require('http');
 
-var isAuthenticated = function (req, res, next) {
-  // if user is authenticated in the session, call the next() to call the next request handler 
-  // Passport adds this method to request object. A middleware is allowed to add properties to
-  // request and response objects
-  if (req.isAuthenticated())
-      return next();
-  // if the user is not authenticated then redirect them to the login page
-  res.redirect('/dj');
-}
-
 var updateUser = function(users, user, callback) {
   users.findOne({ 'username' :  user.username }),
     function(err, userupdate) {
@@ -27,11 +17,14 @@ module.exports = function(passport, db){
   /* GET login page. */
   router.get('/', function(req, res) {
       // Display the Login page with a flash message, if any
-      res.render('index', { message: req.flash('message') });
+      res.redirect('/')
   });
 
   router.get('/play/:username',function(req, res) {
+    if ( req.isAuthenticated() ) {
       res.render('dj', { dj : req.user })
+    }
+    res.redirect('/')
   })
 
   /* Handle Login POST */
@@ -54,93 +47,111 @@ module.exports = function(passport, db){
   }));
 
   /* GET Home Page */
-  router.get('/home', isAuthenticated, function(req, res) {
-    res.render('dj', {dj : req.user})
+  router.get('/home', function(req, res) {
+    if ( req.isAuthenticated() ) {
+      res.render('dj', {dj : req.user})
+    }
+    res.redirect('/')
   });
 
   /* Handle Logout */
   router.get('/signout', function(req, res) {
+    if ( req.isAuthenticated() ) {
       req.logout();
       res.redirect('/dj');
+    }
+    res.redirect('/')
   });
 
   /* Handle New Set POST */
-  router.post('/set/new', isAuthenticated, function(req, res) {
-    users.update(
-      { _id: req.user._id },
-      { $push: { playlists: { title: req.body.title, songs: [] } } }
-    );
-    res.redirect('/dj/home');
+  router.post('/set/new', function(req, res) {
+    if ( req.isAuthenticated() ) {
+      users.update(
+        { _id: req.user._id },
+        { $push: { playlists: { title: req.body.title, songs: [] } } }
+      );
+      res.redirect('/dj/home');
+    }
+    res.redirect('/')
   });
 
-  router.post('/set/current', isAuthenticated, function(req, res) {
-    users.findOne(
-      {
-        _id : req.user._id,
-      },
-      {
-        playlists : { $elemMatch : { title :  req.body.playlist } }
-      },
-      function(err, user) {
-        if (err) {
-          res.redirect('/')
+  router.post('/set/current', function(req, res) {
+    if ( req.isAuthenticated() ) {
+      users.findOne(
+        {
+          _id : req.user._id,
+        },
+        {
+          playlists : { $elemMatch : { title :  req.body.playlist } }
+        },
+        function(err, user) {
+          if (err) {
+            res.redirect('/')
+          }
+          else {
+            users.update(
+              { _id : user._id },
+              { $set :
+                { currentPlaylist : user.playlists[0] }
+              }
+            )
+            res.redirect('/dj/home')
+          }
         }
-        else {
-          users.update(
-            { _id : user._id },
-            { $set :
-              { currentPlaylist : user.playlists[0] }
-            }
-          )
-          res.redirect('/dj/home')
-        }
-      }
-    )
-    // res.end()
+      )
+    }
+    res.redirect('/')
   })
 
-  router.post('/set/refresh', isAuthenticated, function(req, res) {
-    users.findOne(
-      {
-        _id : req.user._id,
-      },
-      {
-        playlists : { $elemMatch : { title :  req.user.currentPlaylist.title } }
-      },
-      function(err, user) {
-        if (err) {
-          console.log(err)
+  router.post('/set/refresh', function(req, res) {
+    if ( req.isAuthenticated() ) {
+      users.findOne(
+        {
+          _id : req.user._id,
+        },
+        {
+          playlists : { $elemMatch : { title :  req.user.currentPlaylist.title } }
+        },
+        function(err, user) {
+          if (err) {
+            console.log(err)
+          }
+          else {
+            users.update(
+              { _id : user._id },
+              { $set :
+                { currentPlaylist : user.playlists[0] }
+              }
+            )
+          }
         }
-        else {
-          users.update(
-            { _id : user._id },
-            { $set :
-              { currentPlaylist : user.playlists[0] }
-            }
-          )
-        }
-      }
-    )
-    res.end()
+      )
+      res.end()
+    }
+    res.redirect('/')
+      
   })
 
-  router.post('/set/delete', isAuthenticated, function(req, res) {
-    users.update(
-      {
-        _id: req.user._id
-      },
-      { 
-        $pull : {
-          playlists : { title : req.body.playlist } 
+  router.post('/set/delete', function(req, res) {
+      if ( req.isAuthenticated() ) {
+      users.update(
+        {
+          _id: req.user._id
+        },
+        { 
+          $pull : {
+            playlists : { title : req.body.playlist } 
+          }
+        },
+        function(err) {
+          if (err) {
+            console.log(err)
+          }
         }
-      },
-      function(err) {
-        if (err) {
-          console.log(err)
-        }
-      }
-    )
-    res.redirect('/dj/home')
+      )
+      res.redirect('/dj/home')
+    }
+    res.redirect('/')
   })
 
   //   /* Handle Delete POST */
@@ -190,6 +201,10 @@ module.exports = function(passport, db){
   router.get('/playlist/:id',function(req,res,next){
     res.render('djplaylist', { title: 'Playlist'});
   });
+
+  router.all('*', function(req,res) {
+    res.redirect('/')
+  })
 
   return router;
 }
