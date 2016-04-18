@@ -6,8 +6,8 @@ block content
       div.col-sm-6.col-md-4.col-md-offset-4
         div.account-wall
           h1.text-center.login-title Find Your Party
-            form(class='form-signin' action='/guest/party', method='POST')
-              input(type='text', name='dj', class='form-control', placeholder='DJ Username', required, autofocus)
+            form(action='/guest/party', method='POST')
+              input(type='text', name='partyid', class='form-control', placeholder='Party ID', required, autofocus)
               button(class='btn btn-lg btn-primary btn-block', type='submit') Join Party
         div.account-wall
           h1.text-center.login-title DJ Sign in
@@ -19,20 +19,5 @@ block content
               span.clearfix
           a(href='/dj/signup', class='text-center new-account') Create an account
           #message
-            if message
-              h1.text-center.error-message #{message}
-block js
-  script.
-    var socket = io.connect('http://localhost');
-    socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
-    });
-
-block title
-
-  h1 Party Animal
-
-block player
-
-block playlist
+          if message
+            h1.text-center.error-message #{message}
