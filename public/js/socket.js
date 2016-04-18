@@ -9,7 +9,7 @@ socket.on('updateActiveSong',function(sid) {
 })
 
 socket.on('updateScore', function(sid) {
-
+  
 })
 
 socket.on('updatePlaylistOrder', function() {
@@ -17,9 +17,14 @@ socket.on('updatePlaylistOrder', function() {
 })
 
 socket.on('addSong', function(data) {
-  console.log(window.location.href);
-  console.log(data.url)
   if (window.location.href == data.url) {
     addSongHTML(data.id, data.title);
   }
 })
+
+socket.on('delSong', function(data) {
+  if (window.location.href == data.url) {
+    delSongHTML(data.id);
+  }
+})
+

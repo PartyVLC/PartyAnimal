@@ -162,11 +162,16 @@ function addSongHTML(id, title) {
 function delSong(id) {
   $.post("/songs/delete", {id : id});
   $.post("/dj/set/refresh");
-  delSongHTML(id);
+  socket.emit('delSong',{id: id, url: window.location.href});
 }
 
 function delSongHTML(id) {
   var playlistsong = document.getElementById(id)
   playlistsong.parentNode.removeChild(playlistsong)
+}
 
+function upvote(id) {
+  $.post("/songs/upvote", {id : id}, function() {
+    $.post("/dj/set/refresh");
+  });
 }

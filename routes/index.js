@@ -3,12 +3,11 @@ var router = express.Router();
 var async = require('async');
 var http = require('http');
 
+var server = http.Server(router);
+var io = require('socket.io')(server);
+
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
-
-
-//var passport = require('passport');
-//var Account = require('../models/dj');
 
 
 router.get('/', function(req,res,next) {
@@ -22,17 +21,24 @@ router.get('/ping', function(req, res){
     res.status(200).send("pong!");
 });
 
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+
 router.get('/api/getSongs', function(req,res,next) {
-  // not working
-    db.all("SELECT * FROM Song", function(err, rows){
-      rows.forEach(function(row) {
-      if (err) {
-        console.log(err);
-      }
-      if (row && !err) {
-        songs.push(row);
-      }
-    });
+  songs = [];  
+  db.all("SELECT * FROM Song", function(err, rows){
+    rows.forEach(function(row) {
+    if (err) {
+      console.log(err);
+    }
+    if (row && !err) {
+      songs.push(row);
+    }
+  });
   res.json(songs);
   });
 });

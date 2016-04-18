@@ -56,6 +56,7 @@ module.exports = function(passport, db){
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
     res.render('dj', {dj : req.user})
+    // res.render('dj/newSet',{user : req.user})
   });
 
   /* Handle Logout */

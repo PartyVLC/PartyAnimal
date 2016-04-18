@@ -7,7 +7,7 @@ block content
 				h1.text-center.login-title #{user.firstname}, Add New Set
 					div.newset-wall
 						form(class='form-signin', action='/dj/set/new', method='POST')
-							input(type='text', name='Set Title', class='form-control', placeholder='Title',required, autofocus)
+							input(type='text', name='title', class='form-control', placeholder='Title',required, autofocus)
 							button(class='btn btn-lg btn-primary btn-block', type='submit') Create
 							span.clearfix
 					#message

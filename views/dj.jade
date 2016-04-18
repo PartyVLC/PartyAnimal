@@ -41,13 +41,22 @@ body
 
       div(id="sidebarplaylistcontainer", class="sidebarplaylistcontainer")
         each song, index in dj.currentPlaylist.songs
-          div(class="playlistsong", id="#{song.id}")
-            div(class="votebox")
-              button(class="voteboxvote") +
-              button(class="voteboxvote") -
-            div(class="voteboxnumber") 69
-            a(href="#", onclick="selectSong('#{song.id}');") #{song.title}
-            button(class="songx", onclick="delSong('#{song.id}');") x
+          if (index == 0)
+            div(class="playlistsongactive", id="#{song.id}")
+              div(class="votebox")
+                button(class="voteboxvote", onclick="upvote('#{song.id}');") +
+                button(class="voteboxvote") -
+              div(class="voteboxnumber") #{song.score}
+              a(href="#", onclick="selectSong('#{song.id}');") #{song.title}
+              button(class="songx", onclick="delSong('#{song.id}');") x
+          else 
+            div(class="playlistsong", id="#{song.id}")
+              div(class="votebox")
+                button(class="voteboxvote", onclick="upvote('#{song.id}');") +
+                button(class="voteboxvote") -
+              div(class="voteboxnumber") #{song.score}
+              a(href="#", onclick="selectSong('#{song.id}');") #{song.title}
+              button(class="songx", onclick="delSong('#{song.id}');") x
 
     div(id="sidebarplaylistsmenu")
       div(class="sidebartitlebar")

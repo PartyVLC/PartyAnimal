@@ -52,5 +52,65 @@ module.exports = function(db){
     res.end()
   })
 
+  router.post('/upvote', function(req,res) {
+    var id = req.body.id
+
+    users.aggregate(
+      [{ 
+        $match : { _id : req.user._id }
+      },
+      { $unwind : "$playlists"},
+      { $unwind : "$playlists.songs"},
+      {
+        $match : 
+        {
+          'playlists.title': req.user.currentPlaylist.title,
+          'playlists.songs.id' : id
+        }
+      },
+      {
+        $group : 
+        {
+          _id : { "id" : "$playlists.songs.id" , "title" : "$playlists.songs.title", "score" : "$playlists.songs.score"},
+        }
+      }
+      ]).toArray(function(err,song) {
+
+        var newscore = song[0]._id.score + 1
+
+        users.update(
+        { 
+          _id : req.user._id,
+          'playlists.title': req.user.currentPlaylist.title
+        },
+        {
+          $pull : { 
+            'playlists.$.songs' : { id : id } 
+          }
+        })
+
+        users.update(
+        { 
+          _id : req.user._id,
+          'playlists.title': req.user.currentPlaylist.title,
+        },
+        {
+          $push : { 
+            'playlists.$.songs' : 
+            {
+              $each :
+                [{ title: song[0]._id.title, id : id, score: newscore}],
+              $sort : 1
+            }  
+          }
+        })
+      })
+
+
+    res.end()
+})
+
+
+
 	return router
 }
