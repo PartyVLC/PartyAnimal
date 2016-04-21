@@ -21,8 +21,9 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  $.get("/songs/getNext", function(data) {
-    //event.target.playVideo();
+  $.get("/songs/getNext", function(user) {
+    var id = user.currentPlaylist.songs[0].id;
+    selectSong(id);
   });
   
 }
@@ -30,10 +31,12 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
   var progressbarplaypause = document.getElementById("progressbarplaypause");
   if (event.data == YT.PlayerState.ENDED) {
-    $.get("/songs/getNext", function(data) {
-      console.log(data)
-    });
-    playNextSong();
+    $.get("/songs/getNext", function(user) {
+      var playedSong = user.currentPlaylist.songs[0].id;
+      var nextSong = user.currentPlaylist.songs[1].id;
+      $.post('/songs/remove',{id: playedSong});
+      selectSong(nextSong);
+    })
   }
   else if (event.data == YT.PlayerState.PLAYING) {
     progressbarplaypause.innerHTML = "||";
@@ -41,10 +44,6 @@ function onPlayerStateChange(event) {
   else if (event.data == YT.PlayerState.PAUSED) {
     progressbarplaypause.innerHTML = ">";
   }
-}
-
-function playNextSong() {
-
 }
 
 function selectSong(id) {

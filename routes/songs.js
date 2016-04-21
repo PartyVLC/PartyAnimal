@@ -73,6 +73,22 @@ module.exports = function(db){
     res.end()
   })
 
+  router.post('/remove', function(req,res) {
+    var id = req.body.id
+    
+    users.update(
+    {
+      _id : req.user._id
+    },
+    {
+      $pull : {
+        'currentPlaylist.songs' : { id : id }
+      }
+    })
+
+    res.end()
+  })
+
   router.get('/getNext', function(req,res) {
     users.findOne(
       {

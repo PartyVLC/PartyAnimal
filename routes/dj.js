@@ -92,63 +92,6 @@ module.exports = function(passport, db){
     // res.end()
   })
 
-  // router.post('/set/refresh', isAuthenticated, function(req, res) {
-  //   users.findOne(
-  //     {
-  //       _id : req.user._id,
-  //     },
-  //     {
-  //       playlists : { $elemMatch : { title :  req.user.currentPlaylist.title } }
-  //     },
-  //     function(err, user) {
-  //       if (err) {
-  //         console.log(err)
-  //       }
-  //       else {
-  //         users.update(
-  //           { _id : user._id },
-  //           { $set :
-  //             { currentPlaylist : user.playlists[0] }
-  //           }
-  //         )
-  //       }
-  //     }
-  //   )
-  //   res.end()
-  // })
-
-  // router.post('/set/updateFromCurrent', function(req,res) {
-  //   users.findOne(
-  //     {
-  //       _id : req.user._id
-  //     },
-  //     {
-  //       'currentPlaylist' : 1
-  //     },
-  //     function(err, user) {
-  //       users.updateOne(
-  //         { _id : user._id,
-  //           'playlists.title' : user.currentPlaylist.title
-  //         },
-  //         { $pull :
-  //           { 'playlists' : { title : user.currentPlaylist.title } }
-  //         },
-  //         function(err,res) {
-  //           users.updateOne(
-  //             {
-  //               _id : req.user._id
-  //             },
-  //             {
-  //               $push :
-  //                 { 'playlists' : user.currentPlaylist }
-  //             }
-  //           )
-  //         }
-  //       )
-  //     }
-  //   )
-  // })
-
   router.post('/set/delete', isAuthenticated, function(req, res) {
     users.update(
       {

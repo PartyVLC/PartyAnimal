@@ -75,7 +75,7 @@ app.use('/songs', songs);
 app.use('/playlist', playlist);
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'Party_Hat.png')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( { extended: true }));
 app.use(cookieParser());
@@ -220,11 +220,4 @@ qr_svg.pipe(require('fs').createWriteStream('./public/images/guest_qr.svg'));
 // });
 
 // console.log(process.env.DOMAIN);
-
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./PartyAnimal.db');
-db.run("CREATE TABLE IF NOT EXISTS Playlist (PlaylistID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT)");
-db.run("CREATE TABLE IF NOT EXISTS Song (SongID TEXT PRIMARY KEY, Title TEXT)");
-db.run("CREATE TABLE IF NOT EXISTS PlaylistSong (PlaylistID INTEGER, SongID TEXT, Score INTEGER, FOREIGN KEY(PlaylistID) REFERENCES Playlist(PlaylistID), FOREIGN KEY(SongID) REFERENCES Song(SongID), PRIMARY KEY (PlaylistID,SongID))");
-
 module.exports = app;
