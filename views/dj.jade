@@ -25,7 +25,7 @@ body
       div(class="sidebartitlebar")
         h1 Menu
       if dj.currentPlaylist
-        div(class="sidebarmainmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
+        div(class="sidebjarmainmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
       div(class="sidebarmainmenuitem", onclick="clickPlaylists();") Playlists
       div(class="sidebarmainmenuitem", onclick="clickSearch();") Search Songs
       div(class="sidebarmainmenuitem", onclick="expandSidebar();") Login As DJ
@@ -45,16 +45,16 @@ body
             div(class="playlistsongactive", id="#{song.id}")
               div(class="votebox")
                 button(class="voteboxvote", onclick="upvote('#{song.id}');") +
-                button(class="voteboxvote") -
-              div(class="voteboxnumber") #{song.score}
+                button(class="voteboxvote", onclick="downvote('#{song.id}');") -
+              div(class="voteboxnumber",id="score-#{song.id}") #{song.score}
               a(href="#", onclick="selectSong('#{song.id}');") #{song.title}
               button(class="songx", onclick="delSong('#{song.id}');") x
           else 
             div(class="playlistsong", id="#{song.id}")
               div(class="votebox")
                 button(class="voteboxvote", onclick="upvote('#{song.id}');") +
-                button(class="voteboxvote") -
-              div(class="voteboxnumber") #{song.score}
+                button(class="voteboxvote", onclick="downvote('#{song.id}');") -
+              div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
               a(href="#", onclick="selectSong('#{song.id}');") #{song.title}
               button(class="songx", onclick="delSong('#{song.id}');") x
 

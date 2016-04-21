@@ -125,6 +125,38 @@ module.exports = function(passport, db){
     res.end()
   })
 
+  router.post('/set/updateFromCurrent', function(req,res) {
+    users.findOne(
+      {
+        _id : req.user._id
+      },
+      {
+        'currentPlaylist' : 1
+      },
+      function(err, user) {
+        users.updateOne(
+          { _id : user._id,
+            'playlists.title' : user.currentPlaylist.title
+          },
+          { $pull :
+            { 'playlists' : { title : user.currentPlaylist.title } }
+          },
+          function(err,res) {
+            users.updateOne(
+              {
+                _id : req.user._id
+              },
+              {
+                $push :
+                  { 'playlists' : user.currentPlaylist }
+              }
+            )
+          }
+        )
+      }
+    )
+  })
+
   router.post('/set/delete', isAuthenticated, function(req, res) {
     users.update(
       {
@@ -190,6 +222,17 @@ module.exports = function(passport, db){
 
   router.get('/playlist/:id',function(req,res,next){
     res.render('djplaylist', { title: 'Playlist'});
+  });
+
+  router.get('/user_data', function(req, res) {
+    if (req.user === undefined) {
+      // The user is not logged in
+      res.json({});
+    } else {
+      res.json({
+        user: req.user
+      });
+    }
   });
 
   return router;

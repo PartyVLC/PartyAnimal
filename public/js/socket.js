@@ -1,4 +1,5 @@
-var socket = io.connect("/");
+// var socket = io("/");
+var socket = io("/");
 
 socket.on('updateActivePlaylist',function(pid) {
 
@@ -17,6 +18,8 @@ socket.on('updatePlaylistOrder', function() {
 })
 
 socket.on('addSong', function(data) {
+  //custom namespace!!
+  console.log(window.location.href)
   if (window.location.href == data.url) {
     addSongHTML(data.id, data.title);
   }

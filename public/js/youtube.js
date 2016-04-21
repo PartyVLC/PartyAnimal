@@ -129,6 +129,7 @@ function addSongHTML(id, title) {
   var voteboxvoteup = document.createElement("button");
   voteboxvoteup.innerHTML = "+";
   voteboxvoteup.className = "voteboxvote";
+  voteboxvoteup.onclick = function() { upvote(id); }
 
   var voteboxvotedown = document.createElement("button");
   voteboxvotedown.innerHTML = "-";
@@ -136,7 +137,8 @@ function addSongHTML(id, title) {
 
   var voteboxnumber = document.createElement("div");
   voteboxnumber.className = "voteboxnumber";
-  voteboxnumber.innerHTML = 69;
+  voteboxnumber.innerHTML = 0;
+  voteboxnumber.id = "score-"+id
 
   var a = document.createElement("a");
   a.href="#";
@@ -166,12 +168,30 @@ function delSong(id) {
 }
 
 function delSongHTML(id) {
-  var playlistsong = document.getElementById(id)
-  playlistsong.parentNode.removeChild(playlistsong)
+  var playlistsong = document.getElementById(id);
+  playlistsong.parentNode.removeChild(playlistsong);
 }
 
 function upvote(id) {
-  $.post("/songs/upvote", {id : id}, function() {
-    $.post("/dj/set/refresh");
-  });
+  $.post("/songs/upvote", {id : id});
+  $.post("/dj/set/updateFromCurrent", {id : id});
+  upvoteHTML(id);
+}
+
+function upvoteHTML(id) {
+  var scorebox = document.getElementById("score-"+id);
+  var score = parseInt(scorebox.innerHTML);
+  scorebox.innerHTML = score + 1;
+}
+
+function downvote(id) {
+  $.post("/songs/downvote", {id : id});
+  $.post("/dj/set/updateFromCurrent", {id : id});
+  downvoteHTML(id);
+}
+
+function downvoteHTML(id) {
+  var scorebox = document.getElementById("score-"+id);
+  var score = parseInt(scorebox.innerHTML);
+  scorebox.innerHTML = score - 1;
 }
