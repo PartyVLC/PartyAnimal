@@ -9,7 +9,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     height: '100%',
     width: '100%',
-    playerVars: {'controls':0, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
+    playerVars: {'controls':1, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
@@ -21,12 +21,19 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  //event.target.playVideo();
+  $.get("/songs/getNext", function(data) {
+    //event.target.playVideo();
+  });
+  
 }
 
 function onPlayerStateChange(event) {
   var progressbarplaypause = document.getElementById("progressbarplaypause");
   if (event.data == YT.PlayerState.ENDED) {
+    $.get("/songs/getNext", function(data) {
+      console.log(data)
+    });
+    playNextSong();
   }
   else if (event.data == YT.PlayerState.PLAYING) {
     progressbarplaypause.innerHTML = "||";
@@ -34,6 +41,10 @@ function onPlayerStateChange(event) {
   else if (event.data == YT.PlayerState.PAUSED) {
     progressbarplaypause.innerHTML = ">";
   }
+}
+
+function playNextSong() {
+
 }
 
 function selectSong(id) {
@@ -112,7 +123,6 @@ function showSearchResultsHTML(index,song) {
 
 function addSong(id, title) {
   $.post("/songs/add", {id: id, title: title})
-  $.post("/dj/set/refresh");
   socket.emit('addSong',{id: id, title: title, url: window.location.href});
 }
 
@@ -163,7 +173,6 @@ function addSongHTML(id, title) {
 
 function delSong(id) {
   $.post("/songs/delete", {id : id});
-  $.post("/dj/set/refresh");
   socket.emit('delSong',{id: id, url: window.location.href});
 }
 
@@ -174,7 +183,6 @@ function delSongHTML(id) {
 
 function upvote(id) {
   $.post("/songs/upvote", {id : id});
-  $.post("/dj/set/updateFromCurrent", {id : id});
   upvoteHTML(id);
 }
 
@@ -186,7 +194,6 @@ function upvoteHTML(id) {
 
 function downvote(id) {
   $.post("/songs/downvote", {id : id});
-  $.post("/dj/set/updateFromCurrent", {id : id});
   downvoteHTML(id);
 }
 

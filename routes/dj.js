@@ -12,15 +12,6 @@ var isAuthenticated = function (req, res, next) {
   res.redirect('/dj');
 }
 
-var updateUser = function(users, user, callback) {
-  users.findOne({ 'username' :  user.username }),
-    function(err, userupdate) {
-      return callback(userupdate)
-    }
-}
-
-// var delSet = function()
-
 module.exports = function(passport, db){
   var users = db.collection("djs")
 
@@ -83,6 +74,7 @@ module.exports = function(passport, db){
         playlists : { $elemMatch : { title :  req.body.playlist } }
       },
       function(err, user) {
+        console.log(user.playlists[0])
         if (err) {
           res.redirect('/')
         }
@@ -90,7 +82,7 @@ module.exports = function(passport, db){
           users.update(
             { _id : user._id },
             { $set :
-              { currentPlaylist : user.playlists[0] }
+              { currentPlaylist :user.playlists[0]  }
             }
           )
           res.redirect('/dj/home')
@@ -100,62 +92,62 @@ module.exports = function(passport, db){
     // res.end()
   })
 
-  router.post('/set/refresh', isAuthenticated, function(req, res) {
-    users.findOne(
-      {
-        _id : req.user._id,
-      },
-      {
-        playlists : { $elemMatch : { title :  req.user.currentPlaylist.title } }
-      },
-      function(err, user) {
-        if (err) {
-          console.log(err)
-        }
-        else {
-          users.update(
-            { _id : user._id },
-            { $set :
-              { currentPlaylist : user.playlists[0] }
-            }
-          )
-        }
-      }
-    )
-    res.end()
-  })
+  // router.post('/set/refresh', isAuthenticated, function(req, res) {
+  //   users.findOne(
+  //     {
+  //       _id : req.user._id,
+  //     },
+  //     {
+  //       playlists : { $elemMatch : { title :  req.user.currentPlaylist.title } }
+  //     },
+  //     function(err, user) {
+  //       if (err) {
+  //         console.log(err)
+  //       }
+  //       else {
+  //         users.update(
+  //           { _id : user._id },
+  //           { $set :
+  //             { currentPlaylist : user.playlists[0] }
+  //           }
+  //         )
+  //       }
+  //     }
+  //   )
+  //   res.end()
+  // })
 
-  router.post('/set/updateFromCurrent', function(req,res) {
-    users.findOne(
-      {
-        _id : req.user._id
-      },
-      {
-        'currentPlaylist' : 1
-      },
-      function(err, user) {
-        users.updateOne(
-          { _id : user._id,
-            'playlists.title' : user.currentPlaylist.title
-          },
-          { $pull :
-            { 'playlists' : { title : user.currentPlaylist.title } }
-          },
-          function(err,res) {
-            users.updateOne(
-              {
-                _id : req.user._id
-              },
-              {
-                $push :
-                  { 'playlists' : user.currentPlaylist }
-              }
-            )
-          }
-        )
-      }
-    )
-  })
+  // router.post('/set/updateFromCurrent', function(req,res) {
+  //   users.findOne(
+  //     {
+  //       _id : req.user._id
+  //     },
+  //     {
+  //       'currentPlaylist' : 1
+  //     },
+  //     function(err, user) {
+  //       users.updateOne(
+  //         { _id : user._id,
+  //           'playlists.title' : user.currentPlaylist.title
+  //         },
+  //         { $pull :
+  //           { 'playlists' : { title : user.currentPlaylist.title } }
+  //         },
+  //         function(err,res) {
+  //           users.updateOne(
+  //             {
+  //               _id : req.user._id
+  //             },
+  //             {
+  //               $push :
+  //                 { 'playlists' : user.currentPlaylist }
+  //             }
+  //           )
+  //         }
+  //       )
+  //     }
+  //   )
+  // })
 
   router.post('/set/delete', isAuthenticated, function(req, res) {
     users.update(
@@ -175,46 +167,6 @@ module.exports = function(passport, db){
     )
     res.redirect('/dj/home')
   })
-
-  //   /* Handle Delete POST */
-  // router.post('/delete', isAuthenticated, function(req, res) {
-  //   function(req) {deactivateUser = function(){
-  //         console.log("deactivate user")
-  //         // find a user in Mongo with provided username
-  //         User.findOne({ 'username' :  req.user.username }, function(err, user) {
-  //             // In case of any error, return using the done method
-  //             if (err){
-  //                 console.log('Error in Deactivation: '+err);
-  //                 res.redirect('/dj/home')
-  //             }
-  //             // User does not exist
-  //             if (user == null) {
-  //                 console.log('User does not exist with the username '+username);
-  //                 res.redirect('/dj/home')
-  //             } else {
-  //                 // if there is a user with that username
-  //                 // set isActive to false
-  //                 // if needed, admins can fully delete accounts
-  //                 user.isActive = false;
-  //                 console.log("user.isActive = " + user.isActive)
-
-  //                 // save the user
-  //                 user.save(function(err) {
-  //                     if (err){
-  //                         console.log('Error in Saving user: '+err);  
-  //                         throw err;  
-  //                     }
-  //                     console.log('User '+username+' is now deactivated');    
-  //                     res.redirect('/')
-  //                 })
-  //             }
-  //         })
-  //     }
-  //     // Delay the execution of deactivateUser and execute the method
-  //     // in the next tick of the event loop
-  //     process.nextTick(deactivateUser);
-  //   }
-  // })
 
   router.get('/player/:id',function(req,res,next){
     res.render('player', { title: 'Playing'});

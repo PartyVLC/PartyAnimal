@@ -31,6 +31,16 @@ module.exports = function(db){
       }
     })
 
+    users.update(
+    { 
+      _id : req.user._id
+    },
+    {
+      $push : { 
+        'currentPlaylist.songs' : { title: title, id : id, score: 0 } 
+      }
+    })
+
     res.end()
     
   })
@@ -49,7 +59,38 @@ module.exports = function(db){
       }
     })
 
+
+    users.update(
+    {
+      _id : req.user._id
+    },
+    {
+      $pull : {
+        'currentPlaylist.songs' : { id : id }
+      }
+    })
+
     res.end()
+  })
+
+  router.get('/getNext', function(req,res) {
+    users.findOne(
+      {
+        _id : req.user._id
+      },
+      {
+        'currentPlaylist.songs' : 1
+      },
+      function(err,result) {
+        if (err) {
+          res.json(err)
+        }
+        else {
+          res.json(result)
+        }
+      }
+    )
+    
   })
 
   router.post('/upvote', function(req,res) {
@@ -65,8 +106,14 @@ module.exports = function(db){
         {
           'currentPlaylist.songs.$.score' : 1
         }
+      },
+      function(err,res) {
+        if (err) {
+          console.log(err)
+        }
       }
     )
+
     res.end()
   })
 

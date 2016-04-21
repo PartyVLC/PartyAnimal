@@ -32,8 +32,6 @@ input {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 );
 }
 
-#player {pointer-events: none;}
-
 .video
 {
     display:inline-block;
