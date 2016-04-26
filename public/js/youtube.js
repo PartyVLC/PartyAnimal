@@ -297,10 +297,17 @@ function reorderSongsHTML() {
   })
 }
 
+function addPlaylistKeypress() {
+  if (event.keyCode == 13) {
+    addPlaylist();
+  }
+}
+
 function addPlaylist() {
-  var title = document.getElementById('newplaylistinput').value;
-  $.post('/dj/set/new', {title : title});
-  socket.emit('addPlaylist', {title : title, url : window.location.href});
+  var newplaylistinput = document.getElementById('newplaylistinput');
+  $.post('/dj/set/new', {title : newplaylistinput.value});
+  socket.emit('addPlaylist', {title : newplaylistinput.value, url : window.location.href});
+  newplaylistinput.value = '';
 }
 
 function addPlaylistHTML(title) {
@@ -332,8 +339,15 @@ function addPlaylistHTML(title) {
 }
 
 function deletePlaylist(title) {
-
+  $.post('/dj/set/delete', {playlist : title});
+  socket.emit('delPlaylist', {title : title, url : window.location.href});
 }
+
+function deletePlaylistHTML(title) {
+  var playlistsong = document.getElementById('playlist-'+title);
+  playlistsong.parentNode.removeChild(playlistsong);
+}
+
 function refreshProgress() {
   var progressbartime = document.getElementsByClassName('progressbartime')[0];
   var currTime = player.getCurrentTime();

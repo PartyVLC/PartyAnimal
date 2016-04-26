@@ -35,5 +35,9 @@ module.exports = function (io) {
       io.emit('addPlaylist', data)
     })
 
+    socket.on('delPlaylist', function(data) {
+      io.emit('delPlaylist', data)
+    })
+
   });
 }

@@ -47,3 +47,9 @@ socket.on('addPlaylist', function(data) {
     addPlaylistHTML(data.title);
   }
 })
+
+socket.on('delPlaylist', function(data) {
+  if (window.location.href == data.url) {
+    deletePlaylistHTML(data.title);
+  }
+})

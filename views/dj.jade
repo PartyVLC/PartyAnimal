@@ -80,16 +80,16 @@ body
           i(class="fa fa-arrow-left")
         h1(style="display:inline;") Manage Playlists
       div(class="searchbar")
-        input(id='newplaylistinput', class="searchinput", placeholder="Add a new playlist")
+        input(id='newplaylistinput', class="searchinput", placeholder="Add a new playlist", onkeypress="addPlaylistKeypress();")
         button(class="searchbutton", onclick='addPlaylist();')
           i(class="fa fa-plus")
       div(id='playlistmanager', class="sidebarplaylistcontainer")
         each playlist, index in dj.playlists
-          div(class="playlistsong")
+          div(id='playlist-'+playlist.title, class="playlistsong")
             button(class="songadd", onclick="changePlaylist('"+playlist.title+"');")
               i(class="fa fa-caret-right")
             p #{playlist.title}
-            button(class="songx", onclick="deletePlaylist('"+playlist.title+"'") x
+            button(class="songx", onclick="deletePlaylist('"+playlist.title+"');") x
 
     div(id="sidebarlogin", class="sidemenu")
       div(class="sidebartitlebar")
