@@ -10,14 +10,15 @@ html
     script(type="text/javascript", src="/js/socket.js")
 body
   div(class="container")
-    h1 #{dj.username} - #{dj.currentPlaylist.title}
+    h1(id='pagetitle') #{dj.username} - #{dj.currentPlaylist.title}
     div(class="contentarea")
       div(id="player", class="video")
       div(class="progressbarcontainer")
         button(id="progressbarplaypause", onclick="playPause();")
           i(class="fa fa-play")
-        div(class="progressbar")
-        div(class="progressbartime") 4:20
+        div(class='progressbarinnercontainer')
+          div(class="progressbar")
+        div(class="progressbartime") 0:00
 
   button(id="sidebartoggle", onclick="showSidebar();")
     i(id="sidebartoggleicon", class="fa fa-caret-left")
@@ -26,7 +27,7 @@ body
       div(class="sidebartitlebar")
         h1 Menu
       if dj.currentPlaylist
-        button(class="sidebarmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
+        button(id="currentPlaylistMenu", class="sidebarmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
       button(class="sidebarmenuitem", onclick="clickSearch();") Search Songs
       button(class="sidebarmenuitem", onclick="clickPlaylistManager();") Manage Playlists
       button(class="sidebarmenuitem", onclick="clickLogin();") Login As DJ
@@ -35,7 +36,7 @@ body
       div(class="sidebartitlebar")
         button(class="sidebarbackbutton", onclick="clickBack();")
           i(class="fa fa-arrow-left")
-        h1(style="display:inline;") #{dj.currentPlaylist.title}
+        h1(id='currentPlaylistTitle', style="display:inline;") #{dj.currentPlaylist.title}
 
       div(id="sidebarplaylistcontainer", class="sidebarplaylistcontainer")
         each song, index in dj.currentPlaylist.songs

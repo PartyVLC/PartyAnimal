@@ -22,13 +22,13 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
   $.get("/dj/user_data", function(user) {
+    setInterval(refreshProgress,100);
     var songs = user.currentPlaylist.songs;
     if (songs[0]) {
       selectSongSocket(songs[0].id)
     }
     else {
       console.log("No queued song to play")
-      console.log(songs);
     }
   });
 }
@@ -152,18 +152,26 @@ function showSearchResultsHTML(index,song) {
 }
 
 function changePlaylist(playlist) {
-  $.post("/dj/set/current", {playlist : playlist});
-  // socket.emit("changePlaylist", {playlist : playlist, url : window.location.href });
-  changePlaylistHTML(playlist);
+  $.post("/dj/set/current", {playlist : playlist}, function(err, res) {
+    socket.emit("changePlaylist", {playlist : playlist, url : window.location.href });
+  });
 }
 
 function changePlaylistHTML(playlist) {
   $.get("/dj/user_data", function(user) {
     clearSongs();
+
     var songs = user.currentPlaylist.songs
     for (i in songs) {
       addSongHTML(songs[i].id, songs[i].title, songs[i].score);
     }
+
+    var currentPlaylistTitle = document.getElementById('currentPlaylistTitle');
+    currentPlaylistTitle.innerHTML = playlist;
+    var pagetitle = document.getElementById('pagetitle');
+    pagetitle.innerHTML = user.username + ' - ' + playlist;
+    var currentPlaylistMenu = document.getElementById('currentPlaylistMenu');
+    currentPlaylistMenu.innerHTML = "CurrentPlaylist - " + playlist;
   }) 
 }
 
@@ -176,7 +184,7 @@ function clearSongs() {
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
   console.log(sidebarplaylistcontainer);
   while (sidebarplaylistcontainer.firstChild) {
-    sidebarplaylistcontainer.removeChild(sidebarplaylistcontainer.lastChild);
+    sidebarplaylistcontainer.removeChild(sidebarplaylistcontainer.firstChild);
   }
 }
 
@@ -274,4 +282,22 @@ function downvoteHTML(id) {
 function reorderSongs() {
   var songElements = document.getElementsByClassName("playlistsong");
   console.log(songElements);
+}
+
+function refreshProgress() {
+  var progressbartime = document.getElementsByClassName('progressbartime')[0];
+  var currTime = player.getCurrentTime();
+
+  var minCurr = Math.floor(currTime / 60);
+  var secCurr = Math.floor(currTime) % 60;
+
+  var width = currTime / player.getDuration() * 100;
+  setProgressPercent(width);
+  progressbartime.innerHTML = minCurr.toString() + ':'+ ("0"+secCurr).slice(-2);
+}
+
+function setProgressPercent(percent)
+{
+    progressbar = document.getElementsByClassName("progressbar")[0];
+    progressbar.style.width = percent + "%";
 }

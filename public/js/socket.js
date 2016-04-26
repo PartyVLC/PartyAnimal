@@ -51,3 +51,9 @@ socket.on('removeSong', function(data) {
     delSongHTML(data.id);
   }
 })
+
+socket.on('changePlaylist', function(data) {
+  if (window.location.href == data.url) {
+    changePlaylistHTML(data.playlist)
+  }
+})

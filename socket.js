@@ -29,6 +29,10 @@ module.exports = function (io) {
     socket.on('removeSong', function(data) {
       io.emit('removeSong', data)
     })
+
+    socket.on('changePlaylist', function(data) {
+      io.emit('changePlaylist', data)
+    })
     
   });
 }
