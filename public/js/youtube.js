@@ -182,7 +182,6 @@ function addSong(id, title) {
 
 function clearSongs() {
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
-  console.log(sidebarplaylistcontainer);
   while (sidebarplaylistcontainer.firstChild) {
     sidebarplaylistcontainer.removeChild(sidebarplaylistcontainer.firstChild);
   }
@@ -255,6 +254,12 @@ function delSongHTML(id) {
   playlistsong.parentNode.removeChild(playlistsong);
 }
 
+function disableVoting(id) {
+  var votebox = document.getElementById(id).firstChild;
+  votebox.firstChild.disabled = true;
+  votebox.children[1].disabled = true;
+} 
+
 function upvote(id) {
   $.post("/songs/upvote", {id : id});
   socket.emit('upvote', {id : id, url : window.location.href});
@@ -263,8 +268,9 @@ function upvote(id) {
 function upvoteHTML(id) {
   var scorebox = document.getElementById("score-"+id);
   var score = parseInt(scorebox.innerHTML);
+  console.log(score);
   scorebox.innerHTML = score + 1;
-  reorderSongs();
+  disableVoting(id);
 }
 
 function downvote(id) {
@@ -276,12 +282,19 @@ function downvoteHTML(id) {
   var scorebox = document.getElementById("score-"+id);
   var score = parseInt(scorebox.innerHTML);
   scorebox.innerHTML = score - 1;
-  reorderSongs();
+  disableVoting(id);
 }
 
-function reorderSongs() {
-  var songElements = document.getElementsByClassName("playlistsong");
-  console.log(songElements);
+function reorderSongsHTML() {
+  $.get('/dj/user_data', function(user) {
+    clearSongs();
+
+    var songs = user.currentPlaylist.songs;
+    console.log(songs);
+    for (i in songs) {
+      addSongHTML(songs[i].id, songs[i].title, songs[i].score);
+    }
+  })
 }
 
 function refreshProgress() {

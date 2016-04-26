@@ -1,9 +1,6 @@
 // Server side socket code
 
 module.exports = function (io) {
-  var activeplaylist;
-  var currSong;
-
   io.on('connection', function(socket) {
 
     socket.on('addSong', function(data) {
@@ -33,6 +30,5 @@ module.exports = function (io) {
     socket.on('changePlaylist', function(data) {
       io.emit('changePlaylist', data)
     })
-    
   });
 }
