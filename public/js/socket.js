@@ -41,3 +41,9 @@ socket.on('downvote', function(data) {
     downvoteHTML(data.id);
   }
 })
+
+socket.on('addPlaylist', function(data) {
+  if (window.location.href == data.url) {
+    addPlaylistHTML(data.title);
+  }
+})

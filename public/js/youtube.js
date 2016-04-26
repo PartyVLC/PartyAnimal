@@ -297,6 +297,43 @@ function reorderSongsHTML() {
   })
 }
 
+function addPlaylist() {
+  var title = document.getElementById('newplaylistinput').value;
+  $.post('/dj/set/new', {title : title});
+  socket.emit('addPlaylist', {title : title, url : window.location.href});
+}
+
+function addPlaylistHTML(title) {
+  var playlistmanager = document.getElementById('playlistmanager');
+
+  var playlistsong = document.createElement('div');
+  playlistsong.className = "playlistsong";
+
+  var playlistadd = document.createElement('button');
+  playlistadd.className = 'songadd';
+
+  var icon = document.createElement('i');
+  icon.className = 'fa fa-caret-right';
+  playlistadd.appendChild(icon);
+
+  var p = document.createElement('p');
+  p.innerHTML = title;
+
+  var playlistx = document.createElement('button');
+  playlistx.className = 'songx';
+  playlistx.innerHTML = 'x';
+  playlistx.onclick = function() { deletePlaylist(title); }
+
+  playlistsong.appendChild(playlistadd);
+  playlistsong.appendChild(p);
+  playlistsong.appendChild(playlistx);
+
+  playlistmanager.appendChild(playlistsong);
+}
+
+function deletePlaylist(title) {
+
+}
 function refreshProgress() {
   var progressbartime = document.getElementsByClassName('progressbartime')[0];
   var currTime = player.getCurrentTime();
