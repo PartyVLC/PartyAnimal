@@ -6,32 +6,13 @@ var http = require('http');
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('PartyAnimal.db');
 
-var isAuthenticated = function (req, res, next) {
-  // if user is authenticated in the session, call the next() to call the next request handler 
-  // Passport adds this method to request object. A middleware is allowed to add properties to
-  // request and response objects
-  if (req.isAuthenticated())
-      return next();
-  // if the user is not authenticated then redirect them to the login page
-  res.redirect('/dj');
-}
-
-
-//var passport = require('passport');
-//var Account = require('../models/dj');
-
-
 router.get('/', function(req,res,next) {
-  // if (req.user) {
-  //   console.log("Current User: " + req.user.username);
-  // }
-  if ( req.isAuthenticated() ) {
-    console.log(req.isAuthenticated())
-    res.redirect('/dj/play/'+req.user.username)
-  }
-  else {
+//  if ( req.isAuthenticated() ) {
+//    res.redirect('/dj/play/'+req.user.username)
+//  }
+//  else {
     res.render('index', { message: req.flash('message') });
-  }
+//  }
 });
 
 router.get('/ping', function(req, res){

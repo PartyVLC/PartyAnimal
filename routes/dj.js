@@ -9,28 +9,54 @@ var updateUser = function(users, user, callback) {
     }
 }
 
+var getUser = function(users, username, callback) {
+  users.findOne({ 'username' : username }),
+    function(err, user) {
+      return callback(user)
+    }
+}
+
+var isAuthenticated = function (req, res, next) {
+  // if user is authenticated in the session, call the next() to call the next request handler 
+  // Passport adds this method to request object. A middleware is allowed to add properties to
+  // request and response objects
+  //console.log("isAuth")
+  if (req.isAuthenticated()) {
+    return next()
+  } else {
+    res.redirect('/')
+  }
+  // if the user is not authenticated then redirect them to the login page
+}
+
 // var delSet = function()
 
 module.exports = function(passport, db){
   var users = db.collection("djs")
 
   /* GET login page. */
-  router.get('/', function(req, res) {
+  router.get('/', isAuthenticated, function(req, res, next) {
       // Display the Login page with a flash message, if any
-      res.redirect('/')
+      res.redirect('/dj/play/'+req.user.username)
   });
 
-  router.get('/play/:username',function(req, res) {
-    if ( req.isAuthenticated() ) {
-      res.render('dj', { dj : req.user })
+  router.get('/play/:username', function(req, res, next) {
+    if (req.isAuthenticated()) {
+      if (req.user.username != req.params.username) {
+        var user = 
+        res.render('dj/home', { dj : })
+      } else {
+        res.render('dj', { dj : req.user })
+      }
+    } else {
+      res.redirect('/')
     }
-    res.redirect('/')
   })
 
   /* Handle Login POST */
   router.post('/signin', 
     passport.authenticate('login'), 
-    function(req,res) {
+    function(req, res, next) {
     res.redirect('/dj/play/'+req.user.username)
   });
 
@@ -47,111 +73,92 @@ module.exports = function(passport, db){
   }));
 
   /* GET Home Page */
-  router.get('/home', function(req, res) {
-    if ( req.isAuthenticated() ) {
-      res.render('dj', {dj : req.user})
-    }
-    res.redirect('/')
+  router.get('/home', isAuthenticated, function(req, res) {
+    res.render('dj', {dj : req.user})
   });
 
   /* Handle Logout */
-  router.get('/signout', function(req, res) {
-    if ( req.isAuthenticated() ) {
-      req.logout();
-      res.redirect('/dj');
-    }
-    res.redirect('/')
+  router.get('/signout', isAuthenticated, function(req, res) {
+    req.logout();
+    res.redirect('/dj');
   });
 
   /* Handle New Set POST */
-  router.post('/set/new', function(req, res) {
-    if ( req.isAuthenticated() ) {
-      users.update(
-        { _id: req.user._id },
-        { $push: { playlists: { title: req.body.title, songs: [] } } }
-      );
-      res.redirect('/dj/home');
-    }
-    res.redirect('/')
+  router.post('/set/new', isAuthenticated, function(req, res) {
+    users.update(
+      { _id: req.user._id },
+      { $push: { playlists: { title: req.body.title, songs: [] } } }
+    );
+    res.redirect('/dj/home');
   });
 
-  router.post('/set/current', function(req, res) {
-    if ( req.isAuthenticated() ) {
-      users.findOne(
-        {
-          _id : req.user._id,
-        },
-        {
-          playlists : { $elemMatch : { title :  req.body.playlist } }
-        },
-        function(err, user) {
-          if (err) {
-            res.redirect('/')
-          }
-          else {
-            users.update(
-              { _id : user._id },
-              { $set :
-                { currentPlaylist : user.playlists[0] }
-              }
-            )
-            res.redirect('/dj/home')
-          }
+  router.post('/set/current', isAuthenticated, function(req, res) {
+    users.findOne(
+      {
+        _id : req.user._id,
+      },
+      {
+        playlists : { $elemMatch : { title :  req.body.playlist } }
+      },
+      function(err, user) {
+        if (err) {
+          res.redirect('/')
         }
-      )
-    }
-    res.redirect('/')
+        else {
+          users.update(
+            { _id : user._id },
+            { $set :
+              { currentPlaylist : user.playlists[0] }
+            }
+          )
+          res.redirect('/dj/home')
+        }
+      }
+    )
   })
 
-  router.post('/set/refresh', function(req, res) {
-    if ( req.isAuthenticated() ) {
-      users.findOne(
-        {
-          _id : req.user._id,
-        },
-        {
-          playlists : { $elemMatch : { title :  req.user.currentPlaylist.title } }
-        },
-        function(err, user) {
-          if (err) {
-            console.log(err)
-          }
-          else {
-            users.update(
-              { _id : user._id },
-              { $set :
-                { currentPlaylist : user.playlists[0] }
-              }
-            )
-          }
+  router.post('/set/refresh', isAuthenticated, function(req, res) {
+    users.findOne(
+      {
+        _id : req.user._id,
+      },
+      {
+        playlists : { $elemMatch : { title :  req.user.currentPlaylist.title } }
+      },
+      function(err, user) {
+        if (err) {
+          console.log(err)
         }
-      )
-      res.end()
-    }
-    res.redirect('/')
-      
+        else {
+          users.update(
+            { _id : user._id },
+            { $set :
+              { currentPlaylist : user.playlists[0] }
+            }
+          )
+        }
+      }
+    )
+    res.end()
   })
 
-  router.post('/set/delete', function(req, res) {
-      if ( req.isAuthenticated() ) {
-      users.update(
-        {
-          _id: req.user._id
-        },
-        { 
-          $pull : {
-            playlists : { title : req.body.playlist } 
-          }
-        },
-        function(err) {
-          if (err) {
-            console.log(err)
-          }
+  router.post('/set/delete', isAuthenticated, function(req, res) {
+    users.update(
+      {
+        _id: req.user._id
+      },
+      { 
+        $pull : {
+          playlists : { title : req.body.playlist } 
         }
-      )
-      res.redirect('/dj/home')
-    }
-    res.redirect('/')
+      },
+      function(err) {
+        if (err) {
+          console.log(err)
+        }
+      }
+    )
+    res.redirect('/dj/home')
   })
 
   //   /* Handle Delete POST */
@@ -201,10 +208,6 @@ module.exports = function(passport, db){
   router.get('/playlist/:id',function(req,res,next){
     res.render('djplaylist', { title: 'Playlist'});
   });
-
-  router.all('*', function(req,res) {
-    res.redirect('/')
-  })
 
   return router;
 }
