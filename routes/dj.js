@@ -10,10 +10,9 @@ var updateUser = function(users, user, callback) {
 }
 
 var getUser = function(users, username, callback) {
-  users.findOne({ 'username' : username }),
-    function(err, user) {
-      return callback(user)
-    }
+  var user = users.findOne({ 'username' : username })
+    console.log("fun: " + user.username)
+    return callback(user)
 }
 
 var isAuthenticated = function (req, res, next) {
@@ -43,8 +42,14 @@ module.exports = function(passport, db){
   router.get('/play/:username', function(req, res, next) {
     if (req.isAuthenticated()) {
       if (req.user.username != req.params.username) {
-        var user = 
-        res.render('dj/home', { dj : })
+        res.redirect('/')
+        // getUser(users, req.params.username, function (user) {
+        //   console.log("route: " + user.username)
+        //   res.render('dj/home', { user: user, playlist: user.playlist });
+        // });
+        // var user = getUser(users,req.params.username)
+        // console.log("route: " + user)
+        // res.render('dj/home', { dj : user })
       } else {
         res.render('dj', { dj : req.user })
       }
