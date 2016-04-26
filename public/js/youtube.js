@@ -174,6 +174,7 @@ function addSong(id, title) {
 
 function clearSongs() {
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
+  console.log(sidebarplaylistcontainer);
   while (sidebarplaylistcontainer.firstChild) {
     sidebarplaylistcontainer.removeChild(sidebarplaylistcontainer.lastChild);
   }
