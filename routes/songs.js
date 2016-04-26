@@ -75,7 +75,7 @@ module.exports = function(db){
 
   router.post('/remove', function(req,res) {
     var id = req.body.id
-    
+
     users.update(
     {
       _id : req.user._id
@@ -89,48 +89,43 @@ module.exports = function(db){
     res.end()
   })
 
-  router.get('/getNext', function(req,res) {
-    users.findOne(
-      {
-        _id : req.user._id
-      },
-      {
-        'currentPlaylist.songs' : 1
-      },
-      function(err,result) {
-        if (err) {
-          res.json(err)
-        }
-        else {
-          res.json(result)
-        }
-      }
-    )
-    
-  })
+    router.post('/upvote', function(req,res) {
+      var id = req.body.id
 
-  router.post('/upvote', function(req,res) {
-    var id = req.body.id
-
-    users.updateOne(
-      {
-        _id : req.user._id,
-        'currentPlaylist.songs.id' : id
-      },
-      {
-        $inc : 
+      users.updateOne(
         {
-          'currentPlaylist.songs.$.score' : 1
+          _id : req.user._id,
+          'currentPlaylist.songs.id' : id
+        },
+        {
+          $inc : 
+          {
+            'currentPlaylist.songs.$.score' : 1
+          }
+        },
+        function(err,res) {
+          if (err) {
+            console.log(err)
+          }
+          else {
+            users.update(
+            {
+              _id : req.user._id
+            },
+            {
+              $push : 
+              {
+                "currentPlaylist.songs" : 
+                {
+                  $each : [],
+                  $sort : { score : -1 }
+                }
+              }
+            })
+          }
         }
-      },
-      function(err,res) {
-        if (err) {
-          console.log(err)
-        }
-      }
-    )
-
-    res.end()
+      )
+      res.end()
   })
 
   router.post('/downvote', function(req,res) {
@@ -158,16 +153,31 @@ module.exports = function(db){
           },
           function(err, user) {
             if (user.currentPlaylist.songs[0].score < -4) {
-                users.updateOne(
+              users.updateOne(
+              {
+                _id : user._id
+              },
+              {
+                $pull : {
+                  'currentPlaylist.songs' : { id : id }
+                }
+              })
+            }
+            else {
+              users.update(
+              {
+                _id : req.user._id
+              },
+              {
+                $push : 
                 {
-                  _id : user._id
-                },
-                {
-                  $pull : {
-                    'currentPlaylist.songs' : { id : id }
+                  "currentPlaylist.songs" : 
+                  {
+                    $each : [],
+                    $sort : { score : -1 }
                   }
                 }
-              )
+              })
             }
           }
         )

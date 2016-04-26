@@ -16,8 +16,9 @@ function hideSidebar()
   shrinkSidebar();
   showMainMenu();
   hidePlaylistMenu();
-  hidePlaylistsMenu();
   hideSearchMenu();
+  hidePlaylistManager();
+  hideLogin();
   sidebar = document.getElementById("sidebar");
   sidebartoggle = document.getElementById("sidebartoggle");
   sidebartoggleicon = document.getElementById("sidebartoggleicon");
@@ -52,78 +53,115 @@ function shrinkSidebar()
 function showMainMenu()
 {
   sidebarmainmenu = document.getElementById("sidebarmainmenu");
-  sidebarmainmenu.style.left = 0;
+  if(sidebarmainmenu != null)
+  {
+    sidebarmainmenu.style.left = 0;
+  }
 }
 
 function hideMainMenu()
 {
   sidebarmainmenu = document.getElementById("sidebarmainmenu");
-  sidebarmainmenu.style.left = "-100%";
+  if(sidebarmainmenu != null)
+  {
+    sidebarmainmenu.style.left = "-100%";
+  }
 }
 
 function showPlaylistMenu()
 {
-  sidebarplaylistmenu = document.getElementById("sidebarplaylistmenu");
-  sidebarplaylistmenu.style.left = 0;
+  sidebarplaylistmenu = document.getElementById("sidebarcurrentplaylist");
+  if(sidebarplaylistmenu != null)
+  {
+    sidebarplaylistmenu.style.left = 0;
+  }
 }
-
-function showPlaylistsMenu()
-{
-  sidebarplaylistsmenu = document.getElementById("sidebarplaylistsmenu");
-  sidebarplaylistsmenu.style.left = 0;
-}
-
 function hidePlaylistMenu()
 {
-  sidebarplaylistmenu = document.getElementById("sidebarplaylistmenu");
-  sidebarplaylistmenu.style.left = "100%";
+  sidebarplaylistmenu = document.getElementById("sidebarcurrentplaylist");
+  if(sidebarplaylistmenu != null)
+  {
+    sidebarplaylistmenu.style.left = "100%";
+  }
 }
-
-function hidePlaylistsMenu()
-{
-  sidebarplaylistsmenu = document.getElementById("sidebarplaylistsmenu");
-  sidebarplaylistsmenu.style.left = "100%";
-}
-
 function showSearchMenu()
 {
   sidebarsearchmenu = document.getElementById("sidebarsearchmenu");
-  sidebarsearchmenu.style.left = 0;
-  clearSearch();
+  if(sidebarsearchmenu != null)
+  {
+    sidebarsearchmenu.style.left = 0;
+  }
 }
-
 function hideSearchMenu()
 {
   sidebarsearchmenu = document.getElementById("sidebarsearchmenu");
-  sidebarsearchmenu.style.left = "100%";
+  if(sidebarsearchmenu != null)
+  {
+    sidebarsearchmenu.style.left = "100%";
+  }
 }
-
+function showPlaylistManager()
+{
+  sidebarplaylistmanager = document.getElementById("sidebarplaylistmanager");
+  if(sidebarplaylistmanager != null)
+  {
+    sidebarplaylistmanager.style.left = 0;
+  }
+}
+function hidePlaylistManager()
+{
+  sidebarplaylsitmanager = document.getElementById("sidebarplaylistmanager");
+  if(sidebarplaylistmanager != null)
+  {
+    sidebarplaylistmanager.style.left = "100%";
+  }
+}
+function showLogin()
+{
+  sidebarlogin = document.getElementById("sidebarlogin");
+  if(sidebarlogin != null)
+  {
+    sidebarlogin.style.left = 0;
+  }
+}
+function hideLogin()
+{
+  sidebarlogin = document.getElementById("sidebarlogin");
+  if(sidebarlogin != null)
+  {
+    sidebarlogin.style.left = "100%";
+  }
+}
 function clickPlaylist()
 {
   expandSidebar();
   hideMainMenu();
   showPlaylistMenu();
 }
-
-function clickPlaylists()
-{
-  expandSidebar();
-  hideMainMenu();
-  showPlaylistsMenu();
-}
-
 function clickSearch()
 {
   expandSidebar();
   hideMainMenu();
   showSearchMenu();
 }
-
+function clickPlaylistManager()
+{
+  expandSidebar();
+  hideMainMenu();
+  showPlaylistManager();
+}
+function clickLogin()
+{
+  expandSidebar();
+  hideMainMenu();
+  showLogin();
+}
 function clickBack()
 {
   shrinkSidebar();
   showMainMenu();
   hidePlaylistMenu();
-  hidePlaylistsMenu();
   hideSearchMenu();
+  hidePlaylistManager();
+  hideLogin();
 }

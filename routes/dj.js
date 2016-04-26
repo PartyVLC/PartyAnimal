@@ -62,7 +62,8 @@ module.exports = function(passport, db){
       { _id: req.user._id },
       { $push: { playlists: { title: req.body.title, songs: [] } } }
     );
-    res.redirect('/dj/home');
+    // res.redirect('/dj/home');
+    res.end()
   });
 
   router.post('/set/current', isAuthenticated, function(req, res) {
@@ -74,7 +75,6 @@ module.exports = function(passport, db){
         playlists : { $elemMatch : { title :  req.body.playlist } }
       },
       function(err, user) {
-        console.log(user.playlists[0])
         if (err) {
           res.redirect('/')
         }
@@ -85,7 +85,8 @@ module.exports = function(passport, db){
               { currentPlaylist :user.playlists[0]  }
             }
           )
-          res.redirect('/dj/home')
+          // res.redirect('/dj/home')
+          res.end()
         }
       }
     )
@@ -108,7 +109,8 @@ module.exports = function(passport, db){
         }
       }
     )
-    res.redirect('/dj/home')
+    // res.redirect('/dj/home')
+    res.end()
   })
 
   router.get('/player/:id',function(req,res,next){
@@ -124,11 +126,16 @@ module.exports = function(passport, db){
       // The user is not logged in
       res.json({});
     } else {
-      res.json({
-        user: req.user
-      });
+      res.json(req.user);
     }
   });
+
+  router.post('/set/reset', isAuthenticated, function(req, res) {
+    users.update(
+    {
+      
+    })
+  })
 
   return router;
 }
