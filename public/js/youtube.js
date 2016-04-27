@@ -192,7 +192,6 @@ function changePlaylistHTML(playlist) {
 }
 
 function addSong(id, title, element) {
-  console.log(element);
   element.disabled = true;
   element.removeChild(element.firstChild);
   var icon = document.createElement('i');
@@ -203,17 +202,14 @@ function addSong(id, title, element) {
   socket.emit('addSong',{id: id, title: title, score: 0, url: window.location.href});
 }
 
-function clearSongs() {å.getElementById("sidebarplaylistcontainer");
+function clearSongs() {
+  var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
   while (sidebarplaylistcontainer.firstChild) {
     sidebarplaylistcontainer.removeChild(sidebarplaylistcontainer.firstChild);
   }
 }
 
 function addSongHTML(id, title, score) {
-  //change search look
-
-
-  //add song
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
 
   var playlistsong = document.createElement('div');
@@ -342,6 +338,7 @@ function addPlaylistHTML(title) {
 
   var playlistadd = document.createElement('button');
   playlistadd.className = 'songadd';
+  playlistadd.onclick = function(){ changePlaylist(title); }
 
   var icon = document.createElement('i');
   icon.className = 'fa fa-caret-right';
