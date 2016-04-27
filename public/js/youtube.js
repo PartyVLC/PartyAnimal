@@ -102,7 +102,7 @@ function search() {
     q:keyword,
     part:'snippet',
     key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
-    maxResults:5,
+    maxResults:15,
     type:'video'
     },
     function(response){
