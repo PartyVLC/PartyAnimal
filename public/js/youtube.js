@@ -97,7 +97,6 @@ function searchKeyPress() {
 
 function search() {
   var keyword = document.getElementById("searchinput").value;
-  console.log(keyword);
   clearSearch();
   $.get('https://www.googleapis.com/youtube/v3/search',{
     q:keyword,
@@ -138,10 +137,27 @@ function showSearchResultsHTML(index,song) {
   var songadd = document.createElement("button");
   songadd.className = "songadd";
   var icon = document.createElement("i");
-  icon.className = "fa fa-plus";
-  songadd.appendChild(icon);
-  songadd.onclick = function() {addSong(song.id,song.title)};
 
+  $.get('/dj/user_data', function(user) {
+    var isInPlaylist = false;
+    var songs = user.currentPlaylist.songs;
+    for (i in songs) {
+      if (songs[i].id == song.id) {
+        isInPlaylist = true;
+        break;
+      }
+    }
+    if (isInPlaylist) {
+      icon.className = "fa fa-check";
+      songadd.disabled = true;
+    }
+    else {
+      icon.className = "fa fa-plus";
+    }
+  });
+
+  songadd.appendChild(icon);
+  songadd.onclick = function() {addSong(song.id,song.title,this)};
 
   var p = document.createElement("p");
   p.innerHTML = song.title;
@@ -175,19 +191,29 @@ function changePlaylistHTML(playlist) {
   }) 
 }
 
-function addSong(id, title) {
+function addSong(id, title, element) {
+  console.log(element);
+  element.disabled = true;
+  element.removeChild(element.firstChild);
+  var icon = document.createElement('i');
+  icon.className = 'fa fa-check';
+  element.appendChild(icon);
+
   $.post("/songs/add", {id: id, title: title});
   socket.emit('addSong',{id: id, title: title, score: 0, url: window.location.href});
 }
 
-function clearSongs() {
-  var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
+function clearSongs() {å.getElementById("sidebarplaylistcontainer");
   while (sidebarplaylistcontainer.firstChild) {
     sidebarplaylistcontainer.removeChild(sidebarplaylistcontainer.firstChild);
   }
 }
 
 function addSongHTML(id, title, score) {
+  //change search look
+
+
+  //add song
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
 
   var playlistsong = document.createElement('div');
@@ -268,7 +294,6 @@ function upvote(id) {
 function upvoteHTML(id) {
   var scorebox = document.getElementById("score-"+id);
   var score = parseInt(scorebox.innerHTML);
-  console.log(score);
   scorebox.innerHTML = score + 1;
   disableVoting(id);
 }
@@ -290,7 +315,6 @@ function reorderSongsHTML() {
     clearSongs();
 
     var songs = user.currentPlaylist.songs;
-    console.log(songs);
     for (i in songs) {
       addSongHTML(songs[i].id, songs[i].title, songs[i].score);
     }
