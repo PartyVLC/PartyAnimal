@@ -10,14 +10,15 @@ html
     script(type="text/javascript", src="/js/socket.js")
 body
   div(class="container")
-    h1 #{user.username} - #{user.currentPlaylist.title}
+    h1(id='pagetitle') #{dj.username} - #{dj.currentPlaylist.title}
     div(class="contentarea")
       div(id="player", class="video")
       div(class="progressbarcontainer")
         button(id="progressbarplaypause", onclick="playPause();")
           i(class="fa fa-play")
-        div(class="progressbar")
-        div(class="progressbartime") 4:20
+        div(class='progressbarinnercontainer')
+          div(class="progressbar")
+        div(class="progressbartime") 0:00
 
   button(id="sidebartoggle", onclick="showSidebar();")
     i(id="sidebartoggleicon", class="fa fa-caret-left")
@@ -25,8 +26,8 @@ body
     div(id="sidebarmainmenu")
       div(class="sidebartitlebar")
         h1 Menu
-      if user.currentPlaylist
-        button(class="sidebarmenuitem", onclick="clickPlaylist();") Current Playlist - #{user.currentPlaylist.title}
+      if dj.currentPlaylist
+        button(id="currentPlaylistMenu", class="sidebarmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
       button(class="sidebarmenuitem", onclick="clickSearch();") Search Songs
       button(class="sidebarmenuitem", onclick="clickPlaylistManager();") Manage Playlists
       if user
@@ -38,7 +39,7 @@ body
       div(class="sidebartitlebar")
         button(class="sidebarbackbutton", onclick="clickBack();")
           i(class="fa fa-arrow-left")
-        h1(style="display:inline;") #{user.currentPlaylist.title}
+        h1(id='currentPlaylistTitle', style="display:inline;") #{dj.currentPlaylist.title}
 
       div(id="sidebarplaylistcontainer", class="sidebarplaylistcontainer")
         each song, index in user.currentPlaylist.songs
@@ -82,16 +83,16 @@ body
           i(class="fa fa-arrow-left")
         h1(style="display:inline;") Manage Playlists
       div(class="searchbar")
-        input(id='newPlaylistTitle', class="searchinput", placeholder="Add a new playlist")
+        input(id='newplaylistinput', class="searchinput", placeholder="Add a new playlist", onkeypress="addPlaylistKeypress();")
         button(class="searchbutton", onclick='addPlaylist();')
           i(class="fa fa-plus")
-      div(class="sidebarplaylistcontainer")
-        each playlist, index in user.playlists
-          div(class="playlistsong")
+      div(id='playlistmanager', class="sidebarplaylistcontainer")
+        each playlist, index in dj.playlists
+          div(id='playlist-'+playlist.title, class="playlistsong")
             button(class="songadd", onclick="changePlaylist('"+playlist.title+"');")
               i(class="fa fa-caret-right")
             p #{playlist.title}
-            button(class="songx") x
+            button(class="songx", onclick="deletePlaylist('"+playlist.title+"');") x
 
     if !(user)
       div(id="sidebarlogin", class="sidemenu")
