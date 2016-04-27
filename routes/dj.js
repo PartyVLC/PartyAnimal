@@ -19,20 +19,32 @@ module.exports = function(passport, db){
   var users = db.collection("djs")
 
   /* GET login page. */
-  router.get('/', function(req, res) {
+  router.get('/', isAuthenticated, function(req, res, next) {
       // Display the Login page with a flash message, if any
-      res.render('index', { message: req.flash('message') });
+      res.redirect('/dj/play/'+req.user.username)
   });
 
-  router.get('/play/:username',function(req, res) {
-      res.render('dj', { dj : req.user })
+  router.get('/play/:username', isAuthenticated, function(req, res) {
+    if (req.user.username != req.params.username) {
+        res.redirect('/')
+        // getUser(users, req.params.username, function (user) {
+        //   console.log("route: " + user.username)
+        //   res.render('dj/home', { user: user, playlist: user.playlist });
+        // });
+        // var user = getUser(users,req.params.username)
+        // console.log("route: " + user)
+        // res.render('dj/home', { dj : user })
+      } else {
+        res.render('dj', { user : req.user })
+      }
   })
 
   /* Handle Login POST */
   router.post('/signin', 
     passport.authenticate('login'), 
     function(req,res) {
-    res.redirect('/dj/play/'+req.user.username)
+      //console.log("signin " + req.user.username)
+      res.redirect('/dj/play/'+req.user.username)
   });
 
   /* GET Registration Page */
@@ -49,14 +61,14 @@ module.exports = function(passport, db){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
-    res.render('dj', {dj : req.user})
+    res.render('dj', {user : req.user})
     // res.render('dj/newSet',{user : req.user})
   });
 
   /* Handle Logout */
   router.get('/signout', function(req, res) {
       req.logout();
-      res.redirect('/dj');
+      res.redirect('/');
   });
 
   /* Handle New Set POST */
