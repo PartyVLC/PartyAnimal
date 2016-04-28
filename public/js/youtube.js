@@ -355,15 +355,12 @@ function addPlaylistHTML(title) {
   playlistsong.appendChild(playlistadd);
   playlistsong.appendChild(p);
   playlistsong.appendChild(playlistx);
-  playlistsong.id = 'playlist-'+title;
 
   playlistmanager.appendChild(playlistsong);
 }
 
 function deletePlaylist(title) {
-  $.post('/dj/set/delete', {playlist : title}, function(data) {
-    console.log(data);
-  });
+  $.post('/dj/set/delete', {playlist : title});
   socket.emit('delPlaylist', {title : title, url : window.location.href});
 }
 
@@ -383,19 +380,6 @@ function refreshProgress() {
   setProgressPercent(width);
   progressbartime.innerHTML = minCurr.toString() + ':'+ ("0"+secCurr).slice(-2);
 }
-
-function reorderSongs() {
-  var songElements = document.getElementsByClassName("playlistsong");
-  console.log(songElements);
-}
-
-function addPlaylist() {
-  var title = document.getElementById("newPlaylistTitle").value;
-  $.post("/dj/set/new", {title: title});
-  //socket.emit('addSong',{id: id, title: title, score: 0, url: window.location.href});
-}
-
-function addPlaylistHTML() {
 
 function setProgressPercent(percent)
 {

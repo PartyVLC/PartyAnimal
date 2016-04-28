@@ -1,0 +1,104 @@
+html
+  head
+    title DJ Player Page Mockup
+    link(rel="stylesheet", type="text/css", href="djplayer.css")
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css")
+    script(type="text/javascript", src="djplayer.js")
+
+body
+  div(class="container")
+    h1 Espey's Playlist
+    div(class="contentarea")
+      div(class="playlistcontainer")
+        div(class="playlistsong")
+          div(class="votebox")
+            button(class="voteboxvote")
+              i(class="fa fa-chevron-up")
+
+            button(class="voteboxvote")
+              i(class="fa fa-chevron-down")
+
+          div(class="voteboxnumber") 69
+          p Michael Espey - Butt
+
+
+  button(id="sidebartoggle" onclick="showSidebar();")
+    i(id="sidebartoggleicon" class="fa fa-caret-left")
+  div(id="sidebar")
+    div(id="sidebarmainmenu")
+      div(class="sidebartitlebar")
+        h1 Menu
+      button(class="sidebarmenuitem" onclick="clickSearch();") Search Songs
+      button(class="sidebarmenuitem" onclick="clickLogin();") Log in as DJ
+    div(class="sidebarqr")
+    
+    
+    div(id="sidebarsearchmenu" class="sidemenu")
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton" onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+        
+        h1(style="display:inline;") Search Songs
+      
+      div(class="searchbar")
+        input(class="searchinput" placeholder="Search for a Song")
+        button(class="searchbutton")
+          i(class="fa fa-search")
+      
+          
+      div(class="sidebarplaylistcontainer")
+        div(class="playlistsong")
+          div(class="votebox")
+            button(class="voteboxvote")
+              i(class="fa fa-chevron-up")
+            
+            button(class="voteboxvote")
+              i(class="fa fa-chevron-down")
+
+          div(class="voteboxnumber") 6
+          
+          p Michael Jackson - Thriller
+          button(class="songx") x
+        
+        
+    div(id="sidebarplaylistmanager" class="sidemenu")
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton" onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+        
+        h1(style="display:inline;") Manage Playlists
+        
+      
+      div(class="searchbar")
+        input(class="searchinput" placeholder="Add a new playlist")
+        button(class="searchbutton")
+          i(class="fa fa-plus")
+        
+      
+      div(class="sidebarplaylistcontainer")
+        div(class="playlistsong")
+          button(class="songadd")
+            i(class="fa fa-caret-right")
+          
+          p Playlist 1
+          button(class="songx") x
+    
+    div(id="sidebarlogin" class="sidemenu")
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton" onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+        
+        h1(style="display:inline;") Log in as DJ
+        
+      
+      p User Name: 
+      div(class="searchbar")
+        input(class="searchinput" placeholder="User Name")
+      
+      p Password:
+      div(class="searchbar")
+        input(type="password" class="searchinput" placeholder="Password")
+        button(class="searchbutton")
+          i(class="fa fa-check")
+
+  div(id="sidebarshadow")

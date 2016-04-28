@@ -1,6 +1,6 @@
 html
   head
-    title #{user.username}
+    title #{dj.username}
     link(rel="stylesheet", type="text/css", href="/stylesheets/djplayer.css")
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css")
     script(src="/socket.io/socket.io.js")
@@ -30,7 +30,7 @@ body
         button(id="currentPlaylistMenu", class="sidebarmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
       button(class="sidebarmenuitem", onclick="clickSearch();") Search Songs
       button(class="sidebarmenuitem", onclick="clickPlaylistManager();") Manage Playlists
-      if user
+      if dj
         a(href="/dj/signout"): button(class="sidebarmenuitem") Sign Out
       else
         button(class="sidebarmenuitem", onclick="clickLogin();") Login As DJ
@@ -42,7 +42,7 @@ body
         h1(id='currentPlaylistTitle', style="display:inline;") #{dj.currentPlaylist.title}
 
       div(id="sidebarplaylistcontainer", class="sidebarplaylistcontainer")
-        each song, index in user.currentPlaylist.songs
+        each song, index in dj.currentPlaylist.songs
           if (index == 0)
             div(class="playlistsong playlistsongactive", id="#{song.id}")
               div(class="votebox")
@@ -94,7 +94,7 @@ body
             p #{playlist.title}
             button(class="songx", onclick="deletePlaylist('"+playlist.title+"');") x
 
-    if !(user)
+    if !(dj)
       div(id="sidebarlogin", class="sidemenu")
         div(class="sidebartitlebar")
           button(class="sidebarbackbutton", onclick="clickBack();")
