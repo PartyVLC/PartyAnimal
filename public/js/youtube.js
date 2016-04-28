@@ -355,12 +355,15 @@ function addPlaylistHTML(title) {
   playlistsong.appendChild(playlistadd);
   playlistsong.appendChild(p);
   playlistsong.appendChild(playlistx);
+  playlistsong.id = 'playlist-'+title;
 
   playlistmanager.appendChild(playlistsong);
 }
 
 function deletePlaylist(title) {
-  $.post('/dj/set/delete', {playlist : title});
+  $.post('/dj/set/delete', {playlist : title}, function(data) {
+    console.log(data);
+  });
   socket.emit('delPlaylist', {title : title, url : window.location.href});
 }
 

@@ -97,6 +97,18 @@ module.exports = function(passport, db){
   })
 
   router.post('/set/delete', isAuthenticated, function(req, res) {
+    console.log(req.user.currentPlaylist.title)
+    console.log(req.body.playlist)
+    if (req.user.currentPlaylist.title == req.body.playlist) {
+      users.update(
+        { _id : req.user.id },
+        { $set : { currentPlaylist : {} } },
+        function(err,res) {
+          console.log(err)
+          console.log(res)
+        }
+      );
+    }
     users.update(
       {
         _id: req.user._id
