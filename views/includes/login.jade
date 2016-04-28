@@ -1,0 +1,22 @@
+button(class="sidebarmenuitem", onclick="clickLogin();") Login As DJ
+
+div(id="sidebarlogin", class="sidemenu")
+  div(class="sidebartitlebar")
+    button(class="sidebarbackbutton", onclick="clickBack();")
+      i(class="fa fa-arrow-left")
+    h1(style="display:inline;") Log in as DJ
+
+  form(class='form-signin', action='/dj/signin', method='POST')
+    div(class="searchbar")
+      input(type='text', name='username', class="searchinput", placeholder="User Name", required)
+
+    div(style="height: 10px;")
+
+    div(class="searchbar")
+      input(type="password", name='password', class="searchinput", placeholder="Password", required)
+      button(class="searchbutton", type='submit')
+        i(class="fa fa-check")
+  a(href='/dj/signup', class='text-center new-account') Create an account
+    #message
+    if message
+      h1.text-center.error-message #{message}

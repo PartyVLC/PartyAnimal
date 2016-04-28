@@ -384,6 +384,19 @@ function refreshProgress() {
   progressbartime.innerHTML = minCurr.toString() + ':'+ ("0"+secCurr).slice(-2);
 }
 
+function reorderSongs() {
+  var songElements = document.getElementsByClassName("playlistsong");
+  console.log(songElements);
+}
+
+function addPlaylist() {
+  var title = document.getElementById("newPlaylistTitle").value;
+  $.post("/dj/set/new", {title: title});
+  //socket.emit('addSong',{id: id, title: title, score: 0, url: window.location.href});
+}
+
+function addPlaylistHTML() {
+
 function setProgressPercent(percent)
 {
     progressbar = document.getElementsByClassName("progressbar")[0];
