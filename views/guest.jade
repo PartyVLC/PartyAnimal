@@ -1,25 +1,28 @@
 html
   head
-    title DJ Player Page Mockup
-    link(rel="stylesheet", type="text/css", href="djplayer.css")
+    title #{dj.username}'s Party
+    link(rel="stylesheet", type="text/css", href="/stylesheets/djplayer.css")
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css")
-    script(type="text/javascript", src="djplayer.js")
+    script(type="text/javascript", src="/js/djplayer.js")
+    script(type="text/javascript", src="/js/guest.js")
+    script(src="/socket.io/socket.io.js")
+    script(type="text/javascript", src="/js/socket.js")
+    script(type="text/javascript", src="/js/jquery.js")
 
 body
   div(class="container")
-    h1 Espey's Playlist
+    h1(id='pagetitle') #{dj.username} - #{dj.currentPlaylist.title}
     div(class="contentarea")
       div(class="playlistcontainer")
-        div(class="playlistsong")
-          div(class="votebox")
-            button(class="voteboxvote")
-              i(class="fa fa-chevron-up")
-
-            button(class="voteboxvote")
-              i(class="fa fa-chevron-down")
-
-          div(class="voteboxnumber") 69
-          p Michael Espey - Butt
+        each song, index in dj.currentPlaylist.songs
+          div(class="playlistsong", id="#{song.id}")
+            div(class="votebox")
+              button(class="voteboxvote", onclick="upvote('#{song.id}');")
+                i(class="fa fa-chevron-up")
+              button(class="voteboxvote", onclick="downvote('#{song.id}');")
+                i(class="fa fa-chevron-down")
+            div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
+            p #{song.title}
 
 
   button(id="sidebartoggle" onclick="showSidebar();")
@@ -41,47 +44,12 @@ body
         h1(style="display:inline;") Search Songs
       
       div(class="searchbar")
-        input(class="searchinput" placeholder="Search for a Song")
-        button(class="searchbutton")
+        input(id='searchinput', class="searchinput" placeholder="Search for a Song", onkeypress="searchKeyPress();")
+        button(class="searchbutton", onclick="search();")
           i(class="fa fa-search")
       
           
-      div(class="sidebarplaylistcontainer")
-        div(class="playlistsong")
-          div(class="votebox")
-            button(class="voteboxvote")
-              i(class="fa fa-chevron-up")
-            
-            button(class="voteboxvote")
-              i(class="fa fa-chevron-down")
-
-          div(class="voteboxnumber") 6
-          
-          p Michael Jackson - Thriller
-          button(class="songx") x
-        
-        
-    div(id="sidebarplaylistmanager" class="sidemenu")
-      div(class="sidebartitlebar")
-        button(class="sidebarbackbutton" onclick="clickBack();")
-          i(class="fa fa-arrow-left")
-        
-        h1(style="display:inline;") Manage Playlists
-        
-      
-      div(class="searchbar")
-        input(class="searchinput" placeholder="Add a new playlist")
-        button(class="searchbutton")
-          i(class="fa fa-plus")
-        
-      
-      div(class="sidebarplaylistcontainer")
-        div(class="playlistsong")
-          button(class="songadd")
-            i(class="fa fa-caret-right")
-          
-          p Playlist 1
-          button(class="songx") x
+      div(id='searchresults', class="sidebarplaylistcontainer")
     
     div(id="sidebarlogin" class="sidemenu")
       div(class="sidebartitlebar")

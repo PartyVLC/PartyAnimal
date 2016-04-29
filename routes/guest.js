@@ -28,9 +28,23 @@ module.exports = function(db, Playlist, Song){
       		res.redirect('/guest')
       	}
       	else {
-	        res.render('guest/home', { profile: document })
+	        res.render('guest', { dj : document } )
     	}
       });
+  });
+
+  router.post('/dj_data', function(req, res) {
+    users.findOne(
+      { username : req.body.dj },
+      { password : 0 },
+      function(err, user) {
+        if(err) {
+          res.send(err)
+        }
+        else {
+          res.json(user);
+        }
+      })
   });
 
   return router;

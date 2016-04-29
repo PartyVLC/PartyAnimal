@@ -61,7 +61,7 @@ module.exports = function(passport, db){
 
   /* GET Home Page */
   router.get('/home', isAuthenticated, function(req, res) {
-    res.render('dj', {user : req.user})
+    res.redirect('/dj/play/'+req.user.username)
     // res.render('dj/newSet',{user : req.user})
   });
 
@@ -109,8 +109,6 @@ module.exports = function(passport, db){
   })
 
   router.post('/set/delete', isAuthenticated, function(req, res) {
-    console.log(req.user.currentPlaylist.title)
-    console.log(req.body.playlist)
     if (req.user.currentPlaylist.title == req.body.playlist) {
       users.update(
         { _id : req.user.id },
