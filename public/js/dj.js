@@ -33,27 +33,33 @@ function activeSongHTML(id) {
 function search() {
   var keyword = document.getElementById("searchinput").value;
   clearSearch();
-  $.get('https://www.googleapis.com/youtube/v3/search',{
-    q:keyword,
-    part:'snippet',
-    key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
-    maxResults:15,
-    type:'video'
-    },
-    function(response){
-      var searchresults = document.getElementById("searchresults");
-      for (i in response.items) {
-        (function(index) {
+  var dj = getDJ();
+
+  $.post('/guest/dj_data', { dj : dj }, function(data) {
+    $.get('https://www.googleapis.com/youtube/v3/search',{
+      q:keyword,
+      part:'snippet',
+      key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
+      maxResults:15,
+      type:'video'
+      },
+      function(response){
+        var searchresults = document.getElementById("searchresults");
+        for (i in response.items) {
+          (function(index) {
             var song = {
               id:response.items[index].id.videoId,
               title:response.items[index].snippet.title,
             }
-          showSearchResultsHTML(index,song);
-        })(i);
+
+            showSearchResultsHTML(index,song,data.currentPlaylist.songs);
+          })(i);
+        }
       }
-    }
-  );
+    );
+  });
 }
+
 
 function clearSearch() {
   var searchresults = document.getElementById("searchresults");
