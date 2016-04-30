@@ -28,6 +28,7 @@ function hideSidebar()
   sidebartoggle.style.right = 0;
   sidebartoggle.onclick = function() { showSidebar() };
   sidebartoggleicon.style.transform = "rotate(0)";
+  clearSearch();
 }
 
 function expandSidebar()
@@ -164,4 +165,5 @@ function clickBack()
   hideSearchMenu();
   hidePlaylistManager();
   hideLogin();
+  clearSearch();
 }

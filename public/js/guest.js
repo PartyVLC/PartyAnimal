@@ -110,7 +110,7 @@ function searchKeyPress() {
 }
 
 function changePlaylistHTML(playlist) {
-  $.get("/dj/user_data", function(user) {
+  $.post("/guest/dj_data", {dj : dj}, function(user) {
     clearSongs();
 
     var songs = user.currentPlaylist.songs
@@ -118,12 +118,8 @@ function changePlaylistHTML(playlist) {
       addSongHTML(songs[i].id, songs[i].title, songs[i].score);
     }
 
-    var currentPlaylistTitle = document.getElementById('currentPlaylistTitle');
-    currentPlaylistTitle.innerHTML = playlist;
     var pagetitle = document.getElementById('pagetitle');
     pagetitle.innerHTML = user.username + ' - ' + playlist;
-    var currentPlaylistMenu = document.getElementById('currentPlaylistMenu');
-    currentPlaylistMenu.innerHTML = "CurrentPlaylist - " + playlist;
   }) 
 }
 
@@ -142,9 +138,9 @@ function addSong(id, title, element) {
 }
 
 function clearSongs() {
-  var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
-  while (sidebarplaylistcontainer.firstChild) {
-    sidebarplaylistcontainer.removeChild(sidebarplaylistcontainer.firstChild);
+  var playlistcontainer = document.getElementsByClassName("playlistcontainer")[0];
+  while (playlistcontainer.firstChild) {
+    playlistcontainer.removeChild(playlistcontainer.firstChild);
   }
 }
 
@@ -182,18 +178,12 @@ function addSongHTML(id, title, score) {
   var span = document.createElement("span");
   span.innerHTML = title;
 
-  var songx = document.createElement("button");
-  songx.className = "songx";
-  songx.onclick = function() {delSong(id);}
-  songx.innerHTML = "x"
-
   playlistsong.appendChild(votebox);
   votebox.appendChild(voteboxvoteup);
   votebox.appendChild(voteboxvotedown);
 
   playlistsong.appendChild(voteboxnumber);
   playlistsong.appendChild(span);
-  playlistsong.appendChild(songx);
 
   playlistcontainer.appendChild(playlistsong);
 }
@@ -236,33 +226,4 @@ function downvoteHTML(id) {
   var scorebox = document.getElementById("score-"+id);
   var score = parseInt(scorebox.innerHTML);
   scorebox.innerHTML = score - 1;
-}
-
-function addPlaylistHTML(title) {
-  var playlistmanager = document.getElementById('playlistmanager');
-
-  var playlistsong = document.createElement('div');
-  playlistsong.className = "playlistsong";
-
-  var playlistadd = document.createElement('button');
-  playlistadd.className = 'songadd';
-  playlistadd.onclick = function(){ changePlaylist(title); }
-
-  var icon = document.createElement('i');
-  icon.className = 'fa fa-caret-right';
-  playlistadd.appendChild(icon);
-
-  var p = document.createElement('p');
-  p.innerHTML = title;
-
-  var playlistx = document.createElement('button');
-  playlistx.className = 'songx';
-  playlistx.innerHTML = 'x';
-  playlistx.onclick = function() { deletePlaylist(title); }
-
-  playlistsong.appendChild(playlistadd);
-  playlistsong.appendChild(p);
-  playlistsong.appendChild(playlistx);
-
-  playlistmanager.appendChild(playlistsong);
 }
