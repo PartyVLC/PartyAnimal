@@ -2,10 +2,7 @@ body
 {
   background-color: #303030;
   color: #ccc;
-  height:100%;
-  overflow:hidden;
 }
-
 button:focus
 {
   outline:none;
@@ -14,16 +11,6 @@ input:focus
 {
   outline:none;
 }
-
-p {
-  display:inline;
-}
-
-a {
-  text-decoration: none;
-  color: white;
-}
-
 .container
 {
     text-align:center;
@@ -34,14 +21,12 @@ a {
   display:inline-block;
   width:90%;
   padding:5%;
-  min-width:540px;
   max-width:960px;
   background: -moz-radial-gradient(center, ellipse closest-side, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
   background: -webkit-radial-gradient(center, ellipse closest-side, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
   background: radial-gradient(closest-side ellipse at center, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 );
 }
-
 .video
 {
     display:inline-block;
@@ -59,15 +44,17 @@ a {
     box-shadow: 0 -2px 6px rgba(255,255,255,0.4) inset;
     border-bottom:solid black 1px;
 }
-#progressbarplaypause
+.progressbarplaypause
 {
     display:inline-block;
+    cursor:pointer;
     width:80px;
     height:20px;
     float:left;
     background-color:#606060;
     color: #ccc;
     border: none;
+    border-top: solid 2px #888;
 }
 .progressbarplaypause:hover
 {
@@ -77,32 +64,35 @@ a {
 {
     background-color: #404040;
 }
-.progressbarinnercontainer {
+.progressbarinnercontainer
+{
   width:100%;
   flex-shrink:1;
 }
-
 .progressbar
 {
     display:inline-block;
-    width:0%;
-    height:20px;
+    width:40%;
+    height:18px;
     float:left;
     background-color:#cc6600;
+    border-top:solid 2px #f4ad66;
 }
 .progressbartime
 {
     display:inline-block;
     width:80px;
-    height:20px;
+    height:18px;
     float:right;
     background-color:#606060;
+    border-top: solid 2px #888;
 }
 .playlistcontainer
 {
     display:inline-block;
     width:100%;
-    height:256px;
+    height:75%;
+    background-color: #606060;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -121,11 +111,15 @@ a {
 {
     background-color: #808080;
 }
-
 .playlistsongactive
 {
-  background-color: #f4ad66;
+  text-align:left;
+  display:inline-block;
+  width:100%;
+  height:64px;
+  background-color: #f4ad66 !important;
   color: black;
+  border-bottom: solid 1px black;
 }
 .votebox
 {
@@ -148,16 +142,25 @@ a {
 }
 .voteboxvote:nth-child(even)
 {
-    background-color: #808080;
-    border: none;
+  background-color: #808080;
+  border: none;
 }
 .voteboxvote:hover
 {
-    background-color: #a0a0a0;
+  background-color: #a0a0a0;
 }
 .voteboxvote:active
 {
-    background-color: #404040;
+  background-color: #404040;
+}
+.voteboxvote:disabled
+{
+  background-color:#ccc;
+  color:black;
+}
+.voted
+{
+  background-color:#f4ad66 !important;
 }
 .voteboxnumber
 {
@@ -231,6 +234,7 @@ a {
 }
 .searchbar
 {
+    display:inline-block;
     width: 100%;
     height: 32px;
     background-color: #303030;
@@ -278,14 +282,14 @@ a {
 {
     color: #808080;
 }
-#searchresults
+.searchresults
 {
     display:inline-block;
     width:100%;
-    height:calc(100% - 112px);;
-    overflow: scroll;
+    height:256;
+    overflow: hidden;
 }
-/*.showmore
+.showmore
 {
     display:inline-block;
     width:100%;
@@ -302,7 +306,7 @@ a {
 {
     background-color: #f4ad66;
     color: black;
-}*/
+}
 
 /*Sidebar Stuff*/
 
@@ -316,7 +320,7 @@ a {
   z-index: 2;
   overflow: hidden;
   background-color: #606060;
-  transition: right .2s, width .2s;
+  transition: right .4s, width .4s;
 }
 #sidebarshadow
 {
@@ -327,7 +331,7 @@ a {
   top: 0;
   z-index: 0;
   box-shadow: 0 0 20px black;
-  transition: right .2s, width .2s;
+  transition: right .4s, width .4s;
 }
 #sidebartoggle
 {
@@ -340,15 +344,15 @@ a {
   cursor: pointer;
   background-color: #cc6600;
   border: none;
-  border-radius: 8px 0 0 8px;
+  /*border-radius: 8px 0 0 8px;*/
   box-shadow: 0 0 20px black;
-  transition: right .2s, width .2s;
+  transition: right .4s, width .4s;
 }
 #sidebartoggleicon
 {
   font-size: 200%;
   color:white;
-  transition: transform .2s;
+  transition: transform .4s;
 }
 
 #sidebarmainmenu
@@ -358,7 +362,7 @@ a {
   left: 0;
   top: 0;
   position: absolute;
-  transition: left .2s;
+  transition: left .4s;
 }
 .sidebarmenuitem
 {
@@ -388,7 +392,7 @@ a {
   position: absolute;
   left:100%;
   top: 0;
-  transition: left .2s;
+  transition: left .4s;
 }
 .sidebarplaylistcontainer
 {
@@ -401,11 +405,12 @@ a {
 {
     display:inline-block;
     width:100%;
-    height:80;
+    height:76;
     padding-left:32px;
     background-color:#cc6600;
     color: white;
     text-align:left;
+    border-top: solid 4px #f4ad66;
 }
 .sidebarbackbutton
 {
@@ -453,5 +458,52 @@ a {
   width: 128px;
   height: 128px;
   background-color:#ccc;
-  background-image: url("/images/ip_qr.svg");
+  background-image: url("img/qrtest.svg");
+}
+
+/*Home Page Stuff*/
+
+.hpmaincontent
+{
+  display:inline-block;
+  width:100%;
+  background-color: #606060;
+  padding-bottom:64px;
+}
+
+.hpsidebyside
+{
+  position:relative;
+  display:inline-block;
+  width: 100%;
+}
+
+.hpsidecontent
+{
+  vertical-align:top;
+  display:inline-block;
+  width:40%;
+}
+
+.hpor
+{
+  display: inline-block;
+  margin: 2%;
+  margin-top: 50px;
+}
+
+@media(max-width: 600px)
+{
+  .hpsidecontent
+  {
+    vertical-align:top;
+    display:inline-block;
+    width:100%;
+  }
+
+  .hpor
+  {
+    display: inline-block;
+    margin:0;
+  }
 }

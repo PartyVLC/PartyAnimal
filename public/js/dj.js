@@ -35,7 +35,7 @@ function search() {
   clearSearch();
   var dj = getDJ();
 
-  $.post('/guest/dj_data', { dj : dj }, function(data) {
+  $.get('/dj/user_data', function(data) {
     $.get('https://www.googleapis.com/youtube/v3/search',{
       q:keyword,
       part:'snippet',
@@ -60,7 +60,6 @@ function search() {
   });
 }
 
-
 function clearSearch() {
   var searchresults = document.getElementById("searchresults");
   if (searchresults.childNodes) {
@@ -73,31 +72,29 @@ function clearSearch() {
   }
 }
 
-function showSearchResultsHTML(index,song) {
+function showSearchResultsHTML(index,song,playlist) {
   var playlistsong = document.createElement("div");
   playlistsong.className = 'playlistsong';
 
   var songadd = document.createElement("button");
   songadd.className = "songadd";
   var icon = document.createElement("i");
+  
+  var isInPlaylist = false;
 
-  $.get('/dj/user_data', function(user) {
-    var isInPlaylist = false;
-    var songs = user.currentPlaylist.songs;
-    for (i in songs) {
-      if (songs[i].id == song.id) {
-        isInPlaylist = true;
-        break;
-      }
+  for (i in playlist) {
+    if (playlist[i].id == song.id) {
+      isInPlaylist = true;
+      break;
     }
-    if (isInPlaylist) {
-      icon.className = "fa fa-check";
-      songadd.disabled = true;
-    }
-    else {
-      icon.className = "fa fa-plus";
-    }
-  });
+  }
+  if (isInPlaylist) {
+    icon.className = "fa fa-check";
+    songadd.disabled = true;
+  }
+  else {
+    icon.className = "fa fa-plus";
+  }
 
   songadd.appendChild(icon);
   songadd.onclick = function() {addSong(song.id,song.title,this)};

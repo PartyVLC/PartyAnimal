@@ -15,7 +15,7 @@ body
     div(class="contentarea")
       div(id="player", class="video")
       div(class="progressbarcontainer")
-        button(id="progressbarplaypause", onclick="playPause();")
+        button(id="progressbarplaypause", class='progressbarplaypause', onclick="playPause();")
           i(class="fa fa-play")
         div(class='progressbarinnercontainer')
           div(class="progressbar")
@@ -92,7 +92,7 @@ body
           div(id='playlist-'+playlist.title, class="playlistsong")
             button(class="songadd", onclick="changePlaylist('"+playlist.title+"');")
               i(class="fa fa-caret-right")
-            p #{playlist.title}
+            span #{playlist.title}
             button(class="songx", onclick="deletePlaylist('"+playlist.title+"');") x
 
     if !(dj)
