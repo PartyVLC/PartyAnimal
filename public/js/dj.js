@@ -255,17 +255,6 @@ function downvoteHTML(id) {
   scorebox.innerHTML = score - 1;
 }
 
-function reorderSongsHTML() {
-  $.get('/dj/user_data', function(user) {
-    clearSongs();
-
-    var songs = user.currentPlaylist.songs;
-    for (i in songs) {
-      addSongHTML(songs[i].id, songs[i].title, songs[i].score);
-    }
-  })
-}
-
 function addPlaylistKeypress() {
   if (event.keyCode == 13) {
     addPlaylist();

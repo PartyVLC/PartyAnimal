@@ -15,7 +15,6 @@ function getDJ() {
 }
 
 function activeSongHTML(id) {
-  player.loadVideoById(id);
   var activeSongs = document.getElementsByClassName("playlistsongactive");
 
   for (i in activeSongs) {
