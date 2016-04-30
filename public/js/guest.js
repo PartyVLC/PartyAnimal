@@ -229,13 +229,13 @@ function upvoteHTML(id) {
 function downvote(id) {
   $.post("/songs/downvote", {id : id});
   socket.emit('downvote', {id : id, dj : dj});
+  disableVoting(id);
 }
 
 function downvoteHTML(id) {
   var scorebox = document.getElementById("score-"+id);
   var score = parseInt(scorebox.innerHTML);
   scorebox.innerHTML = score - 1;
-  disableVoting(id);
 }
 
 function addPlaylistHTML(title) {
