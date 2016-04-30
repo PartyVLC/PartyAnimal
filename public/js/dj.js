@@ -234,13 +234,13 @@ function disableVoting(id) {
 function upvote(id) {
   $.post("/songs/upvote", {id : id});
   socket.emit('upvote', {id : id, dj : dj});
+  disableVoting(id);
 }
 
 function upvoteHTML(id) {
   var scorebox = document.getElementById("score-"+id);
   var score = parseInt(scorebox.innerHTML);
   scorebox.innerHTML = score + 1;
-  disableVoting(id);
 }
 
 function downvote(id) {
