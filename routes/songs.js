@@ -22,7 +22,7 @@ module.exports = function(db){
 
     users.update(
     { 
-      _id : dj,
+      _id : req.user._id,
       'playlists.title': req.user.currentPlaylist.title
     },
     {
@@ -45,27 +45,29 @@ module.exports = function(db){
     
   })
 
-  router.post('/add/:dj', function(req,res) {
+  router.post('/add/:dj/:playlist', function(req,res) {
     var title = req.body.title
     var id = req.body.id
 
-    users.findOne(
-    { username : req.params.dj },
-    function(user) {
-      users.update(
-    { 
-      _id : user._id,
-      'playlists.title': req.user.currentPlaylist.title
-    },
-    {
-      $push : { 
-        'playlists.$.songs' : { title: title, id : id, score: 0 } 
-      }
-    })
+    try {
+      users.updateOne(
+      { 
+        username : req.params.dj,
+        'playlists.title': req.params.playlist
+      },
+      {
+        $push : { 
+          'playlists.$.songs' : { title: title, id : id, score: 0 } 
+        }
+      })
+    }
+    catch (e) {
+      console.log(e)
+    }
 
-    users.update(
+    users.updateOne(
     { 
-      _id : user._id
+      username : req.params.dj
     },
     {
       $push : { 
@@ -74,8 +76,7 @@ module.exports = function(db){
     })
 
     res.end()
-    })
-
+    
   })
 
   router.post('/delete', function(req,res) {
@@ -91,7 +92,6 @@ module.exports = function(db){
         'playlists.$.songs' : { id : id }
       }
     })
-
 
     users.update(
     {

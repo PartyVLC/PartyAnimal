@@ -134,7 +134,10 @@ function addSong(id, title, element) {
   icon.className = 'fa fa-check';
   element.appendChild(icon);
 
-  $.post("/songs/add/"+dj, {id: id, title: title});
+  $.post('/guest/dj_data', { dj : dj }, function(data) {
+    $.post("/songs/add/"+dj+"/"+data.currentPlaylist.title, {id: id, title: title}); 
+  })
+
   socket.emit('addSong',{id: id, title: title, score: 0, dj : dj});
 }
 
@@ -146,7 +149,7 @@ function clearSongs() {
 }
 
 function addSongHTML(id, title, score) {
-  var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
+  var playlistcontainer = document.getElementsByClassName("playlistcontainer")[0];
 
   var playlistsong = document.createElement('div');
   playlistsong.id = id;
@@ -176,10 +179,8 @@ function addSongHTML(id, title, score) {
   voteboxnumber.innerHTML = score;
   voteboxnumber.id = "score-"+id
 
-  var a = document.createElement("a");
-  a.href="#";
-  a.onclick = function() {selectSongSocket(id);}
-  a.innerHTML = title;
+  var span = document.createElement("span");
+  span.innerHTML = title;
 
   var songx = document.createElement("button");
   songx.className = "songx";
@@ -191,10 +192,10 @@ function addSongHTML(id, title, score) {
   votebox.appendChild(voteboxvotedown);
 
   playlistsong.appendChild(voteboxnumber);
-  playlistsong.appendChild(a);
+  playlistsong.appendChild(span);
   playlistsong.appendChild(songx);
 
-  sidebarplaylistcontainer.appendChild(playlistsong);
+  playlistcontainer.appendChild(playlistsong);
 }
 
 function removeSong(id) {

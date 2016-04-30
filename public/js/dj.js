@@ -145,8 +145,9 @@ function addSong(id, title, element) {
   var icon = document.createElement('i');
   icon.className = 'fa fa-check';
   element.appendChild(icon);
-
-  $.post("/songs/add", {id: id, title: title});
+  $.get("/dj/user_data", function(data) {
+    $.post("/songs/add/"+dj+"/"+data.currentPlaylist.title, {id: id, title: title});
+  })
   socket.emit('addSong',{id: id, title: title, score: 0, dj : dj });
 }
 
