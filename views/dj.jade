@@ -35,7 +35,8 @@ body
         a(href="/dj/signout"): button(class="sidebarmenuitem") Sign Out
       else
         button(class="sidebarmenuitem", onclick="clickLogin();") Login As DJ
-    div(class="sidebarqr")
+    div(class="sidebarqr" style= "background-image: url('/images/#{dj._id}.svg');")
+
     div(id="sidebarcurrentplaylist", class="sidemenu")
       div(class="sidebartitlebar")
         button(class="sidebarbackbutton", onclick="clickBack();")

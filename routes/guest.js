@@ -12,22 +12,29 @@ module.exports = function(db, Playlist, Song){
   /* GET guest landing page. */
   router.get('/', function(req, res) {
       // Display the Login page with any flash message, if any
-      res.render('index', { message: req.flash('message') });
+      res.redirect('/')
   });
 
   router.post('/party', function(req, res, next) {
-  	res.redirect('party/'+req.body.dj);
+    console.log(req.body.djid)
+  	res.redirect('party/'+req.body.djid);
   })
 
   router.get('/party/:username', function(req, res) {
+
   	var dj = users.findOne(
       { "username": req.params.username },
       { "password": 0},
       function(err, document) {
+        console.log(req.params.username)
       	if (document == null) {
       		res.redirect('/guest')
       	}
       	else {
+          console.log(document._id)
+          var qr = require('qr-image');
+          var qr_svg = qr.image('www.yourpartyanimal.com/guest/party/'+document.username, { type: 'svg'});
+          qr_svg.pipe(require('fs').createWriteStream('./public/images/'+document._id+'.svg'));
 	        res.render('guest', { dj : document } )
     	}
       });

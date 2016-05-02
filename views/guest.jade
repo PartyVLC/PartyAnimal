@@ -32,8 +32,8 @@ body
       div(class="sidebartitlebar")
         h1 Menu
       button(class="sidebarmenuitem" onclick="clickSearch();") Search Songs
-      button(class="sidebarmenuitem" onclick="clickLogin();") Log in as DJ
-    div(class="sidebarqr")
+      button(class="sidebarmenuitem" onclick="clickLogin();") Sign in as DJ
+    div(class="sidebarqr" style= "background-image: url('/images/#{dj._id}.svg');")
     
     
     div(id="sidebarsearchmenu" class="sidemenu")
@@ -50,13 +50,34 @@ body
       
           
       div(id='searchresults', class="sidebarplaylistcontainer")
-    
+
+    div(id="sidebarlogin", class="sidemenu")
+        div(class="sidebartitlebar")
+          button(class="sidebarbackbutton", onclick="clickBack();")
+            i(class="fa fa-arrow-left")
+          h1(style="display:inline;") Sign in as DJ
+
+        form(class='form-signin', action='/dj/signin', method='POST')
+          div(class="searchbar")
+            input(type='text', name='username', class="searchinput", placeholder="User Name", required)
+
+          div(style="height: 10px;")
+
+          div(class="searchbar")
+            input(type="password", name='password', class="searchinput", placeholder="Password", required)
+            button(class="searchbutton", type='submit')
+              i(class="fa fa-check")
+        a(href='/dj/signup', class='text-center new-account') Create an account
+          #message
+          if message
+            h1.text-center.error-message #{message}
+
     div(id="sidebarlogin" class="sidemenu")
       div(class="sidebartitlebar")
         button(class="sidebarbackbutton" onclick="clickBack();")
           i(class="fa fa-arrow-left")
         
-        h1(style="display:inline;") Log in as DJ
+        h1(style="display:inline;") Sign in as DJ
         
       
       p User Name: 
