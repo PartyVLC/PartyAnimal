@@ -40,7 +40,7 @@ function onPlayerStateChange(event) {
       var songs = user.currentPlaylist.songs;
       var playedSong = songs[0].id;
       $.post('/songs/remove',{id: playedSong});
-      socket.emit('removeSong',{id : playedSong, url : window.location.href});
+      socket.emit('removeSong',{id : playedSong, dj : dj});
 
       var nextSong = songs[1].id;
       if (nextSong) {
@@ -89,4 +89,8 @@ function setProgressPercent(percent)
 {
     progressbar = document.getElementsByClassName("progressbar")[0];
     progressbar.style.width = percent + "%";
+}
+
+function clickTime(e) {
+  console.log(e);
 }

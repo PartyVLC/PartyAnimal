@@ -20,13 +20,11 @@ function selectSongSocket(id) {
 
 function activeSongHTML(id) {
   player.loadVideoById(id);
-  var activeSongs = document.getElementsByClassName("playlistsongactive");
+  var activeSongs = document.getElementsByClassName("psactive");
 
   for (i in activeSongs) {
     activeSongs[i].className = "playlistsong";
   }
-
-  console.log(id);
   var playlistsong = document.getElementById(id);
   playlistsong.className = "playlistsong psactive";
 }
@@ -274,6 +272,7 @@ function addPlaylistHTML(title) {
 
   var playlistsong = document.createElement('div');
   playlistsong.className = "playlistsong";
+  playlistsong.id = 'playlist-'+title;
 
   var playlistadd = document.createElement('button');
   playlistadd.className = 'songadd';

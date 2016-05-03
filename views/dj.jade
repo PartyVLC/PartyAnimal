@@ -17,7 +17,7 @@ body
       div(class="progressbarcontainer")
         button(id="progressbarplaypause", class='progressbarplaypause', onclick="playPause();")
           i(class="fa fa-play")
-        div(class='progressbarinnercontainer')
+        div(class='progressbarinnercontainer', onclick='clickTime(this);')
           div(class="progressbar")
         div(class="progressbartime") 0:00
 
