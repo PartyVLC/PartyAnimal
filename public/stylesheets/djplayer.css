@@ -20,7 +20,14 @@ input:focus
 {
   outline:none;
 }
-
+a {
+  color:white;
+  text-decoration: none;
+}
+a:hover {
+  color:white;
+  text-decoration: none;
+}
 .container
 {
     text-align:center;
