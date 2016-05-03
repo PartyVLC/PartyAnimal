@@ -157,7 +157,7 @@ function hideFind()
   form = document.getElementById("form");
   if(form != null)
   {
-    form.style.display = none;
+    form.style.display = 'none';
   }
 }
 function clickPlaylist()
