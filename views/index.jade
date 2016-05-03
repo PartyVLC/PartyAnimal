@@ -1,2 +1,44 @@
 extends layout
 
+//-  header
+title Party Animal Home
+
+block css
+  link(rel="stylesheet" type="text/css" href="/stylesheets/djplayer.css")
+
+block js
+  script(type="text/javascript" src="/js/djplayer.js")
+
+block title
+  h1 Party Animal
+
+block content
+  h2 Home Page
+  div(class="contentarea")
+    div(class="hpmaincontent")
+      h2 How to use this website:
+      ol
+        li Choose your fave tunes
+        li Get your Kool-Aid ready
+        li Bumpin Party!!
+      br
+      div(class="hpsidebyside")
+        div(class="hpsidecontent")
+          h3 Log in as a DJ:
+          form(action='/dj/signin', method='POST')
+            div(class="searchbar")
+              input(type="text", name="username", placeholder="Username" class="searchinput", required, autofocus)
+            br
+            div(class="searchbar")
+              input(type="password", name="password", placeholder="Password", class="searchinput", required)
+              button(class="searchbutton", type="submit")
+                i(class="fa fa-check")
+        div(class="hpor")
+        p or
+        div(class="hpsidecontent")
+          p Find a Party
+          div(class="searchbar")
+            form(action='/guest/party', method='POST')
+              input(name="djid" placeholder="Search for a Party" class="searchinput" required)
+            button(class="searchbutton", type="submit")
+              i(class="fa fa-search")

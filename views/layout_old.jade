@@ -1,0 +1,76 @@
+include ../mixins/flash-messages
+
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+
+    title Party Animal
+
+    
+
+    //-[if lt IE 9]
+      script(src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js")
+      script(src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.js")
+    //-[endif]
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+    block css
+
+    block head
+
+  block body
+
+  //- JAVASCRIPT
+  script(src="/socket.io/socket.io.js")
+  
+  script(src='https://apis.google.com/js/client.js?onload=init')
+  script(src='/js/jquery.js')
+  script(src='/bootstrap/js/bootstrap.js')
+  script(src='/js/PlaylistMenuStuff.js')
+  script(src='/js/expanderButtons.js')
+
+  script.
+    var socket = io.connect("/");
+  block js
+
+
+  //- TITLE
+  .container.login: #login
+    if user
+      a(href="/dj/signout")
+        p Sign Out #{user.username}
+    else
+      a(href="/dj")
+        p Sign In as a DJ
+
+    //- JAVASCRIPT
+    //- script(src='/js/playlist.js')
+    //- script(src='/js/player.js')
+    script(src='/js/expanderButtons.js')
+    script(src='https://apis.google.com/js/client.js?onload=init')
+    script(src='/js/jquery.js')
+    script(src='/bootstrap/js/bootstrap.js')
+    script(src='/js/socket.io.js')
+
+      
+  .container.titleBar.contentPane: #title
+    h1.text-center Party Animal
+    +flash-messages(messages)
+  block title
+    block content
+  .padding1em
+  //- Player
+  .container.contentPane
+    block player
+
+  block playlists
+    .row
+      .container: #player
+  block qrbutt
+
+  block search

@@ -35,7 +35,7 @@ module.exports = function(passport, db){
         // console.log("route: " + user)
         // res.render('dj/home', { dj : user })
       } else {
-        res.render('dj', { dj : req.user })
+        res.render('dj/index', { dj : req.user })
       }
   })
 

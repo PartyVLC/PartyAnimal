@@ -28,7 +28,7 @@ function activeSongHTML(id) {
 
   console.log(id);
   var playlistsong = document.getElementById(id);
-  playlistsong.className = "playlistsong playlistsongactive";
+  playlistsong.className = "playlistsong psactive";
 }
 
 function search() {

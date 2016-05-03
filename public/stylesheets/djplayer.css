@@ -41,8 +41,7 @@ input:focus
 {
     display:inline-block;
     width:100%;
-    /*padding-bottom:56.25%;*/
-    height:70%;
+    padding-bottom:56.25%;
     background-color:black;
 }
 .progressbarcontainer
@@ -124,6 +123,13 @@ input:focus
 .psactive
 {
   background-color: #f4ad66 !important;
+/*=======
+  text-align:left;
+  display:inline-block;
+  width:100%;
+  height:64px;
+  background-color: #f4ad66;
+>>>>>>> frag*/
   color: black;
 }
 .votebox
