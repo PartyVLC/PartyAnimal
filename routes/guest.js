@@ -15,26 +15,22 @@ module.exports = function(db, Playlist, Song){
       res.redirect('/')
   });
 
+  //  post from landing form, redirect to username
   router.post('/party', function(req, res, next) {
-    console.log(req.body.djid)
   	res.redirect('party/'+req.body.djid);
   })
 
+  //  get user from db and render data, listen for socket
   router.get('/party/:username', function(req, res) {
 
   	var dj = users.findOne(
       { "username": req.params.username },
       { "password": 0},
       function(err, document) {
-        console.log(req.params.username)
       	if (document == null) {
       		res.redirect('/guest')
       	}
       	else {
-          console.log(document._id)
-          var qr = require('qr-image');
-          var qr_svg = qr.image('www.yourpartyanimal.com/guest/party/'+document.username, { type: 'svg'});
-          qr_svg.pipe(require('fs').createWriteStream('./public/images/'+document._id+'.svg'));
 	        res.render('guest', { dj : document } )
     	}
       });
@@ -53,6 +49,11 @@ module.exports = function(db, Playlist, Song){
         }
       })
   });
+
+  router.get('/*', function(req, res) {
+    console.log("not valid")
+    res.redirect('/')
+  })
 
   return router;
 }

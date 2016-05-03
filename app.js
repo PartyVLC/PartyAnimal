@@ -110,10 +110,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var qr = require('qr-image');
-var qr_svg = qr.image('mongo' + '.yourpartyanimal.com/guest/1', { type: 'svg'});
-qr_svg.pipe(require('fs').createWriteStream('./public/images/guest_qr.svg'));
-
 // Object.keys(ifaces).forEach(function (ifname) {
 //   var alias = 0;
 

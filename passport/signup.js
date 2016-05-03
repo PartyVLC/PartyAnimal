@@ -43,6 +43,11 @@ module.exports = function(passport){
                             console.log('User Registration succesful');    
                             return done(null, newUser);
                         });
+
+                        // build qr
+                        var qr = require('qr-image');
+                        var qr_svg = qr.image('www.yourpartyanimal.com/guest/party/'+newUser.username, { type: 'svg'});
+                        qr_svg.pipe(require('fs').createWriteStream('./public/images/'+newUser._id+'.svg'));
                     }
                 });
             };

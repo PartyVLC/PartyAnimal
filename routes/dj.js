@@ -162,5 +162,10 @@ module.exports = function(passport, db){
     })
   })
 
+  router.get('/*', function(req, res) {
+    console.log("not valid")
+    res.redirect('/')
+  })
+
   return router;
 }
