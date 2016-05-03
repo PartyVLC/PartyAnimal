@@ -15,14 +15,14 @@ function getDJ() {
 }
 
 function activeSongHTML(id) {
-  var activeSongs = document.getElementsByClassName("playlistsongactive");
+  var activeSongs = document.getElementsByClassName("psactive");
 
   for (i in activeSongs) {
     activeSongs[i].className = "playlistsong";
   }
 
   var playlistsong = document.getElementById(id);
-  playlistsong.className = "playlistsong playlistsongactive";
+  playlistsong.className = "playlistsong psactive";
 }
 
 function search() {
@@ -197,16 +197,18 @@ function delSongHTML(id) {
   playlistsong.parentNode.removeChild(playlistsong);
 }
 
-function disableVoting(id) {
+function disableVoting(id,idx) {
   var votebox = document.getElementById(id).firstChild;
   votebox.firstChild.disabled = true;
   votebox.children[1].disabled = true;
+  votebox.children[idx].firstChild.style.color = 'orange';
+
 } 
 
 function upvote(id) {
   $.post("/songs/upvote", {id : id});
   socket.emit('upvote', {id : id, dj : dj});
-  disableVoting(id);
+  disableVoting(id,0);
 }
 
 function upvoteHTML(id) {
@@ -218,7 +220,7 @@ function upvoteHTML(id) {
 function downvote(id) {
   $.post("/songs/downvote", {id : id});
   socket.emit('downvote', {id : id, dj : dj});
-  disableVoting(id);
+  disableVoting(id,1);
 }
 
 function downvoteHTML(id) {
