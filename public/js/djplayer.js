@@ -99,6 +99,7 @@ function hideSearchMenu()
   {
     sidebarsearchmenu.style.left = "100%";
   }
+  clearSearch();
 }
 function showPlaylistManager()
 {
