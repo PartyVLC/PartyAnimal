@@ -31,7 +31,7 @@ module.exports = function(db, Playlist, Song){
       		res.redirect('/guest')
       	}
       	else {
-	        res.render('guest', { dj : document } )
+	        res.render('guest/index', { dj : document } )
     	}
       });
   });

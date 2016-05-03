@@ -1,0 +1,10 @@
+div(class="container")
+  h1(id='pagetitle') #{dj.username} - #{dj.currentPlaylist.title}
+  div(class="contentarea")
+    div(id="player", class="video")
+    div(class="progressbarcontainer")
+      button(id="progressbarplaypause", class='progressbarplaypause', onclick="playPause();")
+        i(class="fa fa-play")
+      div(class='progressbarinnercontainer')
+        div(class="progressbar")
+      div(class="progressbartime") 0:00

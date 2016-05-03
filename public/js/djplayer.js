@@ -1,9 +1,9 @@
 function showSidebar()
 {
-  var sidebar = document.getElementById("sidebar");
-  var sidebartoggle = document.getElementById("sidebartoggle");
-  var sidebartoggleicon = document.getElementById("sidebartoggleicon");
-  var sidebarshadow = document.getElementById("sidebarshadow");
+  sidebar = document.getElementById("sidebar");
+  sidebartoggle = document.getElementById("sidebartoggle");
+  sidebartoggleicon = document.getElementById("sidebartoggleicon");
+  sidebarshadow = document.getElementById("sidebarshadow");
   sidebar.style.right = 0;
   sidebarshadow.style.right = 0;
   sidebartoggle.style.right = "25%";
@@ -19,23 +19,22 @@ function hideSidebar()
   hideSearchMenu();
   hidePlaylistManager();
   hideLogin();
-  var sidebar = document.getElementById("sidebar");
-  var sidebartoggle = document.getElementById("sidebartoggle");
-  var sidebartoggleicon = document.getElementById("sidebartoggleicon");
-  var sidebarshadow = document.getElementById("sidebarshadow");
+  sidebar = document.getElementById("sidebar");
+  sidebartoggle = document.getElementById("sidebartoggle");
+  sidebartoggleicon = document.getElementById("sidebartoggleicon");
+  sidebarshadow = document.getElementById("sidebarshadow");
   sidebar.style.right = "-25%";
   sidebarshadow.style.right = "-25%";
   sidebartoggle.style.right = 0;
   sidebartoggle.onclick = function() { showSidebar() };
   sidebartoggleicon.style.transform = "rotate(0)";
-  clearSearch();
 }
 
 function expandSidebar()
 {
-  var sidebar = document.getElementById("sidebar");
-  var sidebartoggle = document.getElementById("sidebartoggle");
-  var sidebarshadow = document.getElementById("sidebarshadow");
+  sidebar = document.getElementById("sidebar");
+  sidebartoggle = document.getElementById("sidebartoggle");
+  sidebarshadow = document.getElementById("sidebarshadow");
   sidebar.style.width = "50%";
   sidebarshadow.style.width = "50%";
   sidebartoggle.style.right = "50%";
@@ -43,9 +42,9 @@ function expandSidebar()
 
 function shrinkSidebar()
 {
-  var sidebar = document.getElementById("sidebar");
-  var sidebartoggle = document.getElementById("sidebartoggle");
-  var sidebarshadow = document.getElementById("sidebarshadow");
+  sidebar = document.getElementById("sidebar");
+  sidebartoggle = document.getElementById("sidebartoggle");
+  sidebarshadow = document.getElementById("sidebarshadow");
   sidebar.style.width = "25%";
   sidebarshadow.style.width = "25%";
   sidebartoggle.style.right = "25%";
@@ -53,7 +52,7 @@ function shrinkSidebar()
 
 function showMainMenu()
 {
-  var sidebarmainmenu = document.getElementById("sidebarmainmenu");
+  sidebarmainmenu = document.getElementById("sidebarmainmenu");
   if(sidebarmainmenu != null)
   {
     sidebarmainmenu.style.left = 0;
@@ -62,7 +61,7 @@ function showMainMenu()
 
 function hideMainMenu()
 {
-  var sidebarmainmenu = document.getElementById("sidebarmainmenu");
+  sidebarmainmenu = document.getElementById("sidebarmainmenu");
   if(sidebarmainmenu != null)
   {
     sidebarmainmenu.style.left = "-100%";
@@ -71,7 +70,7 @@ function hideMainMenu()
 
 function showPlaylistMenu()
 {
-  var sidebarplaylistmenu = document.getElementById("sidebarcurrentplaylist");
+  sidebarplaylistmenu = document.getElementById("sidebarcurrentplaylist");
   if(sidebarplaylistmenu != null)
   {
     sidebarplaylistmenu.style.left = 0;
@@ -79,7 +78,7 @@ function showPlaylistMenu()
 }
 function hidePlaylistMenu()
 {
-  var sidebarplaylistmenu = document.getElementById("sidebarcurrentplaylist");
+  sidebarplaylistmenu = document.getElementById("sidebarcurrentplaylist");
   if(sidebarplaylistmenu != null)
   {
     sidebarplaylistmenu.style.left = "100%";
@@ -87,7 +86,7 @@ function hidePlaylistMenu()
 }
 function showSearchMenu()
 {
-  var sidebarsearchmenu = document.getElementById("sidebarsearchmenu");
+  sidebarsearchmenu = document.getElementById("sidebarsearchmenu");
   if(sidebarsearchmenu != null)
   {
     sidebarsearchmenu.style.left = 0;
@@ -95,7 +94,7 @@ function showSearchMenu()
 }
 function hideSearchMenu()
 {
-  var sidebarsearchmenu = document.getElementById("sidebarsearchmenu");
+  sidebarsearchmenu = document.getElementById("sidebarsearchmenu");
   if(sidebarsearchmenu != null)
   {
     sidebarsearchmenu.style.left = "100%";
@@ -103,7 +102,7 @@ function hideSearchMenu()
 }
 function showPlaylistManager()
 {
-  var sidebarplaylistmanager = document.getElementById("sidebarplaylistmanager");
+  sidebarplaylistmanager = document.getElementById("sidebarplaylistmanager");
   if(sidebarplaylistmanager != null)
   {
     sidebarplaylistmanager.style.left = 0;
@@ -111,15 +110,15 @@ function showPlaylistManager()
 }
 function hidePlaylistManager()
 {
-  var sidebarplaylsitmanager = document.getElementById("sidebarplaylistmanager");
-  if(sidebarplaylsitmanager !== null)
+  sidebarplaylsitmanager = document.getElementById("sidebarplaylistmanager");
+  if(sidebarplaylistmanager != null)
   {
     sidebarplaylistmanager.style.left = "100%";
   }
 }
 function showLogin()
 {
-  var sidebarlogin = document.getElementById("sidebarlogin");
+  sidebarlogin = document.getElementById("sidebarlogin");
   if(sidebarlogin != null)
   {
     sidebarlogin.style.left = 0;
@@ -127,7 +126,7 @@ function showLogin()
 }
 function hideLogin()
 {
-  var sidebarlogin = document.getElementById("sidebarlogin");
+  sidebarlogin = document.getElementById("sidebarlogin");
   if(sidebarlogin != null)
   {
     sidebarlogin.style.left = "100%";
@@ -165,5 +164,4 @@ function clickBack()
   hideSearchMenu();
   hidePlaylistManager();
   hideLogin();
-  clearSearch();
 }
