@@ -1,7 +1,16 @@
+*
+{
+  box-sizing: border-box;
+}
 body
 {
   background-color: #303030;
   color: #ccc;
+  font-size:5vmin;
+}
+button
+{
+  font-size:5vmin;
 }
 button:focus
 {
@@ -11,11 +20,6 @@ input:focus
 {
   outline:none;
 }
-a {
-  color:white;
-  text-decoration: none;
-}
-
 .container
 {
     text-align:center;
@@ -26,6 +30,7 @@ a {
   display:inline-block;
   width:90%;
   padding:5%;
+  margin: -5%;
   max-width:960px;
   background: -moz-radial-gradient(center, ellipse closest-side, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
   background: -webkit-radial-gradient(center, ellipse closest-side, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
@@ -44,22 +49,21 @@ a {
 {
     display:flex;
     width:100%;
-    height:20px;
+    height:8.25vmin;
     background-color: #303030;
-    box-shadow: 0 -2px 6px rgba(255,255,255,0.4) inset;
-    border-bottom:solid black 1px;
+    border-bottom:solid black 0.25vmin;
 }
 .progressbarplaypause
 {
     display:inline-block;
     cursor:pointer;
-    width:80px;
-    height:20px;
+    width:20vmin;
+    height:8vmin;
     float:left;
     background-color:#606060;
     color: #ccc;
     border: none;
-    border-top: solid 2px #888;
+    border-top: solid 1vmin #888;
 }
 .progressbarplaypause:hover
 {
@@ -77,20 +81,20 @@ a {
 .progressbar
 {
     display:inline-block;
-    width:0;
-    height:18px;
+    width:40%;
+    height:8vmin;
     float:left;
     background-color:#cc6600;
-    border-top:solid 2px #f4ad66;
+    border-top:solid 1vmin #f4ad66;
 }
 .progressbartime
 {
     display:inline-block;
-    width:80px;
-    height:18px;
+    width:20vmin;
+    height:8vmin;
     float:right;
     background-color:#606060;
-    border-top: solid 2px #888;
+    border-top: solid 1vmin #888;
 }
 .playlistcontainer
 {
@@ -106,40 +110,36 @@ a {
     text-align:left;
     display:inline-block;
     width:100%;
-    height:64px;
+    height:20vmin;
     background-color: #606060;
     color: white;
     border-bottom: solid 1px black;
+    overflow:hidden;
 }
 
 .playlistsong:nth-child(even)
 {
     background-color: #808080;
 }
-.playlistsongactive
+.psactive
 {
-  text-align:left;
-  display:inline-block;
-  width:100%;
-  height:64px;
   background-color: #f4ad66 !important;
   color: black;
-  border-bottom: solid 1px black;
 }
 .votebox
 {
     display:inline-block;
     position:relative;
     float:left;
-    width:32px;
-    height:64px;
+    width:10vmin;
+    height:20vmin;
 }
 .voteboxvote
 {
     cursor:pointer;
     display:block;
-    width: 32px;
-    height: 32px;
+    width: 10vmin;
+    height: 10vmin;
     background-color: #606060;
     color:white;
     border: none;
@@ -172,8 +172,8 @@ a {
     display:inline-block;
     position:relative;
     float:left;
-    width: 30px;
-    height: 64px;
+    width: 10vmin;
+    height: 20vmin;
     margin-right:16px;
     text-align: center;
     font-size: 175%;
@@ -202,8 +202,8 @@ a {
     position:relative;
     cursor: pointer;
     float:left;
-    width: 64px;
-    height: 64px;
+    width: 20vmin;
+    height: 20vmin;
     margin-right:16px;
     text-align: center;
     font-size: 200%;
@@ -241,7 +241,7 @@ a {
 {
     display:inline-block;
     width: 100%;
-    height: 32px;
+    height: 10vmin;
     background-color: #303030;
     display:flex;
     border-top: solid 1px black;
@@ -255,13 +255,12 @@ a {
     border: none;
     flex-shrink: 1;
     font-size: 150%;
-    padding-left: 64px;
     background-color: #303030;
     color: white;
 }
 .searchinput:focus
 {
-  border-bottom: solid 2px #cc6600;
+  border-bottom: solid 0.5vmin #cc6600;
 }
 .searchinput::selection
 {
@@ -274,8 +273,8 @@ a {
     background-color: #303030;
     color: #c0c0c0;
     float:right;
-    width: 32px;
-    height: 32px;
+    width: 10vmin;
+    height: 10vmin;
     border: none;
     cursor: pointer;
 }
@@ -317,10 +316,10 @@ a {
 
 #sidebar
 {
-  width: 25%;
+  width: 50%;  /*Make 25% for desktop?*/
   height: 100%;
   position: fixed;
-  right: -25%;
+  right: -50%;
   top: 0;
   z-index: 2;
   overflow: hidden;
@@ -329,28 +328,28 @@ a {
 }
 #sidebarshadow
 {
-  width: 25%;
+  width: 50%; /*Make 25% for desktop?*/
   height: 100%;
   position: fixed;
-  right: -25%;
+  right: -50%;
   top: 0;
   z-index: 0;
-  box-shadow: 0 0 20px black;
+  box-shadow: 0 0 4vmin black;
   transition: right .4s, width .4s;
 }
 #sidebartoggle
 {
-  width: 56px;
-  height: 48px;
+  width: 12vmin;
+  height: 10vmin;
   position: fixed;
   right: 0;
-  top: 16px;
+  top: 4vmin;
   z-index: 1;
   cursor: pointer;
   background-color: #cc6600;
   border: none;
   /*border-radius: 8px 0 0 8px;*/
-  box-shadow: 0 0 20px black;
+  box-shadow: 0 0 4vmin black;
   transition: right .4s, width .4s;
 }
 #sidebartoggleicon
@@ -372,7 +371,7 @@ a {
 .sidebarmenuitem
 {
   width:100%;
-  height:64px;
+  height:20vmin;
   background-color: #606060;
   color: white;
   border: none;
@@ -393,11 +392,15 @@ a {
 .sidemenu
 {
   width:100%;
-  height:100%;
+  height:calc(100vh - 30vmin);
   position: absolute;
   left:100%;
   top: 0;
   transition: left .4s;
+}
+.cplaylist
+{
+  height: calc(100vh - 20vmin);
 }
 .sidebarplaylistcontainer
 {
@@ -408,14 +411,13 @@ a {
 }
 .sidebartitlebar
 {
-    display:inline-block;
-    width:100%;
-    height:76;
-    padding-left:32px;
-    background-color:#cc6600;
-    color: white;
-    text-align:left;
-    border-top: solid 4px #f4ad66;
+  display:inline-block;
+  width:100%;
+  height:20vmin;
+  background-color:#cc6600;
+  color: white;
+  text-align:left;
+  border-top: solid 1vmin #f4ad66;
 }
 .sidebarbackbutton
 {
@@ -460,9 +462,10 @@ a {
   bottom: 0;
   right: 0;
   display:inline-block;
-  width: 128px;
-  height: 128px;
+  width: 25vmin;
+  height: 25vmin;
   background-color:#ccc;
+  background-image: url("img/qrtest.svg");
 }
 
 /*Home Page Stuff*/
@@ -496,7 +499,7 @@ a {
   margin-top: 50px;
 }
 
-@media(max-width: 600px)
+@media all and (orientation: portrait)
 {
   .hpsidecontent
   {
@@ -509,5 +512,90 @@ a {
   {
     display: inline-block;
     margin:0;
+  }
+}
+@media (max-resolution: 150dpi) and (min-width: 480px) /* Low res screens (or not phones)*/
+{
+  body
+  {
+    font-size:2.5vmin;
+  }
+  button
+  {
+    font-size:2.5vmin;
+  }
+  .progressbarcontainer
+  {
+    height:4.125vmin;
+    border-bottom:solid 0.125vmin black;
+  }
+  .progressbarplaypause
+  {
+    width:10vmin;
+    height:4vmin;
+    border-top: solid .5vmin #888;
+  }
+  .progressbar
+  {
+    height: 4vmin;
+    border-top:solid .5vmin #f4ad66;
+  }
+  .progressbartime
+  {
+    width: 10vmin;
+    height: 4vmin;
+    border-top: solid .5vmin #888;
+  }
+  .playlistsong
+  {
+    height:10vmin;
+  }
+  .votebox
+  {
+    width:5vmin;
+    height:10vmin;
+  }
+  .voteboxvote
+  {
+    width:5vmin;
+    height:5vmin;
+  }
+  .voteboxnumber
+  {
+    width:5vmin;
+    height:10vmin;
+  }
+  .songadd
+  {
+    width: 10vmin;
+    height:10vmin;
+  }
+  .searchbar
+  {
+    height:5vmin;
+  }
+  .searchinput:focus
+  {
+    border-bottom: solid 0.25vmin #cc6600;
+  }
+  .searchbutton
+  {
+    width: 5vmin;
+    height: 5vmin;
+  }
+  #sidebartoggle
+  {
+    width: 6vmin;
+    height: 5vmin;
+    top: 2vmin;
+  }
+  .sidebartitlebar
+  {
+    height: 10vmin;
+    border-top: solid .5vmin #f4ad66;
+  }
+  .sidebarmenuitem
+  {
+    height: 10vmin;
   }
 }

@@ -6,7 +6,7 @@ function showSidebar()
   var sidebarshadow = document.getElementById("sidebarshadow");
   sidebar.style.right = 0;
   sidebarshadow.style.right = 0;
-  sidebartoggle.style.right = "25%";
+  sidebartoggle.style.right = "50%";
   sidebartoggle.onclick = function() { hideSidebar() };
   sidebartoggleicon.style.transform = "rotate(180deg)";
 }
@@ -23,8 +23,8 @@ function hideSidebar()
   var sidebartoggle = document.getElementById("sidebartoggle");
   var sidebartoggleicon = document.getElementById("sidebartoggleicon");
   var sidebarshadow = document.getElementById("sidebarshadow");
-  sidebar.style.right = "-25%";
-  sidebarshadow.style.right = "-25%";
+  sidebar.style.right = "-50%";
+  sidebarshadow.style.right = "-50%";
   sidebartoggle.style.right = 0;
   sidebartoggle.onclick = function() { showSidebar() };
   sidebartoggleicon.style.transform = "rotate(0)";
@@ -36,9 +36,9 @@ function expandSidebar()
   var sidebar = document.getElementById("sidebar");
   var sidebartoggle = document.getElementById("sidebartoggle");
   var sidebarshadow = document.getElementById("sidebarshadow");
-  sidebar.style.width = "50%";
-  sidebarshadow.style.width = "50%";
-  sidebartoggle.style.right = "50%";
+  sidebar.style.width = "75%";
+  sidebarshadow.style.width = "75%";
+  sidebartoggle.style.right = "75%";
 }
 
 function shrinkSidebar()
@@ -46,9 +46,9 @@ function shrinkSidebar()
   var sidebar = document.getElementById("sidebar");
   var sidebartoggle = document.getElementById("sidebartoggle");
   var sidebarshadow = document.getElementById("sidebarshadow");
-  sidebar.style.width = "25%";
-  sidebarshadow.style.width = "25%";
-  sidebartoggle.style.right = "25%";
+  sidebar.style.width = "50%";
+  sidebarshadow.style.width = "50%";
+  sidebartoggle.style.right = "50%";
 }
 
 function showMainMenu()

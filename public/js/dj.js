@@ -26,6 +26,7 @@ function activeSongHTML(id) {
     activeSongs[i].className = "playlistsong";
   }
 
+  console.log(id);
   var playlistsong = document.getElementById(id);
   playlistsong.className = "playlistsong playlistsongactive";
 }
