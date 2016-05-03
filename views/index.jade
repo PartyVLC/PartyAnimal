@@ -38,6 +38,7 @@ block content
         div(class="hpsidecontent")
           p Find a Party
           div(class="searchbar")
-            input(placeholder="Search for a Party" class="searchinput")
-            button(class="searchbutton")
+            form(action='/guest/party', method='POST')
+              input(name="djid" placeholder="Search for a Party" class="searchinput" required)
+            button(class="searchbutton", type="submit")
               i(class="fa fa-search")
