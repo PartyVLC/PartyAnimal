@@ -32,7 +32,6 @@ function activeSongHTML(id) {
 function search() {
   var keyword = document.getElementById("searchinput").value;
   clearSearch();
-  var dj = getDJ();
 
   $.get('/dj/user_data', function(data) {
     $.get('https://www.googleapis.com/youtube/v3/search',{
@@ -47,8 +46,10 @@ function search() {
         for (i in response.items) {
           (function(index) {
             var song = {
-              id:response.items[index].id.videoId,
-              title:response.items[index].snippet.title,
+              id : response.items[index].id.videoId,
+              title : response.items[index].snippet.title,
+              thumbnail : response.items[i].snippet.thumbnails.default.url,
+              desc : response.items[i].snippet.description
             }
 
             showSearchResultsHTML(index,song,data.currentPlaylist.songs);
@@ -98,11 +99,26 @@ function showSearchResultsHTML(index,song,playlist) {
   songadd.appendChild(icon);
   songadd.onclick = function() {addSong(song.id,song.title,this)};
 
-  var p = document.createElement("p");
-  p.innerHTML = song.title;
+  var thumb = document.createElement('img');
+  thumb.src = song.thumbnail;
+  thumb.style.display = 'inline-block';
+  thumb.style.height = '70%';
+
+  var title = document.createElement("div");
+  title.innerHTML = song.title;
+  title.style.whiteSpace = 'nowrap';
+  title.style.overflow = 'hidden';
+  title.style.textOverflow = 'ellipsis'
+
+  var desc = document.createElement("div");
+  desc.innerHTML = song.desc;
+  desc.style.textOverflow = 'ellipsis';
+  desc.style.fontSize = 'x-small';
 
   playlistsong.appendChild(songadd);
-  playlistsong.appendChild(p);
+  // playlistsong.appendChild(thumb);
+  playlistsong.appendChild(title);
+  playlistsong.appendChild(desc);
   searchresults.appendChild(playlistsong);
 }
 
@@ -188,10 +204,10 @@ function addSongHTML(id, title, score) {
   voteboxnumber.innerHTML = score;
   voteboxnumber.id = "score-"+id
 
-  var a = document.createElement("a");
-  a.href="#";
-  a.onclick = function() {selectSongSocket(id);}
-  a.innerHTML = title;
+  var div = document.createElement("div");
+  div.onclick = function() {selectSongSocket(id);}
+  div.innerHTML = title;
+  div.className = 'titleoverflow';
 
   var songx = document.createElement("button");
   songx.className = "songx";
@@ -203,7 +219,7 @@ function addSongHTML(id, title, score) {
   votebox.appendChild(voteboxvotedown);
 
   playlistsong.appendChild(voteboxnumber);
-  playlistsong.appendChild(a);
+  playlistsong.appendChild(div);
   playlistsong.appendChild(songx);
 
   sidebarplaylistcontainer.appendChild(playlistsong);
@@ -224,16 +240,18 @@ function delSongHTML(id) {
   playlistsong.parentNode.removeChild(playlistsong);
 }
 
-function disableVoting(id) {
+function disableVoting(id,idx) {
   var votebox = document.getElementById(id).firstChild;
   votebox.firstChild.disabled = true;
   votebox.children[1].disabled = true;
-} 
+  votebox.children[idx].firstChild.style.color = 'orange';
+}
+
 
 function upvote(id) {
   $.post("/songs/upvote", {id : id});
   socket.emit('upvote', {id : id, dj : dj});
-  disableVoting(id);
+  disableVoting(id,0);
 }
 
 function upvoteHTML(id) {
@@ -245,7 +263,7 @@ function upvoteHTML(id) {
 function downvote(id) {
   $.post("/songs/downvote", {id : id});
   socket.emit('downvote', {id : id, dj : dj});
-  disableVoting(id);
+  disableVoting(id,1);
 }
 
 function downvoteHTML(id) {

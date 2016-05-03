@@ -174,15 +174,16 @@ function addSongHTML(id, title, score) {
   voteboxnumber.innerHTML = score;
   voteboxnumber.id = "score-"+id
 
-  var span = document.createElement("span");
-  span.innerHTML = title;
+  var div = document.createElement("div");
+  div.innerHTML = title;
+  div.className = 'titleoverflow';
 
   playlistsong.appendChild(votebox);
   votebox.appendChild(voteboxvoteup);
   votebox.appendChild(voteboxvotedown);
 
   playlistsong.appendChild(voteboxnumber);
-  playlistsong.appendChild(span);
+  playlistsong.appendChild(div);
 
   playlistcontainer.appendChild(playlistsong);
 }
@@ -202,7 +203,6 @@ function disableVoting(id,idx) {
   votebox.firstChild.disabled = true;
   votebox.children[1].disabled = true;
   votebox.children[idx].firstChild.style.color = 'orange';
-
 } 
 
 function upvote(id) {

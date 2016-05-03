@@ -90,7 +90,3 @@ function setProgressPercent(percent)
     progressbar = document.getElementsByClassName("progressbar")[0];
     progressbar.style.width = percent + "%";
 }
-
-function clickTime(e) {
-  console.log(e);
-}

@@ -89,9 +89,11 @@ function hidePlaylistMenu()
 function showSearchMenu()
 {
   var sidebarsearchmenu = document.getElementById("sidebarsearchmenu");
+
   if(sidebarsearchmenu != null)
   {
     sidebarsearchmenu.style.left = 0;
+    // document.getElementById('searchinput').focus();
   }
 }
 function hideSearchMenu()

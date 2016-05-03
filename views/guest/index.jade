@@ -1,7 +1,8 @@
 extends ../layout
 
 //-  header
-title #{dj.username} - #{dj.currentPlaylist.title}
+block head
+  title #{dj.username}'s Party
 
 block css
   link(rel="stylesheet", type="text/css", href="/stylesheets/djplayer.css")
@@ -32,4 +33,4 @@ block content
               button(class="voteboxvote", onclick="downvote('#{song.id}');")
                 i(class="fa fa-chevron-down")
             div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
-            p #{song.title}
+            div(class='titleoverflow') #{song.title}
