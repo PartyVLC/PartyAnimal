@@ -29,10 +29,11 @@ button(id="sidebartoggle" onclick="showSidebar();")
       div(class="sidebartitlebar")
         button(class="sidebarbackbutton" onclick="clickBack();")
           i(class="fa fa-arrow-left")
+
         h1(style="display:inline;") Find New Party
 
       div(class="searchbar")
-        form(action='/guest/party', method='POST')
+        form(id="form", action='/guest/party', method='POST')
               input(name="djid" placeholder="Search for a Party" class="searchinput" required)
             button(class="searchbutton", type="submit")
               i(class="fa fa-search")
@@ -41,9 +42,10 @@ button(id="sidebartoggle" onclick="showSidebar();")
         div(class="sidebartitlebar")
           button(class="sidebarbackbutton", onclick="clickBack();")
             i(class="fa fa-arrow-left")
+
           h1(style="display:inline;") Sign in as DJ
 
-        form(class='form-signin', action='/dj/signin', method='POST')
+        form(id="form" ,class='form-signin', action='/dj/signin', method='POST')
           div(class="searchbar")
             input(type='text', name='username', class="searchinput", placeholder="User Name", required)
 

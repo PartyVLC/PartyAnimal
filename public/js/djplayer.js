@@ -18,6 +18,7 @@ function hideSidebar()
   hidePlaylistMenu();
   hideSearchMenu();
   hidePlaylistManager();
+  hideFind();
   hideLogin();
   sidebar = document.getElementById("sidebar");
   sidebartoggle = document.getElementById("sidebartoggle");
@@ -132,6 +133,32 @@ function hideLogin()
     sidebarlogin.style.left = "100%";
   }
 }
+function showFind()
+{
+  sidebarfindparty = document.getElementById("sidebarfindparty");
+  if(sidebarfindparty != null)
+  {
+    sidebarfindparty.style.left = 0;
+  }
+  form = document.getElementById("form");
+  if(form != null)
+  {
+    form.style.left = "100%";
+  }
+}
+function hideFind()
+{
+  sidebarfindparty = document.getElementById("sidebarfindparty");
+  if(sidebarfindparty != null)
+  {
+    sidebarfindparty.style.left = "100%";
+  }
+  form = document.getElementById("form");
+  if(form != null)
+  {
+    form.style.display = none;
+  }
+}
 function clickPlaylist()
 {
   expandSidebar();
@@ -156,6 +183,11 @@ function clickLogin()
   hideMainMenu();
   showLogin();
 }
+function clickFind()
+{
+  hideMainMenu();
+  showFind();
+}
 function clickBack()
 {
   shrinkSidebar();
@@ -163,5 +195,6 @@ function clickBack()
   hidePlaylistMenu();
   hideSearchMenu();
   hidePlaylistManager();
+  hideFind();
   hideLogin();
 }

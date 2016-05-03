@@ -28,6 +28,7 @@ module.exports = function(db, Playlist, Song){
       { "password": 0},
       function(err, document) {
       	if (document == null) {
+          console.log("got null")
       		res.redirect('/guest')
       	}
       	else {
