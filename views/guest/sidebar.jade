@@ -5,6 +5,7 @@ button(id="sidebartoggle" onclick="showSidebar();")
       div(class="sidebartitlebar")
         h1 Menu
       button(class="sidebarmenuitem" onclick="clickSearch();") Search Songs
+      button(class="sidebarmenuitem" onclick="clickFind();") Search for a new party
       button(class="sidebarmenuitem" onclick="clickLogin();") Sign in as DJ
     div(class="sidebarqr" style= "background-image: url('/images/#{dj._id}.svg');")
     
@@ -23,6 +24,18 @@ button(id="sidebartoggle" onclick="showSidebar();")
       
           
       div(id='searchresults', class="sidebarplaylistcontainer")
+
+    div(id="sidebarfindparty" class="sidemenu")
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton" onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+        h1(style="display:inline;") Find New Party
+
+      div(class="searchbar")
+        form(action='/guest/party', method='POST')
+              input(name="djid" placeholder="Search for a Party" class="searchinput" required)
+            button(class="searchbutton", type="submit")
+              i(class="fa fa-search")
 
     div(id="sidebarlogin", class="sidemenu")
         div(class="sidebartitlebar")
@@ -44,23 +57,5 @@ button(id="sidebartoggle" onclick="showSidebar();")
           #message
           if message
             h1.text-center.error-message #{message}
-
-    div(id="sidebarlogin" class="sidemenu")
-      div(class="sidebartitlebar")
-        button(class="sidebarbackbutton" onclick="clickBack();")
-          i(class="fa fa-arrow-left")
-        
-        h1(style="display:inline;") Sign in as DJ
-        
-      
-      p User Name: 
-      div(class="searchbar")
-        input(class="searchinput" placeholder="User Name")
-      
-      p Password:
-      div(class="searchbar")
-        input(type="password" class="searchinput" placeholder="Password")
-        button(class="searchbutton")
-          i(class="fa fa-check")
 
   div(id="sidebarshadow")

@@ -24,13 +24,10 @@ block title
 
 block content
   div(class="contentarea")
-    div(class="playlistcontainer")
-      each song, index in dj.currentPlaylist.songs
-        div(class="playlistsong", id="#{song.id}")
-          div(class="votebox")
-            button(class="voteboxvote", onclick="upvote('#{song.id}');")
-              i(class="fa fa-chevron-up")
-            button(class="voteboxvote", onclick="downvote('#{song.id}');")
-              i(class="fa fa-chevron-down")
-          div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
-          p #{song.title}
+      div(id="player", class="video")
+      div(class="progressbarcontainer")
+        button(id="progressbarplaypause", class='progressbarplaypause', onclick="playPause();")
+          i(class="fa fa-play")
+        div(class='progressbarinnercontainer')
+          div(class="progressbar")
+        div(class="progressbartime") 0:00
