@@ -35,21 +35,22 @@ module.exports = function(passport, db){
         // console.log("route: " + user)
         // res.render('dj/home', { dj : user })
       } else {
-        res.render('dj/index', { dj : req.user })
+        res.render('dj/index', { dj : req.user, message: req.flash('message') })
       }
   })
 
   /* Handle Login POST */
-  router.post('/signin', 
-    passport.authenticate('login'), 
-    function(req,res) {
+  router.post('/signin', passport.authenticate('login', {
+      successRedirect: '/dj/home',
+      failureRedirect: '/dj/signup',
+      failureFlash : true }
       //console.log("signin " + req.user.username)
-      res.redirect('/dj/play/'+req.user.username)
-  });
+      //res.redirect('/dj/play/'+req.user.username)
+  ));
 
   /* GET Registration Page */
   router.get('/signup', function(req, res) {
-      res.render('dj/register',{message: req.flash('message')});
+      res.render('dj/register', { message: req.flash('message')});
   });
 
   /* Handle Registration POST */

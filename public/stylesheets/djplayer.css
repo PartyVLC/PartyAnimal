@@ -45,6 +45,13 @@ a:hover {
   background: radial-gradient(closest-side ellipse at center, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 );
 }
+a:link, a:visited, a:active {
+  color: #cc6600;
+  text-decoration: none;
+}
+a:hover {
+  text-shadow: 2px 2px #000;
+}
 .video
 {
     display:inline-block;
