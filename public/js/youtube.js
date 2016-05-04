@@ -9,7 +9,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     height: '100%',
     width: '100%',
-    playerVars: {'controls':1, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
+    playerVars: {'controls':0, 'disablekb':1, 'modestbranding':1,'rel':0,'showinfo':0},
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
@@ -30,6 +30,17 @@ function onPlayerReady(event) {
     else {
       console.log("No queued song to play")
     }
+  });
+  
+  $('.progressbarinnercontainer').bind('click', function (ev) {
+    var $div = $(ev.target);
+    var $display = $div.find('.progressbardisplay');
+
+    var offset = $div.offset();
+    var x = ev.clientX - offset.left;
+
+    $('.progressbar').width(x);
+    player.seekTo($('.progressbar').width() / $('.progressbarinnercontainer').width() * player.getDuration());
   });
 }
 

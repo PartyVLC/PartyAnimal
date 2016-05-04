@@ -94,6 +94,10 @@ a:hover {
   width:100%;
   flex-shrink:1;
 }
+.progressbardisplay
+{
+  width: 100%;
+}
 .progressbar
 {
     display:inline-block;
