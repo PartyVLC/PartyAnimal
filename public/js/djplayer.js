@@ -17,6 +17,7 @@ function hideSidebar()
   showMainMenu();
   hidePlaylistMenu();
   hideSearchMenu();
+  hideSuggestedMenu();
   hidePlaylistManager();
   hideFind();
   hideLogin();
@@ -104,6 +105,23 @@ function hideSearchMenu()
     sidebarsearchmenu.style.left = "100%";
   }
 }
+function showSuggestedMenu()
+{
+  var sidebarsuggestedmenu = document.getElementById("sidebarsuggestedmenu");
+
+  if(sidebarsuggestedmenu != null)
+  {
+    sidebarsuggestedmenu.style.left = 0;
+  }
+}
+function hideSuggestedMenu()
+{
+  var sidebarsuggestedmenu = document.getElementById("sidebarsuggestedmenu");
+  if(sidebarsuggestedmenu != null)
+  {
+    sidebarsuggestedmenu.style.left = "100%";
+  }
+}
 function showPlaylistManager()
 {
   var sidebarplaylistmanager = document.getElementById("sidebarplaylistmanager");
@@ -174,6 +192,13 @@ function clickSearch()
   hideMainMenu();
   showSearchMenu();
 }
+function clickSuggested()
+{
+  expandSidebar();
+  hideMainMenu();
+  showSuggestedMenu();
+  suggested();
+}
 function clickPlaylistManager()
 {
   expandSidebar();
@@ -197,6 +222,7 @@ function clickBack()
   showMainMenu();
   hidePlaylistMenu();
   hideSearchMenu();
+  hideSuggestedMenu();
   hidePlaylistManager();
   hideFind();
   hideLogin();
