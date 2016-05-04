@@ -231,7 +231,6 @@ a:hover {
     float:left;
     width: 20vmin;
     height: 20vmin;
-    margin-right:16px;
     text-align: center;
     font-size: 200%;
     background-color: #303030;
@@ -247,6 +246,35 @@ a:hover {
 {
     background-color:#606060;
 }
+.rescontent
+{
+  display: inline-flex;
+  width: calc(100% - 20vmin);
+}
+
+.titdesc
+{
+  display: inline-block;
+  width: 100%;
+  flex-shrink: 1;
+}
+
+.restitle
+{
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.resdesc
+{
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: x-small;
+}
+
 .collapseplaylist
 {
     display: inline-block;

@@ -129,21 +129,26 @@ function showSearchResultsHTML(song,playlist) {
   thumb.style.display = 'inline-block';
   thumb.style.height = '70%';
 
+  var rescontent = document.createElement('div');
+  rescontent.className = "rescontent";
+  
+  var titdesc = document.createElement("div");
+  titdesc.className = "titdesc";
+
   var title = document.createElement("div");
   title.innerHTML = song.title;
-  title.style.whiteSpace = 'nowrap';
-  title.style.overflow = 'hidden';
-  title.style.textOverflow = 'ellipsis'
+  title.className = 'restitle';
 
   var desc = document.createElement("div");
   desc.innerHTML = song.desc;
-  desc.style.textOverflow = 'ellipsis';
-  desc.style.fontSize = 'x-small';
+  desc.className = "resdesc";
 
   playlistsong.appendChild(songadd);
-  playlistsong.appendChild(thumb);
-  playlistsong.appendChild(title);
-  playlistsong.appendChild(desc);
+  rescontent.appendChild(thumb);
+  titdesc.appendChild(title);
+  titdesc.appendChild(desc);
+  rescontent.appendChild(titdesc)
+  playlistsong.appendChild(rescontent);
   searchresults.appendChild(playlistsong);
 }
 
