@@ -42,7 +42,7 @@ function search() {
       type:'video'
       },
       function(response){
-        var searchresults = document.getElementById("searchresults");
+        console.log(response);
         for (i in response.items) {
           (function(index) {
             var song = {
@@ -72,14 +72,35 @@ function suggested() {
         key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w'
       },
       function(response) {
-        var suggestedresults = document.getElementsByClassName('suggestedresults');
         var song = {
               id : response.items[0].id.videoId,
               title : response.items[0].snippet.title,
               thumbnail : response.items[0].snippet.thumbnails.default.url,
-              desc : response.items[0].snippet.description
+              desc : response.items[0].snippet.description,
         }
         showSuggestedResultsHTML(song,data.currentPlaylist.songs);
+      });
+    }
+    if (data.currentPlaylist.songs.length < 10) {
+      $.get('https://www.googleapis.com/youtube/v3/videos', {
+        chart:'mostPopular',
+        key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
+        part:'snippet',
+        type: 'video',
+        maxResults: 10 - data.currentPlaylist.songs.length
+      },
+      function(response) {
+        for (i in response.items) {
+          (function(index) {
+            var song = {
+                  id : response.items[index].id.videoId,
+                  title : response.items[index].snippet.title,
+                  thumbnail : response.items[index].snippet.thumbnails.default.url,
+                  desc : response.items[index].snippet.description
+            }
+            showSuggestedResultsHTML(song,data.currentPlaylist.songs);
+          })(i);
+        }
       });
     }
   });
@@ -98,6 +119,7 @@ function clearSearch() {
 }
 
 function showSearchResultsHTML(song,playlist) {
+  var searchresults = document.getElementById('searchresults');
   var playlistsong = document.createElement("div");
   playlistsong.className = 'playlistsong';
 
@@ -131,17 +153,14 @@ function showSearchResultsHTML(song,playlist) {
 
   var title = document.createElement("div");
   title.innerHTML = song.title;
-  title.style.whiteSpace = 'nowrap';
-  title.style.overflow = 'hidden';
-  title.style.textOverflow = 'ellipsis'
+  title.className = 'titleoverflow';
 
   var desc = document.createElement("div");
   desc.innerHTML = song.desc;
-  desc.style.textOverflow = 'ellipsis';
-  desc.style.fontSize = 'x-small';
+  desc.className = 'descoverflow';
 
   playlistsong.appendChild(songadd);
-  playlistsong.appendChild(thumb);
+  // playlistsong.appendChild(thumb);
   playlistsong.appendChild(title);
   playlistsong.appendChild(desc);
   searchresults.appendChild(playlistsong);
@@ -158,6 +177,7 @@ function clearSuggested() {
 }
 
 function showSuggestedResultsHTML(song,playlist) {
+  var suggestedresults = document.getElementById('suggestedresults');
   var playlistsong = document.createElement("div");
   playlistsong.className = 'playlistsong';
 
@@ -191,17 +211,14 @@ function showSuggestedResultsHTML(song,playlist) {
 
   var title = document.createElement("div");
   title.innerHTML = song.title;
-  title.style.whiteSpace = 'nowrap';
-  title.style.overflow = 'hidden';
-  title.style.textOverflow = 'ellipsis'
+  title.className = 'titleoverflow';
 
   var desc = document.createElement("div");
   desc.innerHTML = song.desc;
-  desc.style.textOverflow = 'ellipsis';
-  desc.style.fontSize = 'x-small';
+  desc.className = 'descoverflow';
 
   playlistsong.appendChild(songadd);
-  playlistsong.appendChild(thumb);
+  // playlistsong.appendChild(thumb);
   playlistsong.appendChild(title);
   playlistsong.appendChild(desc);
   suggestedresults.appendChild(playlistsong);

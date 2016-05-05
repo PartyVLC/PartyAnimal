@@ -39,7 +39,7 @@ function search() {
       type:'video'
       },
       function(response){
-        var searchresults = document.getElementById("searchresults");
+        console.log(response);
         for (i in response.items) {
           (function(index) {
             var song = {
@@ -47,11 +47,57 @@ function search() {
               title:response.items[index].snippet.title,
             }
 
-            showSearchResultsHTML(index,song,data.currentPlaylist.songs);
+            showSearchResultsHTML(song,data.currentPlaylist.songs);
           })(i);
         }
       }
     );
+  });
+}
+
+function suggested() {
+  clearSuggested();
+  $.get('/dj/user_data', function(data) {
+    for (i in data.currentPlaylist.songs) {
+      $.get('https://www.googleapis.com/youtube/v3/search',{
+        part: 'snippet',
+        relatedToVideoId: data.currentPlaylist.songs[i].id,
+        type: 'video',
+        maxResults: 1,
+        key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w'
+      },
+      function(response) {
+        var song = {
+              id : response.items[0].id.videoId,
+              title : response.items[0].snippet.title,
+              thumbnail : response.items[0].snippet.thumbnails.default.url,
+              desc : response.items[0].snippet.description,
+        }
+        showSuggestedResultsHTML(song,data.currentPlaylist.songs);
+      });
+    }
+
+    if (data.currentPlaylist.songs.length < 10) {
+      $.get('https://www.googleapis.com/youtube/v3/videos', {
+        part:'snippet',
+        chart:'mostPopular',
+        key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
+        maxResults: 10 - data.currentPlaylist.songs.length
+      },
+      function(response) {
+        for (i in response.items) {
+          (function(index) {
+            var song = {
+                  id : response.items[index].id.videoId,
+                  title : response.items[index].snippet.title,
+                  thumbnail : response.items[index].snippet.thumbnails.default.url,
+                  desc : response.items[index].snippet.description
+            }
+            showSuggestedResultsHTML(song,data.currentPlaylist.songs);
+          })(i);
+        }
+      });
+    }
   });
 }
 
@@ -67,7 +113,20 @@ function clearSearch() {
   }
 }
 
-function showSearchResultsHTML(index,song,playlist) {
+
+function clearSuggested() {
+  var suggestedresults = document.getElementById("suggestedresults");
+  if (suggestedresults.childNodes) {
+    var length = suggestedresults.childNodes.length;
+    for (i=0; i < length; i++) {
+      suggestedresults.removeChild(suggestedresults.childNodes[0]);
+    }
+  }
+}
+
+function showSearchResultsHTML(song,playlist) {
+  var searchresults = document.getElementById('searchresults');
+
   var playlistsong = document.createElement("div");
   playlistsong.className = 'playlistsong';
 
@@ -94,12 +153,72 @@ function showSearchResultsHTML(index,song,playlist) {
   songadd.appendChild(icon);
   songadd.onclick = function() {addSong(song.id,song.title,this)};
 
-  var p = document.createElement("p");
-  p.innerHTML = song.title;
+  var thumb = document.createElement('img');
+  thumb.src = song.thumbnail;
+  thumb.style.display = 'inline-block';
+  thumb.style.height = '70%';
+
+  var title = document.createElement("div");
+  title.innerHTML = song.title;
+  title.className = 'titleoverflow';
+
+  var desc = document.createElement("div");
+  desc.innerHTML = song.desc;
+  desc.className = 'descoverflow';
 
   playlistsong.appendChild(songadd);
-  playlistsong.appendChild(p);
+  // playlistsong.appendChild(thumb);
+  playlistsong.appendChild(title);
+  playlistsong.appendChild(desc);
   searchresults.appendChild(playlistsong);
+}
+
+function showSuggestedResultsHTML(song,playlist) {
+  var suggestedresults = document.getElementById('suggestedresults');
+  var playlistsong = document.createElement("div");
+  playlistsong.className = 'playlistsong';
+
+  var songadd = document.createElement("button");
+  songadd.className = "songadd";
+  var icon = document.createElement("i");
+  
+  var isInPlaylist = false;
+
+  for (i in playlist) {
+    if (playlist[i].id == song.id) {
+      isInPlaylist = true;
+      break;
+    }
+  }
+  if (isInPlaylist) {
+    icon.className = "fa fa-check";
+    songadd.disabled = true;
+  }
+  else {
+    icon.className = "fa fa-plus";
+  }
+
+  songadd.appendChild(icon);
+  songadd.onclick = function() {addSong(song.id,song.title,this)};
+
+  var thumb = document.createElement('img');
+  thumb.src = song.thumbnail;
+  thumb.style.display = 'inline-block';
+  thumb.style.height = '70%';
+
+  var title = document.createElement("div");
+  title.innerHTML = song.title;
+  title.className = 'titleoverflow';
+
+  var desc = document.createElement("div");
+  desc.innerHTML = song.desc;
+  desc.className = 'descoverflow';
+
+  playlistsong.appendChild(songadd);
+  // playlistsong.appendChild(thumb);
+  playlistsong.appendChild(title);
+  playlistsong.appendChild(desc);
+  suggestedresults.appendChild(playlistsong);
 }
 
 function searchKeyPress() {

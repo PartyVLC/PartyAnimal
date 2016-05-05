@@ -5,6 +5,7 @@ button(id="sidebartoggle" onclick="showSidebar();")
       div(class="sidebartitlebar")
         h1 Menu
       button(class="sidebarmenuitem" onclick="clickSearch();") Search Songs
+      button(class="sidebarmenuitem" onclick="clickSuggested();") Suggested Songs
       button(class="sidebarmenuitem" onclick="clickFind();") Search for a new party
       button(class="sidebarmenuitem" onclick="clickLogin();") Sign in as DJ
     div(class="sidebarqr" style= "background-image: url('/images/#{dj._id}.svg');")
@@ -21,9 +22,15 @@ button(id="sidebartoggle" onclick="showSidebar();")
         input(id='searchinput', class="searchinput" placeholder="Search for a Song", onkeypress="searchKeyPress();")
         button(class="searchbutton", onclick="search();")
           i(class="fa fa-search")
-      
-          
+
       div(id='searchresults', class="sidebarplaylistcontainer")
+      
+    div(id="sidebarsuggestedmenu", class="sidemenu")
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton", onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+        h1(style="display:inline;") Suggested Songs
+      div(id="suggestedresults", class="sidebarplaylistcontainer")
 
     div(id="sidebarfindparty" class="sidemenu")
       div(class="sidebartitlebar")
