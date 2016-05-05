@@ -293,7 +293,7 @@ function changePlaylistHTML(playlist) {
 
       plcontainer.appendChild(nosongs);
     }
-    
+
     currentPlaylistMenu.disabled = false;
     var searchbutt = document.getElementById('searchbutt');
     searchbutt.disabled = false;
@@ -328,10 +328,7 @@ function clearSongs() {
 function addSongHTML(id, title, score) {
   var nosongs = document.getElementsByClassName('nosongs');
   if (nosongs.length > 0) {
-    for (var i = 0; i < nosongs[0].children.length; i++) {
-      console.log(nosongs[0].children)
-      nosongs[0].children[i].parentNode.removeChild(nosongs[0].children[i]);
-    }
+    nosongs[0].parentNode.removeChild(nosongs[0]);
   }
 
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
