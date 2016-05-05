@@ -96,7 +96,7 @@ function suggested() {
         for (i in response.items) {
           (function(index) {
             var song = {
-                  id : response.items[index].id.videoId,
+                  id : response.items[index].id,
                   title : response.items[index].snippet.title,
                   thumbnail : response.items[index].snippet.thumbnails.default.url,
                   desc : response.items[index].snippet.description
@@ -352,7 +352,7 @@ function addSongHTML(id, title, score) {
 
 function delSong(id) {
   $.post("/songs/delete", {id : id});
-  socket.emit('delSong',{id: id, dj : dj});
+  socket.emit('removeSong',{id: id, dj : dj});
 }
 
 function removeSong(id) {
@@ -369,6 +369,7 @@ function delSongHTML(id) {
   donezos.appendChild(playlistsong);
   playlistsong.firstChild.children[0].disabled = true;
   playlistsong.firstChild.children[1].disabled = true;
+  playlistsong.removeChild(playlistsong.children[3]);
 
   playlistsong.children[1].innerHTML = '';
   playlistsong.children[2].style.textDecoration = 'line-through';
@@ -433,7 +434,8 @@ function addPlaylistHTML(title) {
   icon.className = 'fa fa-caret-right';
   playlistadd.appendChild(icon);
 
-  var p = document.createElement('p');
+  var p = document.createElement('span');
+  p.className = 'playlisttitle';
   p.innerHTML = title;
 
   var playlistx = document.createElement('button');
@@ -456,4 +458,10 @@ function deletePlaylist(title) {
 function deletePlaylistHTML(title) {
   var playlistsong = document.getElementById('playlist-'+title);
   playlistsong.parentNode.removeChild(playlistsong);
+}
+
+function nosongHTML() {
+  console.log(songtitle);
+  var songtitle = document.getElementById('songtitle');
+  songtitle.innerHTML = 'No song playing'
 }

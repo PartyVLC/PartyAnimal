@@ -49,3 +49,9 @@ socket.on('delPlaylist', function(data) {
     deletePlaylistHTML(data.title);
   }
 })
+
+socket.on('nosong', function(data) {
+  if (window.location.href.includes(data.dj)) {
+    nosongHTML();
+  }
+})

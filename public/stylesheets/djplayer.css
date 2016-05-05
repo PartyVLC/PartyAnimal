@@ -39,6 +39,9 @@ h1 {
 #partyanimal{
   font-size:36pt;
 }
+.playlisttitle {
+  padding-left:1vw;
+}
 
 .container
 {

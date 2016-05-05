@@ -88,7 +88,7 @@ function suggested() {
         for (i in response.items) {
           (function(index) {
             var song = {
-                  id : response.items[index].id.videoId,
+                  id : response.items[index].id,
                   title : response.items[index].snippet.title,
                   thumbnail : response.items[index].snippet.thumbnails.default.url,
                   desc : response.items[index].snippet.description
@@ -283,6 +283,11 @@ function clearSongs() {
 }
 
 function addSongHTML(id, title, score) {
+  var nosongs = document.getElementsByClassName('nosongs');
+  for (var i = 0; i < nosongs.length; i++) {
+    nosongs[i].parentNode.removeChild(nosongs[i]);
+  }
+
   var playlistcontainer = document.getElementsByClassName("playlistcontainer")[0];
 
   var playlistsong = document.createElement('div');
@@ -334,7 +339,21 @@ function removeSong(id) {
 
 function delSongHTML(id) {
   var playlistsong = document.getElementById(id);
-  playlistsong.parentNode.removeChild(playlistsong);
+  var parent = playlistsong.parentNode;
+  parent.removeChild(playlistsong);
+
+  if (parent.children.length == 0) {
+    var nosong = document.createElement('div');
+    var p1 = document.createElement('p');
+    p1.innerHTML = 'This playlist has no songs :('
+    var p2 = document.createElement('p');
+    p2.innerHTML = 'Why not add some?';
+
+    nosong.appendChild(p1);
+    nosong.appendChild(p2);
+
+    parent.appendChild(nosong);
+  }
 }
 
 function disableVoting(id,idx) {
@@ -366,4 +385,10 @@ function downvoteHTML(id) {
   var scorebox = document.getElementById("score-"+id);
   var score = parseInt(scorebox.innerHTML);
   scorebox.innerHTML = score - 1;
+}
+
+function nosongHTML() {
+  console.log(songtitle);
+  var songtitle = document.getElementById('songtitle');
+  songtitle.innerHTML = 'No song playing'
 }

@@ -72,7 +72,7 @@ button(id="sidebartoggle", onclick="showSidebar();")
           div(id='playlist-'+playlist.title, class="playlistsong")
             button(class="songadd", onclick="changePlaylist('"+playlist.title+"');")
               i(class="fa fa-caret-right")
-            span #{playlist.title}
+            span(class='playlisttitle') #{playlist.title}
             button(class="songx", onclick="deletePlaylist('"+playlist.title+"');") x
 
     if !(dj)

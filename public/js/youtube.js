@@ -28,10 +28,10 @@ function onPlayerReady(event) {
       // selectSongSocket(songs[0].id);
       // $.post('/songs/remove',{id: songs[0].id});
       socket.emit('selectSong',{id : songs[0].id, title: songs[0].title, dj : dj});
-      console.log(songs[0].title);
     }
     else {
       console.log("No queued song to play");
+      socket.emit('nosong', { dj : dj});
     }
   });
   
@@ -50,15 +50,20 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
   var progressbarplaypause = document.getElementById("progressbarplaypause");
   if (event.data == YT.PlayerState.ENDED) {
-    console.log('fuck');
     $.get("/dj/user_data", function(user) {
       var songs = user.currentPlaylist.songs;
-      var nextSong = songs[0].id;
+      console.log(songs.length);
+      if (songs.length > 0) {
+        var nextSong = songs[0].id;
 
-      if (nextSong) {
-        // selectSongSocket(nextSong, songs[0].title);
-        // $.post('/songs/remove',{id: nextSong});
-        socket.emit('selectSong',{id : nextSong, title: songs[0].title, dj : dj});
+        if (nextSong) {
+          // selectSongSocket(nextSong, songs[0].title);
+          // $.post('/songs/remove',{id: nextSong});
+          socket.emit('selectSong',{id : nextSong, title: songs[0].title, dj : dj});
+        }
+      }
+      else {
+        socket.emit('nosong', {dj : dj});
       }
     })
   }
