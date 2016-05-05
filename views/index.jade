@@ -10,10 +10,9 @@ block js
   script(type="text/javascript" src="/js/djplayer.js")
 
 block title
-  h1 Party Animal
+  h1(id='partyanimal') Party Animal
 
 block content
-  h2 Home Page
   div(class="contentarea")
     div(class="hpmaincontent")
       h2 How to use this website:
@@ -37,8 +36,8 @@ block content
         p or
         div(class="hpsidecontent")
           p Find a Party
-          div(class="searchbar")
-            form(action='/guest/party', method='POST')
+          form(action='/guest/party', method='POST')
+            div(class="searchbar")
               input(name="djid" placeholder="Search for a Party" class="searchinput" required)
               button(class="searchbutton", type="submit")
                 i(class="fa fa-search")

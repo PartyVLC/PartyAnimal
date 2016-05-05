@@ -32,8 +32,12 @@ a:hover {
   color:white;
   text-decoration: none;
 }
+
 h1 {
   margin:1vw;
+}
+#partyanimal{
+  font-size:36pt;
 }
 
 .container
