@@ -30,7 +30,8 @@ block content
   div(class="")
       div(class="playlistcontainer")
         if dj.currentPlaylist
-          if dj.currentPlaylist.songs == []
+          if dj.currentPlaylist.songs != []
+            - console.log(dj.currentPlaylist.songs)
             each song, index in dj.currentPlaylist.songs
               div(class="playlistsong", id="#{song.id}")
                 div(class="votebox")

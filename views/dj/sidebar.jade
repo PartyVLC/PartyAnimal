@@ -6,10 +6,14 @@ button(id="sidebartoggle", onclick="showSidebar();")
       div(class="sidebartitlebar")
         h1 Menu
       if dj
-        if dj.currentPlaylist
+        if dj.currentPlaylist.title
           button(id="currentPlaylistMenu", class="sidebarmenuitem", onclick="clickPlaylist();") Current Playlist - #{dj.currentPlaylist.title}
-        button(class="sidebarmenuitem", onclick="clickSearch();") Search Songs
-        button(class="sidebarmenuitem", onclick="clickSuggested();") Suggested Songs
+          button(class="sidebarmenuitem", id='searchbutt', onclick="clickSearch();") Search Songs
+          button(class="sidebarmenuitem", id='suggestedbutt', onclick="clickSuggested();") Suggested Songs
+        else 
+          button(id="currentPlaylistMenu", class="sidebarmenuitem", onclick="clickPlaylist();" disabled) Current Playlist - No playlist selected
+          button(class="sidebarmenuitem", id='searchbutt', onclick="clickSearch();" disabled) Search Songs
+          button(class="sidebarmenuitem", id='suggestedbutt', onclick="clickSuggested();" disabled) Suggested Songs
         button(class="sidebarmenuitem", onclick="clickPlaylistManager();") Manage Playlists
         a(href="/dj/signout"): button(class="sidebarmenuitemlink") Sign Out
       else

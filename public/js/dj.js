@@ -293,6 +293,12 @@ function changePlaylistHTML(playlist) {
 
       plcontainer.appendChild(nosongs);
     }
+    
+    currentPlaylistMenu.disabled = false;
+    var searchbutt = document.getElementById('searchbutt');
+    searchbutt.disabled = false;
+    var suggestedbutt = document.getElementById('suggestedbutt');
+    suggestedbutt.disabled = false;
   }) 
 }
 
@@ -321,8 +327,11 @@ function clearSongs() {
 
 function addSongHTML(id, title, score) {
   var nosongs = document.getElementsByClassName('nosongs');
-  for (var i = 0; i < nosongs.length; i++) {
-    nosongs[i].parentNode.removeChild(nosongs[i]);
+  if (nosongs.length > 0) {
+    for (var i = 0; i < nosongs[0].children.length; i++) {
+      console.log(nosongs[0].children)
+      nosongs[0].children[i].parentNode.removeChild(nosongs[0].children[i]);
+    }
   }
 
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
@@ -492,6 +501,12 @@ function deletePlaylistHTML(title) {
   currentPlaylistTitle.innerHTML = 'No playlist selected';
   var currentPlaylistMenu = document.getElementById('currentPlaylistMenu');
   currentPlaylistMenu.innerHTML = "CurrentPlaylist - No playlist selected";
+
+  currentPlaylistMenu.disabled = true;
+  var searchbutt = document.getElementById('searchbutt');
+  searchbutt.disabled = true;
+  var suggestedbutt = document.getElementById('suggestedbutt');
+  suggestedbutt.disabled = true;
 }
 
 function nosongHTML() {
