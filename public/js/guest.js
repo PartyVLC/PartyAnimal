@@ -268,6 +268,7 @@ function changePlaylistHTML(playlist) {
       var plcontainer = document.getElementsByClassName('playlistcontainer')[0];
 
       var nosongs = document.createElement('div');
+      nosongs.className = 'nosongs';
       var p1 = document.createElement('p');
       p1.innerHTML = 'This playlist has no songs :(';
       var p2 = document.createElement('p');
@@ -428,9 +429,10 @@ function deletePlaylistHTML(title) {
   var searchbutt = document.getElementById('searchbutt');
   searchbutt.disabled = true;
 
-  var plcontainer = document.getElementsByClassName('playlistcontainer');
+  var plcontainer = document.getElementsByClassName('playlistcontainer')[0];
   var nosongs = document.createElement('div');
   nosongs.className = 'nosongs';
+  console.log(nosongs);
   var p = document.createElement('p');
   p.innerHTML = 'There is no playlist here :('
   nosongs.appendChild(p);
