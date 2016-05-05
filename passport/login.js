@@ -27,9 +27,9 @@ module.exports = function(passport){
 
                     // build qr
                     var qr = require('qr-image');
-                    var qr_svg = qr.image('www.yourpartyanimal.com/guest/party/'+newUser.username, { type: 'svg'});
-                    qr_svg.pipe(require('fs').createWriteStream('./public/images/'+newUser._id+'.svg'));
-                    
+                    var qr_svg = qr.image('www.yourpartyanimal.com/guest/party/'+user.username, { type: 'svg'});
+                    qr_svg.pipe(require('fs').createWriteStream('./public/images/'+user._id+'.svg'));
+
                     // User and password both match, return user from done method
                     // which will be treated like success
                     return done(null, user);
