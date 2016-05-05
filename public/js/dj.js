@@ -21,7 +21,6 @@ function selectSongSocket(id,title) {
 function activeSongHTML(id,title) {
   player.loadVideoById(id);
   var songtitle = document.getElementById('songtitle');
-  console.log(songtitle);
   songtitle.innerHTML = title;
 
 
@@ -364,7 +363,6 @@ function removeSong(id) {
 function delSongHTML(id) {
   var playlistsong = document.getElementById(id);
   var donezos = document.getElementById('donezos');
-  console.log(donezos)
   playlistsong.className = 'playlistsong donezo';
   playlistsong.id = '';
   playlistsong.parentNode.removeChild(playlistsong);
