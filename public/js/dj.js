@@ -21,16 +21,17 @@ function selectSongSocket(id,title) {
 function activeSongHTML(id,title) {
   player.loadVideoById(id);
   var songtitle = document.getElementById('songtitle');
+  console.log(songtitle);
   songtitle.innerHTML = title;
 
 
-  var activeSongs = document.getElementsByClassName("psactive");
+  // var activeSongs = document.getElementsByClassName("psactive");
 
-  for (i in activeSongs) {
-    activeSongs[i].className = "playlistsong";
-  }
-  var playlistsong = document.getElementById(id);
-  playlistsong.className = "playlistsong psactive";
+  // for (i in activeSongs) {
+  //   activeSongs[i].className = "playlistsong";
+  // }
+  // var playlistsong = document.getElementById(id);
+  // playlistsong.className = "playlistsong psactive";
 }
 
 function search() {

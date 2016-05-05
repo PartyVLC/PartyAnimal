@@ -34,7 +34,7 @@ button(id="sidebartoggle", onclick="showSidebar();")
                   button(class="voteboxvote", onclick="downvote('#{song.id}');")
                     i(class="fa fa-chevron-down")
                 div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
-                div(class='ptitle', onclick="selectSongSocket('#{song.id}');") #{song.title}
+                div(class='ptitle', onclick="selectSongSocket('#{song.id}','#{song.title}');") #{song.title}
                 button(class="songx", onclick="delSong('#{song.id}');") x
         div(id='donezos')
 
