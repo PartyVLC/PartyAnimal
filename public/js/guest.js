@@ -126,7 +126,6 @@ function clearSuggested() {
 
 function showSearchResultsHTML(song,playlist) {
   var searchresults = document.getElementById('searchresults');
-
   var playlistsong = document.createElement("div");
   playlistsong.className = 'playlistsong';
 
@@ -155,26 +154,36 @@ function showSearchResultsHTML(song,playlist) {
 
   var thumb = document.createElement('img');
   thumb.src = song.thumbnail;
-  thumb.style.display = 'inline-block';
-  thumb.style.height = '70%';
+  thumb.className = 'thumb';
+
+  var rescontent = document.createElement('div');
+  rescontent.className = "rescontent";
+  
+  var titdesc = document.createElement("div");
+  titdesc.className = "titdesc";
 
   var title = document.createElement("div");
   title.innerHTML = song.title;
-  title.className = 'titleoverflow';
+
+  title.className = 'restitle';
 
   var desc = document.createElement("div");
   desc.innerHTML = song.desc;
-  desc.className = 'descoverflow';
+  desc.className = "resdesc";
 
   playlistsong.appendChild(songadd);
-  // playlistsong.appendChild(thumb);
-  playlistsong.appendChild(title);
-  playlistsong.appendChild(desc);
+  rescontent.appendChild(thumb);
+  titdesc.appendChild(title);
+  titdesc.appendChild(desc);
+  rescontent.appendChild(titdesc)
+  playlistsong.appendChild(rescontent);
+
   searchresults.appendChild(playlistsong);
 }
 
 function showSuggestedResultsHTML(song,playlist) {
   var suggestedresults = document.getElementById('suggestedresults');
+
   var playlistsong = document.createElement("div");
   playlistsong.className = 'playlistsong';
 
@@ -203,21 +212,29 @@ function showSuggestedResultsHTML(song,playlist) {
 
   var thumb = document.createElement('img');
   thumb.src = song.thumbnail;
-  thumb.style.display = 'inline-block';
-  thumb.style.height = '70%';
+  thumb.className = 'thumb';
+
+  var rescontent = document.createElement('div');
+  rescontent.className = "rescontent";
+
+  var titdesc = document.createElement("div");
+  titdesc.className = "titdesc";
 
   var title = document.createElement("div");
   title.innerHTML = song.title;
-  title.className = 'titleoverflow';
+  title.className = 'restitle';
 
   var desc = document.createElement("div");
   desc.innerHTML = song.desc;
-  desc.className = 'descoverflow';
+  desc.className = 'resdesc';
 
   playlistsong.appendChild(songadd);
-  // playlistsong.appendChild(thumb);
-  playlistsong.appendChild(title);
-  playlistsong.appendChild(desc);
+  rescontent.appendChild(thumb);
+  titdesc.appendChild(title);
+  titdesc.appendChild(desc);
+  rescontent.appendChild(titdesc)
+  playlistsong.appendChild(rescontent);
+
   suggestedresults.appendChild(playlistsong);
 }
 
@@ -295,7 +312,7 @@ function addSongHTML(id, title, score) {
 
   var div = document.createElement("div");
   div.innerHTML = title;
-  div.className = 'titleoverflow';
+  div.className = 'ptitle';
 
   playlistsong.appendChild(votebox);
   votebox.appendChild(voteboxvoteup);
