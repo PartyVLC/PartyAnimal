@@ -30,7 +30,6 @@ function onPlayerReady(event) {
       socket.emit('selectSong',{id : songs[0].id, title: songs[0].title, dj : dj});
     }
     else {
-      console.log("No queued song to play");
       socket.emit('nosong', { dj : dj});
     }
   });

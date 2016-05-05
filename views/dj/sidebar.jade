@@ -26,16 +26,21 @@ button(id="sidebartoggle", onclick="showSidebar();")
 
       div(class="sidebarplaylistcontainer")
         div(id='sidebarplaylistcontainer')
-          each song, index in dj.currentPlaylist.songs
-              div(class="playlistsong", id="#{song.id}")
-                div(class="votebox")
-                  button(class="voteboxvote", onclick="upvote('#{song.id}');")
-                    i(class="fa fa-chevron-up")
-                  button(class="voteboxvote", onclick="downvote('#{song.id}');")
-                    i(class="fa fa-chevron-down")
-                div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
-                div(class='ptitle', onclick="selectSongSocket('#{song.id}','#{song.title}');") #{song.title}
-                button(class="songx", onclick="delSong('#{song.id}');") x
+          if dj.currentPlaylist.songs[0]
+            each song, index in dj.currentPlaylist.songs
+                div(class="playlistsong", id="#{song.id}")
+                  div(class="votebox")
+                    button(class="voteboxvote", onclick="upvote('#{song.id}');")
+                      i(class="fa fa-chevron-up")
+                    button(class="voteboxvote", onclick="downvote('#{song.id}');")
+                      i(class="fa fa-chevron-down")
+                  div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
+                  div(class='ptitle', onclick="selectSongSocket('#{song.id}','#{song.title}');") #{song.title}
+                  button(class="songx", onclick="delSong('#{song.id}');") x
+          else 
+            div(class='nosongs',style='margin-left:1vmin')
+              p This playlist has no songs :(
+              p Why not add some?
         div(id='donezos')
 
     div(id="sidebarsearchmenu", class="sidemenu")

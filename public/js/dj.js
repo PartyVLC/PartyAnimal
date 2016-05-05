@@ -299,6 +299,11 @@ function clearSongs() {
 }
 
 function addSongHTML(id, title, score) {
+  var nosongs = document.getElementsByClassName('nosongs');
+  for (var i = 0; i < nosongs.length; i++) {
+    nosongs[i].parentNode.removeChild(nosongs[i]);
+  }
+
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
 
   var playlistsong = document.createElement('div');
@@ -461,7 +466,6 @@ function deletePlaylistHTML(title) {
 }
 
 function nosongHTML() {
-  console.log(songtitle);
   var songtitle = document.getElementById('songtitle');
   songtitle.innerHTML = 'No song playing'
 }

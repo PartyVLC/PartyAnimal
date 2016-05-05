@@ -388,7 +388,6 @@ function downvoteHTML(id) {
 }
 
 function nosongHTML() {
-  console.log(songtitle);
   var songtitle = document.getElementById('songtitle');
   songtitle.innerHTML = 'No song playing'
 }
