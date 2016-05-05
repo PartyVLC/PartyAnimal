@@ -25,10 +25,10 @@ function onPlayerReady(event) {
     setInterval(refreshProgress,100);
     var songs = user.currentPlaylist.songs;
     if (songs[0]) {
-      selectSongSocket(songs[0].id)
+      selectSongSocket(songs[0].id);
     }
     else {
-      console.log("No queued song to play")
+      console.log("No queued song to play");
     }
   });
   
