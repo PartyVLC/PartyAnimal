@@ -14,7 +14,7 @@ function getDJ() {
   return dj;
 }
 
-function activeSongHTML(id) {
+function activeSongHTML(id,title) {
   var activeSongs = document.getElementsByClassName("psactive");
 
   for (i in activeSongs) {
@@ -23,6 +23,9 @@ function activeSongHTML(id) {
 
   var playlistsong = document.getElementById(id);
   playlistsong.className = "playlistsong psactive";
+
+  var songtitle = document.getElementById('songtitle');
+  songtitle.innerHTML = title;
 }
 
 function search() {
@@ -251,13 +254,33 @@ function changePlaylistHTML(playlist) {
   $.post("/guest/dj_data", {dj : dj}, function(user) {
     clearSongs();
 
-    var songs = user.currentPlaylist.songs
-    for (i in songs) {
-      addSongHTML(songs[i].id, songs[i].title, songs[i].score);
+    if (user.currentPlaylist) {
+      var songs = user.currentPlaylist.songs
+      for (i in songs) {
+        addSongHTML(songs[i].id, songs[i].title, songs[i].score);
+      }
     }
 
     var pagetitle = document.getElementById('pagetitle');
     pagetitle.innerHTML = user.username + ' - ' + playlist;
+
+    if (songs.length == 0) {
+      var plcontainer = document.getElementsByClassName('playlistcontainer')[0];
+
+      var nosongs = document.createElement('div');
+      var p1 = document.createElement('p');
+      p1.innerHTML = 'This playlist has no songs :(';
+      var p2 = document.createElement('p');
+      p2.innerHTML = 'Why not add some?'
+
+      nosongs.appendChild(p1);
+      nosongs.appendChild(p2);
+
+      plcontainer.appendChild(nosongs);
+    }
+
+    var searchbutt = document.getElementById('searchbutt');
+    searchbutt.disabled = false;
   }) 
 }
 
@@ -283,7 +306,8 @@ function clearSongs() {
 }
 
 function addSongHTML(id, title, score) {
-  var nosongs = document.getElementsByClassName('nosongs');
+  var nosongs = document.getElementsByClassName('nosongs')[0].children;
+  console.log(nosongs);
   for (var i = 0; i < nosongs.length; i++) {
     nosongs[i].parentNode.removeChild(nosongs[i]);
   }
@@ -343,16 +367,17 @@ function delSongHTML(id) {
   parent.removeChild(playlistsong);
 
   if (parent.children.length == 0) {
-    var nosong = document.createElement('div');
+    var nosongs = document.createElement('div');
+    nosongs.className = 'nosongs'
     var p1 = document.createElement('p');
     p1.innerHTML = 'This playlist has no songs :('
     var p2 = document.createElement('p');
     p2.innerHTML = 'Why not add some?';
 
-    nosong.appendChild(p1);
-    nosong.appendChild(p2);
+    nosongs.appendChild(p1);
+    nosongs.appendChild(p2);
 
-    parent.appendChild(nosong);
+    parent.appendChild(nosongs);
   }
 }
 
@@ -385,6 +410,30 @@ function downvoteHTML(id) {
   var scorebox = document.getElementById("score-"+id);
   var score = parseInt(scorebox.innerHTML);
   scorebox.innerHTML = score - 1;
+}
+
+function addPlaylistHTML(title) {
+  var pagetitle = document.getElementById('pagetitle');
+  pagetitle.innerHTML = dj + " - " + title;
+  var searchbutt = document.getElementById('searchbutt');
+  searchbutt.disabled = false;
+}
+
+function deletePlaylistHTML(title) {
+  clearSongs();
+  nosongHTML();
+  var pagetitle = document.getElementById('pagetitle');
+  pagetitle.innerHTML = dj + " - No playlist selected";
+  var searchbutt = document.getElementById('searchbutt');
+  searchbutt.disabled = true;
+
+  var plcontainer = document.getElementsByClassName('playlistcontainer');
+  var nosongs = document.createElement('div');
+  nosongs.className = 'nosongs';
+  var p = document.createElement('p');
+  p.innerHTML = 'There is no playlist here :('
+  nosongs.appendChild(p);
+  plcontainer.appendChild(nosongs);
 }
 
 function nosongHTML() {

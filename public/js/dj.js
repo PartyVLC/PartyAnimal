@@ -265,9 +265,11 @@ function changePlaylistHTML(playlist) {
   $.get("/dj/user_data", function(user) {
     clearSongs();
 
-    var songs = user.currentPlaylist.songs
-    for (i in songs) {
-      addSongHTML(songs[i].id, songs[i].title, songs[i].score);
+    if (user.currentPlaylist) {
+      var songs = user.currentPlaylist.songs
+      for (i in songs) {
+        addSongHTML(songs[i].id, songs[i].title, songs[i].score);
+      }
     }
 
     var currentPlaylistTitle = document.getElementById('currentPlaylistTitle');
@@ -276,6 +278,21 @@ function changePlaylistHTML(playlist) {
     pagetitle.innerHTML = user.username + ' - ' + playlist;
     var currentPlaylistMenu = document.getElementById('currentPlaylistMenu');
     currentPlaylistMenu.innerHTML = "CurrentPlaylist - " + playlist;
+
+    if (songs.length == 0) {
+      var plcontainer = document.getElementById('sidebarplaylistcontainer');
+
+      var nosongs = document.createElement('div');
+      var p1 = document.createElement('p');
+      p1.innerHTML = 'This playlist has no songs :(';
+      var p2 = document.createElement('p');
+      p2.innerHTML = 'Why not add some?'
+
+      nosongs.appendChild(p1);
+      nosongs.appendChild(p2);
+
+      plcontainer.appendChild(nosongs);
+    }
   }) 
 }
 
@@ -295,6 +312,10 @@ function clearSongs() {
   var sidebarplaylistcontainer = document.getElementById("sidebarplaylistcontainer");
   while (sidebarplaylistcontainer.firstChild) {
     sidebarplaylistcontainer.removeChild(sidebarplaylistcontainer.firstChild);
+  }
+  var donezos = document.getElementById('donezos');
+  while (donezos.firstChild) {
+    donezos.removeChild(donezos.firstChild);
   }
 }
 
@@ -463,6 +484,14 @@ function deletePlaylist(title) {
 function deletePlaylistHTML(title) {
   var playlistsong = document.getElementById('playlist-'+title);
   playlistsong.parentNode.removeChild(playlistsong);
+  clearSongs();
+  nosongHTML();
+  var pagetitle = document.getElementById('pagetitle');
+  pagetitle.innerHTML = dj + "- No playlist selected";
+  var currentPlaylistTitle = document.getElementById('currentPlaylistTitle');
+  currentPlaylistTitle.innerHTML = 'No playlist selected';
+  var currentPlaylistMenu = document.getElementById('currentPlaylistMenu');
+  currentPlaylistMenu.innerHTML = "CurrentPlaylist - No playlist selected";
 }
 
 function nosongHTML() {

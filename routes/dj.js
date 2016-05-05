@@ -95,10 +95,11 @@ module.exports = function(passport, db){
           res.redirect('/')
         }
         else {
+          console.log(user.playlists[0])
           users.update(
             { _id : user._id },
             { $set :
-              { currentPlaylist :user.playlists[0]  }
+              { currentPlaylist : user.playlists[0]  }
             }
           )
           // res.redirect('/dj/home')
@@ -112,10 +113,14 @@ module.exports = function(passport, db){
   router.post('/set/delete', isAuthenticated, function(req, res) {
     if (req.user.currentPlaylist.title == req.body.playlist) {
       users.update(
-        { _id : req.user.id },
-        { $set : { currentPlaylist : {} } },
+        { _id : req.user._id },
+        { $unset : {
+          currentPlaylist : "" } 
+        },
         function(err,res) {
-          console.log(err)
+          if (err) {
+            console.log(err) 
+          }
           console.log(res)
         }
       );
@@ -155,13 +160,6 @@ module.exports = function(passport, db){
       res.json(req.user);
     }
   });
-
-  router.post('/set/reset', isAuthenticated, function(req, res) {
-    users.update(
-    {
-      
-    })
-  })
 
   router.get('/*', function(req, res) {
     console.log("not valid")

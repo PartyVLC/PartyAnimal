@@ -4,8 +4,13 @@ button(id="sidebartoggle" onclick="showSidebar();")
     div(id="sidebarmainmenu")
       div(class="sidebartitlebar")
         h1 Menu
-      button(class="sidebarmenuitem" onclick="clickSearch();") Search Songs
-      button(class="sidebarmenuitem" onclick="clickSuggested();") Suggested Songs
+      if dj.currentPlaylist
+        button(class="sidebarmenuitem" id='searchbutt' onclick="clickSearch();") Search Songs
+        button(class="sidebarmenuitem" onclick="clickSuggested();") Suggested Songs
+      else
+        button(class="sidebarmenuitem" disabled id='searchbutt' onclick="clickSearch();") Search Songs
+        button(class="sidebarmenuitem" disabled onclick="clickSuggested();") Suggested Songs
+
       button(class="sidebarmenuitem" onclick="clickFind();") Search for a new party
       button(class="sidebarmenuitem" onclick="clickLogin();") Sign in as DJ
     div(class="sidebarqr" style= "background-image: url('/images/#{dj._id}.svg');")

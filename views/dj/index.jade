@@ -23,7 +23,10 @@ block sidebar
     include ../guest/sidebar.jade
 
 block title
-  h1(id='pagetitle') #{dj.username} - #{dj.currentPlaylist.title}
+  if dj.currentPlaylist.songs ==[]
+    h1(id='pagetitle') #{dj.username} - #{dj.currentPlaylist.title}
+  else
+    h1(id='pagetitle') #{dj.username} - No playlist selected
   h2(id='songtitle')
 
 block content

@@ -20,24 +20,30 @@ block sidebar
     include ../guest/sidebar.jade
 
 block title
-  h1(id='pagetitle') #{dj.username} - #{dj.currentPlaylist.title}
+  if dj.currentPlaylist
+    h1(id='pagetitle') #{dj.username} - #{dj.currentPlaylist.title}
+  else
+    h1(id='pagetitle') #{dj.username} - No playlist selected
   h2(id='songtitle')
 
 block content
   div(class="")
       div(class="playlistcontainer")
-        if dj.currentPlaylist.songs[0]
-          each song, index in dj.currentPlaylist.songs
-            div(class="playlistsong", id="#{song.id}")
-              div(class="votebox")
-                button(class="voteboxvote", onclick="upvote('#{song.id}');")
-                  i(class="fa fa-chevron-up")
-                button(class="voteboxvote", onclick="downvote('#{song.id}');")
-                  i(class="fa fa-chevron-down")
-              div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
-              div(class='titleoverflow') #{song.title}
-
+        if dj.currentPlaylist
+          if dj.currentPlaylist.songs == []
+            each song, index in dj.currentPlaylist.songs
+              div(class="playlistsong", id="#{song.id}")
+                div(class="votebox")
+                  button(class="voteboxvote", onclick="upvote('#{song.id}');")
+                    i(class="fa fa-chevron-up")
+                  button(class="voteboxvote", onclick="downvote('#{song.id}');")
+                    i(class="fa fa-chevron-down")
+                div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
+                div(class='titleoverflow') #{song.title}
+          else
+            div(class='nosongs')
+              p This playlist has no songs :(
+              p Why not add some?          
         else
           div(class='nosongs')
-            p This playlist has no songs :(
-            p Why not add some?
+            p There is no playlist here :(
