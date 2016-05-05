@@ -8,7 +8,6 @@ body
   color: #ccc;
   font-size:5vmin;
   font-family: 'Source Sans Pro', sans-serif;
-  overflow:hidden;
 }
 button
 {
@@ -259,7 +258,6 @@ a:hover {
   display: inline-flex;
   width: calc(100% - 20vmin);
   margin-top:.7vmin;
-  margin-left:.7vmin;
 }
 
 .titdesc
@@ -293,6 +291,7 @@ a:hover {
   display:inline-block;
   height:70%;
   margin:auto;
+  margin-left:1vmin;
 }
 
 .ptitle {
@@ -444,7 +443,7 @@ a:hover {
   cursor: pointer;
   background-color: #cc6600;
   border: none;
-  /*border-radius: 8px 0 0 8px;*/
+  border-radius: 4px 0 0 4px;
   box-shadow: 0 0 4vmin black;
   transition: right .4s, width .4s;
 }
@@ -682,7 +681,7 @@ a:hover {
   #sidebartoggle
   {
     width: 6vmin;
-    height: 5vmin;
+    height: 6vmin;
     top: 2vmin;
   }
   .sidebartitlebar
@@ -697,6 +696,8 @@ a:hover {
   .rescontent {
     width: calc(100% - 10vmin);
     margin-top:.35vmin;
-    margin-left:.35vmin;
+  }
+  .thumb {
+    margin-left:.7vmin;
   }
 }

@@ -28,9 +28,8 @@ function activeSongHTML(id) {
 function search() {
   var keyword = document.getElementById("searchinput").value;
   clearSearch();
-  var dj = getDJ();
 
-  $.post('/guest/dj_data', { dj : dj }, function(data) {
+  $.post('/guest/dj_data', {dj : dj}, function(data) {
     $.get('https://www.googleapis.com/youtube/v3/search',{
       q:keyword,
       part:'snippet',
@@ -39,12 +38,13 @@ function search() {
       type:'video'
       },
       function(response){
-        console.log(response);
         for (i in response.items) {
           (function(index) {
             var song = {
-              id:response.items[index].id.videoId,
-              title:response.items[index].snippet.title,
+              id : response.items[index].id.videoId,
+              title : response.items[index].snippet.title,
+              thumbnail : response.items[index].snippet.thumbnails.default.url,
+              desc : response.items[index].snippet.description
             }
 
             showSearchResultsHTML(song,data.currentPlaylist.songs);
@@ -57,7 +57,7 @@ function search() {
 
 function suggested() {
   clearSuggested();
-  $.get('/dj/user_data', function(data) {
+  $.post('/guest/dj_data', {dj : dj}, function(data) {
     for (i in data.currentPlaylist.songs) {
       $.get('https://www.googleapis.com/youtube/v3/search',{
         part: 'snippet',
@@ -71,17 +71,17 @@ function suggested() {
               id : response.items[0].id.videoId,
               title : response.items[0].snippet.title,
               thumbnail : response.items[0].snippet.thumbnails.default.url,
-              desc : response.items[0].snippet.description,
+              desc : response.items[0].snippet.description
         }
         showSuggestedResultsHTML(song,data.currentPlaylist.songs);
       });
     }
-
     if (data.currentPlaylist.songs.length < 10) {
       $.get('https://www.googleapis.com/youtube/v3/videos', {
-        part:'snippet',
         chart:'mostPopular',
         key:'AIzaSyBS_lekQxyiMLv9VKc4iqzMxufvPln4y9w',
+        part:'snippet',
+        type: 'video',
         maxResults: 10 - data.currentPlaylist.songs.length
       },
       function(response) {
@@ -164,8 +164,10 @@ function showSearchResultsHTML(song,playlist) {
 
   var title = document.createElement("div");
   title.innerHTML = song.title;
-
   title.className = 'restitle';
+
+  var hr = document.createElement('hr');
+  hr.style.margin = 0;
 
   var desc = document.createElement("div");
   desc.innerHTML = song.desc;
@@ -174,11 +176,18 @@ function showSearchResultsHTML(song,playlist) {
   playlistsong.appendChild(songadd);
   rescontent.appendChild(thumb);
   titdesc.appendChild(title);
+  titdesc.appendChild(hr);
   titdesc.appendChild(desc);
   rescontent.appendChild(titdesc)
   playlistsong.appendChild(rescontent);
 
   searchresults.appendChild(playlistsong);
+}
+
+function searchKeyPress() {
+  if (event.keyCode == 13) {
+    search();
+  }
 }
 
 function showSuggestedResultsHTML(song,playlist) {
@@ -236,12 +245,6 @@ function showSuggestedResultsHTML(song,playlist) {
   playlistsong.appendChild(rescontent);
 
   suggestedresults.appendChild(playlistsong);
-}
-
-function searchKeyPress() {
-  if (event.keyCode == 13) {
-    search();
-  }
 }
 
 function changePlaylistHTML(playlist) {
