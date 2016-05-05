@@ -598,6 +598,11 @@ a:hover {
   margin-top: 50px;
 }
 
+.donezo {
+  /*background:;*/
+  color:black;
+}
+
 @media all and (orientation: portrait)
 {
   .hpsidecontent

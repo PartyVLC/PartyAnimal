@@ -329,7 +329,7 @@ function addSongHTML(id, title, score) {
 
 function removeSong(id) {
   $.post('/songs/remove',{id: id});
-  socket.emit('delSong', {id : id, dj : dj});
+  // socket.emit('delSong', {id : id, dj : dj});
 }
 
 function delSongHTML(id) {

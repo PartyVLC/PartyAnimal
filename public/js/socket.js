@@ -6,15 +6,11 @@ socket.on('addSong', function(data) {
   }
 })
 
-socket.on('delSong', function(data) {
-  if (window.location.href.includes(data.dj)) {
-    delSongHTML(data.id);
-  }
-})
-
 socket.on('selectSong', function(data) {
   if (window.location.href.includes(data.dj)) {
-    activeSongHTML(data.id);
+    activeSongHTML(data.id,data.title);
+    removeSong(data.id);
+    delSongHTML(data.id);
   }
 })
 

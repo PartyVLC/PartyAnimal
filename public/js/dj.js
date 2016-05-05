@@ -14,12 +14,16 @@ function getDJ() {
   return dj;
 }
 
-function selectSongSocket(id) {
-  socket.emit('selectSong',{id: id, dj: dj});
+function selectSongSocket(id,title) {
+  socket.emit('selectSong',{id: id, title: title, dj: dj});
 }
 
-function activeSongHTML(id) {
+function activeSongHTML(id,title) {
   player.loadVideoById(id);
+  var songtitle = document.getElementById('songtitle');
+  songtitle.innerHTML = title;
+
+
   var activeSongs = document.getElementsByClassName("psactive");
 
   for (i in activeSongs) {
@@ -326,7 +330,7 @@ function addSongHTML(id, title, score) {
   voteboxnumber.id = "score-"+id
 
   var div = document.createElement("div");
-  div.onclick = function() {selectSongSocket(id);}
+  div.onclick = function() {selectSongSocket(id,title);}
   div.innerHTML = title;
   div.className = 'ptitle';
 
@@ -353,12 +357,22 @@ function delSong(id) {
 
 function removeSong(id) {
   $.post('/songs/remove',{id: id});
-  socket.emit('delSong', {id : id, dj : dj});
+  // socket.emit('delSong', {id : id, dj : dj});
 }
 
 function delSongHTML(id) {
   var playlistsong = document.getElementById(id);
+  var donezos = document.getElementById('donezos');
+  console.log(donezos)
+  playlistsong.className = 'playlistsong donezo';
+  playlistsong.id = '';
   playlistsong.parentNode.removeChild(playlistsong);
+  donezos.appendChild(playlistsong);
+  playlistsong.firstChild.children[0].disabled = true;
+  playlistsong.firstChild.children[1].disabled = true;
+
+  playlistsong.children[1].innerHTML = '';
+  playlistsong.children[2].style.textDecoration = 'line-through';
 }
 
 function disableVoting(id,idx) {
@@ -367,7 +381,6 @@ function disableVoting(id,idx) {
   votebox.children[1].disabled = true;
   votebox.children[idx].firstChild.style.color = 'orange';
 }
-
 
 function upvote(id) {
   $.post("/songs/upvote", {id : id});
