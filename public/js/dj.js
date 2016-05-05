@@ -283,6 +283,7 @@ function changePlaylistHTML(playlist) {
       var plcontainer = document.getElementById('sidebarplaylistcontainer');
 
       var nosongs = document.createElement('div');
+      nosongs.className = 'nosongs';
       var p1 = document.createElement('p');
       p1.innerHTML = 'This playlist has no songs :(';
       var p2 = document.createElement('p');
