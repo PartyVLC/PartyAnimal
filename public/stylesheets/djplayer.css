@@ -722,4 +722,7 @@ a:hover {
   .thumb {
     margin-left:.7vmin;
   }
+  .sidemenu {
+    height:calc(100vh - 15vmin);
+  }
 }

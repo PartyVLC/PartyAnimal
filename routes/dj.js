@@ -24,18 +24,13 @@ module.exports = function(passport, db){
       res.redirect('/dj/play/'+req.user.username)
   });
 
-  router.get('/play/:username', isAuthenticated, function(req, res) {
+  router.get('/play/:username', isAuthenticated, 
+    function(req, res) {
     if (req.user.username != req.params.username) {
         res.redirect('/')
-        // getUser(users, req.params.username, function (user) {
-        //   console.log("route: " + user.username)
-        //   res.render('dj/home', { user: user, playlist: user.playlist });
-        // });
-        // var user = getUser(users,req.params.username)
-        // console.log("route: " + user)
-        // res.render('dj/home', { dj : user })
       } else {
-        res.render('dj/index', { dj : req.user, message: req.flash('message') })
+        res.render('dj/index', 
+          { dj : req.user, message: req.flash('message') })
       }
   })
 
