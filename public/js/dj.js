@@ -311,8 +311,20 @@ function addSong(id, title, element) {
   element.appendChild(icon);
   $.get("/dj/user_data", function(data) {
     $.post("/songs/add/"+dj+"/"+data.currentPlaylist.title, {id: id, title: title});
+    var songs = data.currentPlaylist.songs;
   })
   socket.emit('addSong',{id: id, title: title, score: 0, dj : dj });
+  window.setTimeout(playIfOneSong, 1000); //async call 1 second later so it has time to add the song
+}
+
+function playIfOneSong()
+{
+  $.get("/dj/user_data", function(data) {
+    var songs = data.currentPlaylist.songs;
+    if(songs.length == 1 && player.getPlayerState() % 5 == 0) { //0 ended 5 video cued (nothing)
+      socket.emit('selectSong',{id : songs[0].id, title: songs[0].title, dj : dj}); //lol I hope this works
+    }
+  })
 }
 
 function clearSongs() {
