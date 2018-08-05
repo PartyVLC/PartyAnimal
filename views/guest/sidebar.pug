@@ -1,0 +1,75 @@
+button(id="sidebartoggle" onclick="showSidebar();")
+  i(id="sidebartoggleicon" class="fa fa-caret-left")
+div(id="sidebar")
+  div(id="sidebarmainmenu")
+    div(class="sidebartitlebar")
+      h1 Menu
+    if dj.currentPlaylist
+      button(class="sidebarmenuitem" id='searchbutt' onclick="clickSearch();") Search Songs
+      button(class="sidebarmenuitem" onclick="clickSuggested();") Suggested Songs
+    else
+      button(class="sidebarmenuitem" disabled id='searchbutt' onclick="clickSearch();") Search Songs
+      button(class="sidebarmenuitem" disabled id='suggestedbutt' onclick="clickSuggested();") Suggested Songs
+
+    button(class="sidebarmenuitem" onclick="clickFind();") Search for a new party
+    button(class="sidebarmenuitem" onclick="clickLogin();") Sign in as DJ
+  div(class="sidebarqr" style= "background-image: url('/images/" + dj._id + ".svg');")
+  
+  
+  div(id="sidebarsearchmenu" class="sidemenu")
+    div(class="sidebartitlebar")
+      button(class="sidebarbackbutton" onclick="clickBack();")
+        i(class="fa fa-arrow-left")
+      
+      h1(style="display:inline;") Search Songs
+    
+    div(class="searchbar")
+      input(id='searchinput', class="searchinput" placeholder="Search for a Song", onkeypress="searchKeyPress();")
+      button(class="searchbutton", onclick="search();")
+        i(class="fa fa-search")
+
+    div(id='searchresults', class="sidebarplaylistcontainer")
+    
+  div(id="sidebarsuggestedmenu", class="sidemenu")
+    div(class="sidebartitlebar")
+      button(class="sidebarbackbutton", onclick="clickBack();")
+        i(class="fa fa-arrow-left")
+      h1(style="display:inline;") Suggested Songs
+    div(id="suggestedresults", class="sidebarplaylistcontainer")
+
+  div(id="sidebarfindparty" class="sidemenu")
+    div(class="sidebartitlebar")
+      button(class="sidebarbackbutton" onclick="clickBack();")
+        i(class="fa fa-arrow-left")
+
+      h1(style="display:inline;") Find New Party
+
+    div(class="searchbar")
+      form(id="form", action='/guest/party', method='POST')
+          input(name="djid" placeholder="Search for a Party" class="searchinput" required)
+          button(class="searchbutton", type="submit")
+            i(class="fa fa-search")
+
+  div(id="sidebarlogin", class="sidemenu")
+      div(class="sidebartitlebar")
+        button(class="sidebarbackbutton", onclick="clickBack();")
+          i(class="fa fa-arrow-left")
+
+        h1(style="display:inline;") Sign in as DJ
+
+      form(id="form" ,class='form-signin', action='/dj/signin', method='POST')
+        div(class="searchbar")
+          input(type='text', name='username', class="searchinput", placeholder="User Name", required)
+
+        div(style="height: 10px;")
+
+        div(class="searchbar")
+          input(type="password", name='password', class="searchinput", placeholder="Password", required)
+          button(class="searchbutton", type='submit')
+            i(class="fa fa-check")
+      a(href='/dj/signup', class='text-center new-account') Create an account
+        #message
+        if message
+          h1.text-center.error-message #{message}
+
+div(id="sidebarshadow")

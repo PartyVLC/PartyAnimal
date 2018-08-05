@@ -15,9 +15,9 @@ block js
 
 block sidebar
   if dj
-    include ./sidebar.jade
+    include ./sidebar.pug
   else
-    include ../guest/sidebar.jade
+    include ../guest/sidebar.pug
 
 block title
   if dj.currentPlaylist
@@ -34,11 +34,11 @@ block content
             each song, index in dj.currentPlaylist.songs
               div(class="playlistsong", id="#{song.id}")
                 div(class="votebox")
-                  button(class="voteboxvote", onclick="upvote('#{song.id}');")
+                  button(class="voteboxvote", onclick="upvote('" + song.id + "');")
                     i(class="fa fa-chevron-up")
-                  button(class="voteboxvote", onclick="downvote('#{song.id}');")
+                  button(class="voteboxvote", onclick="downvote('" + song.id + "');")
                     i(class="fa fa-chevron-down")
-                div(class="voteboxnumber", id="score-#{song.id}") #{song.score}
+                div(class="voteboxnumber", id="score-" + song.id) #{song.score}
                 div(class='titleoverflow') #{song.title}
           else
             div(class='nosongs')

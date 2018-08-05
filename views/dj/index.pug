@@ -18,9 +18,9 @@ block js
 
 block sidebar
   if dj
-    include ./sidebar.jade
+    include ./sidebar.pug
   else
-    include ../guest/sidebar.jade
+    include ../guest/sidebar.pug
 
 block title
   if dj.currentPlaylist.title
