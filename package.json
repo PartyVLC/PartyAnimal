@@ -16,7 +16,7 @@
     "express": "~4.13.1",
     "express-session": "^1.13.0",
     "method-override": "^2.3.5",
-    "mongodb": "2.1.14",
+    "mongodb": "3.6.1",
     "mongoose": "^4.4.11",
     "morgan": "~1.6.1",
     "nopt": "^3.0.6",
